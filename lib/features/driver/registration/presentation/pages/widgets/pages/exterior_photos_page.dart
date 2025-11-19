@@ -2,8 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:nest_driver/core/presentation/widgets/app_back_button.dart';
+import 'package:nest_driver/core/services/image_picker_service.dart';
 import 'package:nest_driver/core/theme/app_colors.dart';
 import 'package:nest_driver/features/driver/registration/presentation/pages/widgets/driver_registration_progress_indicator.dart';
 
@@ -28,33 +28,71 @@ class ExteriorPhotosPage extends StatefulWidget {
 }
 
 class _ExteriorPhotosPageState extends State<ExteriorPhotosPage> {
+  final _imagePickerService = ImagePickerService();
   File? _frontPhoto;
   File? _backPhoto;
   File? _leftPhoto;
   File? _rightPhoto;
 
-  Future<void> _pickImage(String position) async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.camera);
+  Future<void> _pickImage(BuildContext context, String position) async {
+    File? currentPhoto;
+    switch (position) {
+      case 'front':
+        currentPhoto = _frontPhoto;
+        break;
+      case 'back':
+        currentPhoto = _backPhoto;
+        break;
+      case 'left':
+        currentPhoto = _leftPhoto;
+        break;
+      case 'right':
+        currentPhoto = _rightPhoto;
+        break;
+    }
 
-    if (pickedFile != null) {
+    final imagePath = await _imagePickerService.showImageSourceSelectionDialog(
+      context,
+      currentImagePath: currentPhoto?.path,
+    );
+
+    if (imagePath != null && imagePath.isNotEmpty) {
       setState(() {
         switch (position) {
           case 'front':
-            _frontPhoto = File(pickedFile.path);
+            _frontPhoto = File(imagePath);
             break;
           case 'back':
-            _backPhoto = File(pickedFile.path);
+            _backPhoto = File(imagePath);
             break;
           case 'left':
-            _leftPhoto = File(pickedFile.path);
+            _leftPhoto = File(imagePath);
             break;
           case 'right':
-            _rightPhoto = File(pickedFile.path);
+            _rightPhoto = File(imagePath);
+            break;
+        }
+      });
+    } else if (imagePath != null && imagePath.isEmpty) {
+      // User selected remove photo option (empty string indicates remove)
+      setState(() {
+        switch (position) {
+          case 'front':
+            _frontPhoto = null;
+            break;
+          case 'back':
+            _backPhoto = null;
+            break;
+          case 'left':
+            _leftPhoto = null;
+            break;
+          case 'right':
+            _rightPhoto = null;
             break;
         }
       });
     }
+    // If imagePath is null, user cancelled - do nothing
   }
 
   @override
@@ -162,7 +200,7 @@ class _ExteriorPhotosPageState extends State<ExteriorPhotosPage> {
                     context,
                     'Front side of the vehicle',
                     _frontPhoto,
-                    () => _pickImage('front'),
+                    () => _pickImage(context, 'front'),
                   ),
                 ),
                 SizedBox(width: 16.w),
@@ -171,7 +209,7 @@ class _ExteriorPhotosPageState extends State<ExteriorPhotosPage> {
                     context,
                     'Back side of the vehicle',
                     _backPhoto,
-                    () => _pickImage('back'),
+                    () => _pickImage(context, 'back'),
                   ),
                 ),
               ],
@@ -186,7 +224,7 @@ class _ExteriorPhotosPageState extends State<ExteriorPhotosPage> {
                     context,
                     'Left side of the vehicle',
                     _leftPhoto,
-                    () => _pickImage('left'),
+                    () => _pickImage(context, 'left'),
                   ),
                 ),
                 SizedBox(width: 16.w),
@@ -195,7 +233,7 @@ class _ExteriorPhotosPageState extends State<ExteriorPhotosPage> {
                     context,
                     'Right side of the vehicle',
                     _rightPhoto,
-                    () => _pickImage('right'),
+                    () => _pickImage(context, 'right'),
                   ),
                 ),
               ],
@@ -203,56 +241,27 @@ class _ExteriorPhotosPageState extends State<ExteriorPhotosPage> {
 
             SizedBox(height: 24.h),
 
-            // Navigation Buttons
-            Row(
-              children: [
-                if (widget.currentPage > 0)
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: widget.onBackPressed,
-                      style: OutlinedButton.styleFrom(
-                        backgroundColor: theme.colorScheme.surfaceContainerHighest,
-                        foregroundColor: theme.colorScheme.onSurface,
-                        side: BorderSide(
-                          color: theme.colorScheme.outlineVariant,
-                          width: 1,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(32.r),
-                        ),
-                        padding: EdgeInsets.symmetric(vertical: 14.h),
-                      ),
-                      child: Text(
-                        'Previous',
-                        style: theme.textTheme.bodyLarge?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
+            // Navigation Button
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: widget.onNextPressed,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: theme.colorScheme.primary,
+                  foregroundColor: theme.colorScheme.onPrimary,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(32.r),
                   ),
-                if (widget.currentPage > 0) SizedBox(width: 16.w),
-                Expanded(
-                  flex: widget.currentPage > 0 ? 1 : 1,
-                  child: ElevatedButton(
-                    onPressed: widget.onNextPressed,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: theme.colorScheme.primary,
-                      foregroundColor: theme.colorScheme.onPrimary,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(32.r),
-                      ),
-                      elevation: 0,
-                      padding: EdgeInsets.symmetric(vertical: 14.h),
-                    ),
-                    child: Text(
-                      widget.currentPage == widget.totalPages - 1 ? 'Submit' : 'Next',
-                      style: theme.textTheme.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+                  elevation: 0,
+                  padding: EdgeInsets.symmetric(vertical: 14.h),
+                ),
+                child: Text(
+                  widget.currentPage == widget.totalPages - 1 ? 'Submit' : 'Next',
+                  style: theme.textTheme.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
-              ],
+              ),
             ),
 
             SizedBox(height: 24.h),

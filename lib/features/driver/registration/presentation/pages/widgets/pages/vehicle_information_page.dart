@@ -563,56 +563,27 @@ class _VehicleInformationPageState extends State<VehicleInformationPage> {
 
               SizedBox(height: 24.h),
 
-              // Navigation Buttons
-              Row(
-                children: [
-                  if (widget.currentPage > 0)
-                    Expanded(
-                      child: OutlinedButton(
-                        onPressed: widget.onBackPressed,
-                        style: OutlinedButton.styleFrom(
-                          backgroundColor: theme.colorScheme.surfaceContainerHighest,
-                          foregroundColor: theme.colorScheme.onSurface,
-                          side: BorderSide(
-                            color: theme.colorScheme.outlineVariant,
-                            width: 1,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(32.r),
-                          ),
-                          padding: EdgeInsets.symmetric(vertical: 14.h),
-                        ),
-                        child: Text(
-                          'Previous',
-                          style: theme.textTheme.bodyLarge?.copyWith(
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
+              // Navigation Button
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: widget.onNextPressed,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: theme.colorScheme.primary,
+                    foregroundColor: theme.colorScheme.onPrimary,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(32.r),
                     ),
-                  if (widget.currentPage > 0) SizedBox(width: 16.w),
-                  Expanded(
-                    flex: widget.currentPage > 0 ? 1 : 1,
-                    child: ElevatedButton(
-                      onPressed: widget.onNextPressed,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: theme.colorScheme.primary,
-                        foregroundColor: theme.colorScheme.onPrimary,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(32.r),
-                        ),
-                        elevation: 0,
-                        padding: EdgeInsets.symmetric(vertical: 14.h),
-                      ),
-                      child: Text(
-                        widget.currentPage == widget.totalPages - 1 ? 'Submit' : 'Next',
-                        style: theme.textTheme.bodyLarge?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+                    elevation: 0,
+                    padding: EdgeInsets.symmetric(vertical: 14.h),
+                  ),
+                  child: Text(
+                    widget.currentPage == widget.totalPages - 1 ? 'Submit' : 'Next',
+                    style: theme.textTheme.bodyLarge?.copyWith(
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
-                ],
+                ),
               ),
 
               SizedBox(height: 24.h),

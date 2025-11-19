@@ -2,8 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:nest_driver/core/presentation/widgets/app_back_button.dart';
+import 'package:nest_driver/core/services/image_picker_service.dart';
 import 'package:nest_driver/features/driver/registration/presentation/pages/widgets/driver_registration_progress_indicator.dart';
 
 class DriverProfilePage extends StatefulWidget {
@@ -31,22 +31,37 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
   final _fullNameController = TextEditingController();
   final _emailController = TextEditingController();
   final _finNumberController = TextEditingController();
+  final _imagePickerService = ImagePickerService();
   File? _profileImage;
   File? _licenseImage;
 
-  Future<void> _pickImage(ImageSource source, bool isProfile) async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: source);
+  Future<void> _pickImage(BuildContext context, bool isProfile) async {
+    final imagePath = await _imagePickerService.showImageSourceSelectionDialog(
+      context,
+      currentImagePath: isProfile 
+          ? (_profileImage?.path) 
+          : (_licenseImage?.path),
+    );
 
-    if (pickedFile != null) {
+    if (imagePath != null && imagePath.isNotEmpty) {
       setState(() {
         if (isProfile) {
-          _profileImage = File(pickedFile.path);
+          _profileImage = File(imagePath);
         } else {
-          _licenseImage = File(pickedFile.path);
+          _licenseImage = File(imagePath);
+        }
+      });
+    } else if (imagePath != null && imagePath.isEmpty) {
+      // User selected remove photo option (empty string indicates remove)
+      setState(() {
+        if (isProfile) {
+          _profileImage = null;
+        } else {
+          _licenseImage = null;
         }
       });
     }
+    // If imagePath is null, user cancelled - do nothing
   }
 
   @override
@@ -143,7 +158,7 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                           bottom: 4.h,
                           right: 4.w,
                           child: GestureDetector(
-                            onTap: () => _pickImage(ImageSource.gallery, true),
+                            onTap: () => _pickImage(context, true),
                             child: Container(
                               width: 40.w,
                               height: 40.w,
@@ -291,7 +306,7 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                   ),
                   SizedBox(height: 8.h),
                   GestureDetector(
-                    onTap: () => _pickImage(ImageSource.gallery, false),
+                    onTap: () => _pickImage(context, false),
                     child: Container(
                       width: double.infinity,
                       padding: EdgeInsets.symmetric(vertical: 48.h),
@@ -408,56 +423,27 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
 
               SizedBox(height: 24.h),
 
-              // Navigation Buttons
-              Row(
-                children: [
-                  if (widget.currentPage > 0)
-                    Expanded(
-                      child: OutlinedButton(
-                        onPressed: widget.onBackPressed,
-                        style: OutlinedButton.styleFrom(
-                          backgroundColor: theme.colorScheme.surfaceContainerHighest,
-                          foregroundColor: theme.colorScheme.onSurface,
-                          side: BorderSide(
-                            color: theme.colorScheme.outlineVariant,
-                            width: 1,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(32.r),
-                          ),
-                          padding: EdgeInsets.symmetric(vertical: 14.h),
-                        ),
-                        child: Text(
-                          'Previous',
-                          style: theme.textTheme.bodyLarge?.copyWith(
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
+              // Navigation Button
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: widget.onNextPressed,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: theme.colorScheme.primary,
+                    foregroundColor: theme.colorScheme.onPrimary,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(32.r),
                     ),
-                  if (widget.currentPage > 0) SizedBox(width: 16.w),
-                  Expanded(
-                    flex: widget.currentPage > 0 ? 1 : 1,
-                    child: ElevatedButton(
-                      onPressed: widget.onNextPressed,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: theme.colorScheme.primary,
-                        foregroundColor: theme.colorScheme.onPrimary,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(32.r),
-                        ),
-                        elevation: 0,
-                        padding: EdgeInsets.symmetric(vertical: 14.h),
-                      ),
-                      child: Text(
-                        widget.currentPage == widget.totalPages - 1 ? 'Submit' : 'Next',
-                        style: theme.textTheme.bodyLarge?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+                    elevation: 0,
+                    padding: EdgeInsets.symmetric(vertical: 14.h),
+                  ),
+                  child: Text(
+                    widget.currentPage == widget.totalPages - 1 ? 'Submit' : 'Next',
+                    style: theme.textTheme.bodyLarge?.copyWith(
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
-                ],
+                ),
               ),
 
               SizedBox(height: 24.h),

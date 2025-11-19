@@ -2,8 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:nest_driver/core/presentation/widgets/app_back_button.dart';
+import 'package:nest_driver/core/services/image_picker_service.dart';
 import 'package:nest_driver/core/theme/app_colors.dart';
 import 'package:nest_driver/features/driver/registration/presentation/pages/widgets/driver_registration_progress_indicator.dart';
 
@@ -28,37 +28,81 @@ class MirrorsWipersPage extends StatefulWidget {
 }
 
 class _MirrorsWipersPageState extends State<MirrorsWipersPage> {
+  final _imagePickerService = ImagePickerService();
   File? _frontWiperPhoto;
   File? _rearWiperPhoto;
   File? _sideMirror1Photo;
   File? _sideMirror2Photo;
   File? _rearViewMirrorPhoto;
 
-  Future<void> _pickImage(String position) async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.camera);
+  Future<void> _pickImage(BuildContext context, String position) async {
+    File? currentPhoto;
+    switch (position) {
+      case 'frontWiper':
+        currentPhoto = _frontWiperPhoto;
+        break;
+      case 'rearWiper':
+        currentPhoto = _rearWiperPhoto;
+        break;
+      case 'sideMirror1':
+        currentPhoto = _sideMirror1Photo;
+        break;
+      case 'sideMirror2':
+        currentPhoto = _sideMirror2Photo;
+        break;
+      case 'rearViewMirror':
+        currentPhoto = _rearViewMirrorPhoto;
+        break;
+    }
 
-    if (pickedFile != null) {
+    final imagePath = await _imagePickerService.showImageSourceSelectionDialog(
+      context,
+      currentImagePath: currentPhoto?.path,
+    );
+
+    if (imagePath != null && imagePath.isNotEmpty) {
       setState(() {
         switch (position) {
           case 'frontWiper':
-            _frontWiperPhoto = File(pickedFile.path);
+            _frontWiperPhoto = File(imagePath);
             break;
           case 'rearWiper':
-            _rearWiperPhoto = File(pickedFile.path);
+            _rearWiperPhoto = File(imagePath);
             break;
           case 'sideMirror1':
-            _sideMirror1Photo = File(pickedFile.path);
+            _sideMirror1Photo = File(imagePath);
             break;
           case 'sideMirror2':
-            _sideMirror2Photo = File(pickedFile.path);
+            _sideMirror2Photo = File(imagePath);
             break;
           case 'rearViewMirror':
-            _rearViewMirrorPhoto = File(pickedFile.path);
+            _rearViewMirrorPhoto = File(imagePath);
+            break;
+        }
+      });
+    } else if (imagePath != null && imagePath.isEmpty) {
+      // User selected remove photo option (empty string indicates remove)
+      setState(() {
+        switch (position) {
+          case 'frontWiper':
+            _frontWiperPhoto = null;
+            break;
+          case 'rearWiper':
+            _rearWiperPhoto = null;
+            break;
+          case 'sideMirror1':
+            _sideMirror1Photo = null;
+            break;
+          case 'sideMirror2':
+            _sideMirror2Photo = null;
+            break;
+          case 'rearViewMirror':
+            _rearViewMirrorPhoto = null;
             break;
         }
       });
     }
+    // If imagePath is null, user cancelled - do nothing
   }
 
   @override
@@ -154,7 +198,7 @@ class _MirrorsWipersPageState extends State<MirrorsWipersPage> {
                     context,
                     'Front Wiper',
                     _frontWiperPhoto,
-                    () => _pickImage('frontWiper'),
+                    () => _pickImage(context, 'frontWiper'),
                   ),
                 ),
                 SizedBox(width: 16.w),
@@ -163,7 +207,7 @@ class _MirrorsWipersPageState extends State<MirrorsWipersPage> {
                     context,
                     'Rear wiper',
                     _rearWiperPhoto,
-                    () => _pickImage('rearWiper'),
+                    () => _pickImage(context, 'rearWiper'),
                   ),
                 ),
               ],
@@ -179,7 +223,7 @@ class _MirrorsWipersPageState extends State<MirrorsWipersPage> {
                     context,
                     'Side Mirror 1',
                     _sideMirror1Photo,
-                    () => _pickImage('sideMirror1'),
+                    () => _pickImage(context, 'sideMirror1'),
                   ),
                 ),
                 SizedBox(width: 16.w),
@@ -188,7 +232,7 @@ class _MirrorsWipersPageState extends State<MirrorsWipersPage> {
                     context,
                     'Side Mirror 2',
                     _sideMirror2Photo,
-                    () => _pickImage('sideMirror2'),
+                    () => _pickImage(context, 'sideMirror2'),
                   ),
                 ),
               ],
@@ -206,7 +250,7 @@ class _MirrorsWipersPageState extends State<MirrorsWipersPage> {
             ),
             SizedBox(height: 8.h),
             GestureDetector(
-              onTap: () => _pickImage('rearViewMirror'),
+              onTap: () => _pickImage(context, 'rearViewMirror'),
               child: Container(
                 width: double.infinity,
                 height: 140.h,
@@ -260,56 +304,27 @@ class _MirrorsWipersPageState extends State<MirrorsWipersPage> {
 
             SizedBox(height: 24.h),
 
-            // Navigation Buttons
-            Row(
-              children: [
-                if (widget.currentPage > 0)
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: widget.onBackPressed,
-                      style: OutlinedButton.styleFrom(
-                        backgroundColor: theme.colorScheme.surfaceContainerHighest,
-                        foregroundColor: theme.colorScheme.onSurface,
-                        side: BorderSide(
-                          color: theme.colorScheme.outlineVariant,
-                          width: 1,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(32.r),
-                        ),
-                        padding: EdgeInsets.symmetric(vertical: 14.h),
-                      ),
-                      child: Text(
-                        'Previous',
-                        style: theme.textTheme.bodyLarge?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
+            // Navigation Button
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: widget.onNextPressed,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: theme.colorScheme.primary,
+                  foregroundColor: theme.colorScheme.onPrimary,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(32.r),
                   ),
-                if (widget.currentPage > 0) SizedBox(width: 16.w),
-                Expanded(
-                  flex: widget.currentPage > 0 ? 1 : 1,
-                  child: ElevatedButton(
-                    onPressed: widget.onNextPressed,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: theme.colorScheme.primary,
-                      foregroundColor: theme.colorScheme.onPrimary,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(32.r),
-                      ),
-                      elevation: 0,
-                      padding: EdgeInsets.symmetric(vertical: 14.h),
-                    ),
-                    child: Text(
-                      widget.currentPage == widget.totalPages - 1 ? 'Submit' : 'Next',
-                      style: theme.textTheme.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+                  elevation: 0,
+                  padding: EdgeInsets.symmetric(vertical: 14.h),
+                ),
+                child: Text(
+                  widget.currentPage == widget.totalPages - 1 ? 'Submit' : 'Next',
+                  style: theme.textTheme.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
-              ],
+              ),
             ),
 
             SizedBox(height: 24.h),

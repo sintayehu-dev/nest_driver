@@ -8,70 +8,142 @@ import 'package:device_info_plus/device_info_plus.dart';
 class PermissionHandlerUtil {
   /// Check and request camera permission
   static Future<bool> requestCameraPermission(BuildContext context) async {
-    PermissionStatus status = await Permission.camera.status;
-    
-    if (status.isGranted) {
-      return true;
-    }
-    
-    if (status.isDenied) {
-      status = await Permission.camera.request();
-      return status.isGranted;
-    }
-    
-    if (status.isPermanentlyDenied) {
-      _showPermissionDeniedDialog(
-        context,
-        'Camera access is required',
-        'Please enable camera access in your device settings to continue.',
-      );
-      return false;
-    }
-    
-    if (status.isRestricted || status.isLimited) {
-      _showPermissionDeniedDialog(
-        context,
-        'Camera access is restricted',
-        'Camera permissions are restricted on your device.',
-      );
-      return false;
-    }
-    
-    return false;
-  }
-  
-  /// Check and request photo library/storage permission
-  static Future<bool> requestPhotoLibraryPermission(BuildContext context) async {
-    PermissionStatus status;
-    
-    if (Platform.isIOS) {
-      status = await Permission.photos.status;
+    try {
+      PermissionStatus status = await Permission.camera.status;
       
       if (status.isGranted) {
         return true;
       }
       
       if (status.isDenied) {
-        status = await Permission.photos.request();
-        return status.isGranted;
+        status = await Permission.camera.request();
+        if (status.isGranted) {
+          return true;
+        }
+        // If still denied after request, it might be permanently denied
+        if (status.isPermanentlyDenied) {
+          _showPermissionDeniedDialog(
+            context,
+            'Camera access is required',
+            'Please enable camera access in your device settings to continue.',
+          );
+          return false;
+        }
+        return false;
       }
-    } else {
-      // On Android, check Android version
-      if (Platform.isAndroid) {
-        // For Android 13 (API 33) and above, we need to request photos permission
-        if (await _isAndroid13OrAbove()) {
-          status = await Permission.photos.status;
-          
+      
+      if (status.isPermanentlyDenied) {
+        _showPermissionDeniedDialog(
+          context,
+          'Camera access is required',
+          'Please enable camera access in your device settings to continue.',
+        );
+        return false;
+      }
+      
+      if (status.isRestricted || status.isLimited) {
+        _showPermissionDeniedDialog(
+          context,
+          'Camera access is restricted',
+          'Camera permissions are restricted on your device.',
+        );
+        return false;
+      }
+      
+      // For any other status, try requesting
+      status = await Permission.camera.request();
+      return status.isGranted;
+    } catch (e) {
+      // Handle any errors
+      return false;
+    }
+  }
+  
+  /// Check and request photo library/storage permission
+  static Future<bool> requestPhotoLibraryPermission(BuildContext context) async {
+    try {
+      PermissionStatus status;
+      
+      if (Platform.isIOS) {
+        status = await Permission.photos.status;
+        
+        if (status.isGranted) {
+          return true;
+        }
+        
+        if (status.isDenied) {
+          status = await Permission.photos.request();
           if (status.isGranted) {
             return true;
           }
-          
-          if (status.isDenied) {
-            status = await Permission.photos.request();
-            return status.isGranted;
+          if (status.isPermanentlyDenied) {
+            _showPermissionDeniedDialog(
+              context,
+              'Storage access is required',
+              'Please enable storage/photos access in your device settings to continue.',
+            );
+          }
+          return false;
+        }
+        
+        if (status.isPermanentlyDenied) {
+          _showPermissionDeniedDialog(
+            context,
+            'Storage access is required',
+            'Please enable storage/photos access in your device settings to continue.',
+          );
+          return false;
+        }
+      } else {
+        // On Android, check Android version
+        if (Platform.isAndroid) {
+          // For Android 13 (API 33) and above, we need to request photos permission
+          if (await _isAndroid13OrAbove()) {
+            status = await Permission.photos.status;
+            
+            if (status.isGranted) {
+              return true;
+            }
+            
+            if (status.isDenied) {
+              status = await Permission.photos.request();
+              if (status.isGranted) {
+                return true;
+              }
+              if (status.isPermanentlyDenied) {
+                _showPermissionDeniedDialog(
+                  context,
+                  'Storage access is required',
+                  'Please enable storage/photos access in your device settings to continue.',
+                );
+              }
+              return false;
+            }
+          } else {
+            // For older Android versions, use storage permission
+            status = await Permission.storage.status;
+            
+            if (status.isGranted) {
+              return true;
+            }
+            
+            if (status.isDenied) {
+              status = await Permission.storage.request();
+              if (status.isGranted) {
+                return true;
+              }
+              if (status.isPermanentlyDenied) {
+                _showPermissionDeniedDialog(
+                  context,
+                  'Storage access is required',
+                  'Please enable storage/photos access in your device settings to continue.',
+                );
+              }
+              return false;
+            }
           }
         } else {
-          // For older Android versions, use storage permission
+          // Fallback for other platforms
           status = await Permission.storage.status;
           
           if (status.isGranted) {
@@ -83,40 +155,37 @@ class PermissionHandlerUtil {
             return status.isGranted;
           }
         }
-      } else {
-        // Fallback for other platforms
-        status = await Permission.storage.status;
-        
-        if (status.isGranted) {
-          return true;
-        }
-        
-        if (status.isDenied) {
-          status = await Permission.storage.request();
-          return status.isGranted;
-        }
       }
-    }
-    
-    if (status.isPermanentlyDenied) {
-      _showPermissionDeniedDialog(
-        context,
-        'Storage access is required',
-        'Please enable storage/photos access in your device settings to continue.',
-      );
+      
+      if (status.isPermanentlyDenied) {
+        _showPermissionDeniedDialog(
+          context,
+          'Storage access is required',
+          'Please enable storage/photos access in your device settings to continue.',
+        );
+        return false;
+      }
+      
+      if (status.isRestricted || status.isLimited) {
+        _showPermissionDeniedDialog(
+          context,
+          'Storage access is restricted',
+          'Storage/photos permissions are restricted on your device.',
+        );
+        return false;
+      }
+      
+      // For any other status, try requesting
+      if (Platform.isAndroid && await _isAndroid13OrAbove()) {
+        status = await Permission.photos.request();
+      } else {
+        status = await Permission.storage.request();
+      }
+      return status.isGranted;
+    } catch (e) {
+      // Handle any errors
       return false;
     }
-    
-    if (status.isRestricted || status.isLimited) {
-      _showPermissionDeniedDialog(
-        context,
-        'Storage access is restricted',
-        'Storage/photos permissions are restricted on your device.',
-      );
-      return false;
-    }
-    
-    return false;
   }
 
   static Future<bool> requestMicPermission(BuildContext context) async {

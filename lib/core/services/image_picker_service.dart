@@ -126,7 +126,7 @@ class ImagePickerService {
     }
   }
   
-  /// Show a dialog to select image source (camera or gallery)
+  /// Show a bottom sheet to select image source (camera or gallery)
   /// Returns the selected image path, or null if canceled or error
   Future<String?> showImageSourceSelectionDialog(
     BuildContext context, {
@@ -135,75 +135,105 @@ class ImagePickerService {
     double maxHeight = 800,
     int imageQuality = 85,
   }) async {
-    dev.log('ImagePickerService: Showing image source selection dialog');
-    String? result;
+    dev.log('ImagePickerService: Showing image source selection bottom sheet');
     
-    await showDialog<void>(
+    final selectedSource = await showModalBottomSheet<String>(
       context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
+      ),
       builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16.r),
-          ),
-          title: Text(
-            'Select Image Source',
-            style: GoogleFonts.outfit(
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          content: Column(
+        return SafeArea(
+          child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              // Handle bar
+              Container(
+                margin: EdgeInsets.only(top: 12.h, bottom: 8.h),
+                width: 40.w,
+                height: 4.h,
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(2.r),
+                ),
+              ),
+              // Title
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 8.h),
+                child: Text(
+                  'Select Image Source',
+                  style: GoogleFonts.outfit(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18.sp,
+                  ),
+                ),
+              ),
+              SizedBox(height: 8.h),
+              // Camera option
               ListTile(
-                leading: const Icon(Icons.camera_alt_rounded),
+                leading: Icon(Icons.camera_alt_rounded, color: Theme.of(context).colorScheme.primary),
                 title: Text('Take a Photo', style: GoogleFonts.outfit()),
-                onTap: () async {
+                onTap: () {
                   dev.log('ImagePickerService: Camera option selected');
-                  Navigator.pop(context);
-                  result = await takePhoto(
-                    context,
-                    maxWidth: maxWidth,
-                    maxHeight: maxHeight,
-                    imageQuality: imageQuality,
-                  );
-                  dev.log('ImagePickerService: Camera result: $result');
+                  Navigator.pop(context, 'camera');
                 },
               ),
+              // Gallery option
               ListTile(
-                leading: const Icon(Icons.photo_library_rounded),
+                leading: Icon(Icons.photo_library_rounded, color: Theme.of(context).colorScheme.primary),
                 title: Text('Choose from Gallery', style: GoogleFonts.outfit()),
-                onTap: () async {
+                onTap: () {
                   dev.log('ImagePickerService: Gallery option selected');
-                  Navigator.pop(context);
-                  result = await chooseFromGallery(
-                    context,
-                    maxWidth: maxWidth,
-                    maxHeight: maxHeight,
-                    imageQuality: imageQuality,
-                  );
-                  dev.log('ImagePickerService: Gallery result: $result');
+                  Navigator.pop(context, 'gallery');
                 },
               ),
+              // Remove photo option (only if there's a current image)
               if (currentImagePath != null)
                 ListTile(
-                  leading: const Icon(Icons.delete_outline_rounded,
-                      color: Colors.red),
-                  title: Text('Remove Photo',
-                      style: GoogleFonts.outfit(color: Colors.red)),
+                  leading: const Icon(Icons.delete_outline_rounded, color: Colors.red),
+                  title: Text('Remove Photo', style: GoogleFonts.outfit(color: Colors.red)),
                   onTap: () {
                     dev.log('ImagePickerService: Remove photo option selected');
-                    Navigator.pop(context);
-                    result = null;
-                    dev.log('ImagePickerService: Photo removed (null result)');
+                    Navigator.pop(context, 'remove'); // 'remove' indicates remove action
                   },
                 ),
+              SizedBox(height: 8.h),
             ],
           ),
         );
       },
     );
     
-    dev.log('ImagePickerService: Dialog closed, final result: $result');
+    if (selectedSource == null) {
+      dev.log('ImagePickerService: Bottom sheet cancelled');
+      return null;
+    }
+    
+    if (selectedSource == 'remove') {
+      dev.log('ImagePickerService: Photo removed (empty string result)');
+      return ''; // Empty string indicates remove action
+    }
+    
+    String? result;
+    if (selectedSource == 'camera') {
+      result = await takePhoto(
+        context,
+        maxWidth: maxWidth,
+        maxHeight: maxHeight,
+        imageQuality: imageQuality,
+      );
+      dev.log('ImagePickerService: Camera result: $result');
+    } else if (selectedSource == 'gallery') {
+      result = await chooseFromGallery(
+        context,
+        maxWidth: maxWidth,
+        maxHeight: maxHeight,
+        imageQuality: imageQuality,
+      );
+      dev.log('ImagePickerService: Gallery result: $result');
+    }
+    
+    dev.log('ImagePickerService: Bottom sheet closed, final result: $result');
     return result;
   }
 } 
