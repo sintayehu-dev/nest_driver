@@ -1,0 +1,42 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Nest (Dev)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main_dev.dart",
+      "args": [
+        "--flavor",
+        "dev",
+        "-t",
+        "lib/main_dev.dart"
+      ]
+    },
+    {
+      "name": "Nest (Staging)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main_staging.dart",
+      "args": [
+        "--flavor",
+        "staging",
+        "-t",
+        "lib/main_staging.dart"
+      ]
+    },
+    {
+      "name": "Nest (Production)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main_prod.dart",
+      "args": [
+        "--flavor",
+        "prod",
+        "-t",
+        "lib/main_prod.dart"
+      ]
+    }
+  ]
+}
+
