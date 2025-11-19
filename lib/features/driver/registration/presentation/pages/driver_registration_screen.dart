@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nest_driver/core/router/route_name.dart';
 import 'package:nest_driver/features/driver/registration/presentation/pages/widgets/pages/driver_profile_page.dart';

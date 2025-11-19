@@ -151,6 +151,7 @@ class _DriverVehicleRegistrationScreenState
                     onBackPressed: _currentPage == 0
                         ? () => context.pop()
                         : _previousPage,
+                    onNextPressed: _nextPage,
                   );
                 },
               ),
@@ -210,12 +211,14 @@ class _DriverRegistrationPage extends StatelessWidget {
   final int currentPage;
   final int totalPages;
   final VoidCallback onBackPressed;
+  final VoidCallback onNextPressed;
 
   const _DriverRegistrationPage({
     required this.data,
     required this.currentPage,
     required this.totalPages,
     required this.onBackPressed,
+    required this.onNextPressed,
   });
 
   @override
@@ -230,6 +233,7 @@ class _DriverRegistrationPage extends StatelessWidget {
           currentPage: currentPage,
           totalPages: totalPages,
           onBackPressed: onBackPressed,
+          onNextPressed: onNextPressed,
           title: data.title,
         );
       case 1:
@@ -237,6 +241,7 @@ class _DriverRegistrationPage extends StatelessWidget {
           currentPage: currentPage,
           totalPages: totalPages,
           onBackPressed: onBackPressed,
+          onNextPressed: onNextPressed,
           title: data.title,
         );
       case 2:
@@ -244,6 +249,7 @@ class _DriverRegistrationPage extends StatelessWidget {
           currentPage: currentPage,
           totalPages: totalPages,
           onBackPressed: onBackPressed,
+          onNextPressed: onNextPressed,
           title: data.title,
         );
       case 3:
@@ -251,6 +257,7 @@ class _DriverRegistrationPage extends StatelessWidget {
           currentPage: currentPage,
           totalPages: totalPages,
           onBackPressed: onBackPressed,
+          onNextPressed: onNextPressed,
           title: data.title,
         );
       case 4:
@@ -258,6 +265,7 @@ class _DriverRegistrationPage extends StatelessWidget {
           currentPage: currentPage,
           totalPages: totalPages,
           onBackPressed: onBackPressed,
+          onNextPressed: onNextPressed,
           title: data.title,
         );
       default:
