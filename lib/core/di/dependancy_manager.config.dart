@@ -21,6 +21,12 @@ import '../../features/auth/infrastructure/auth/datasources/auth_remote_data_sou
     as _i1046;
 import '../../features/auth/infrastructure/auth/repositories/auth_repository_impl.dart'
     as _i446;
+import '../../features/driver/registration/domain/repositories/driver_registration_repository.dart'
+    as _i958;
+import '../../features/driver/registration/infrastructure/datasources/driver_registration_remote_data_source.dart'
+    as _i462;
+import '../../features/driver/registration/infrastructure/repositories/driver_registration_repository_impl.dart'
+    as _i829;
 import '../handlers/http_service.dart' as _i350;
 import '../services/image_picker_service.dart' as _i644;
 import '../services/token_refresh_service.dart' as _i785;
@@ -43,8 +49,13 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i1046.AuthRemoteDataSource>(
         () => _i1046.AuthRemoteDataSourceImpl());
     gh.factory<_i516.UserService>(() => _i516.UserServiceImpl());
+    gh.factory<_i462.DriverRegistrationRemoteDataSource>(
+        () => _i462.DriverRegistrationRemoteDataSourceImpl());
     gh.factory<_i787.AuthRepository>(
         () => _i446.AuthRepositoryImpl(gh<_i1046.AuthRemoteDataSource>()));
+    gh.factory<_i958.DriverRegistrationRepository>(() =>
+        _i829.DriverRegistrationRepositoryImpl(
+            gh<_i462.DriverRegistrationRemoteDataSource>()));
     gh.factory<_i187.OtpLoginBloc>(
         () => _i187.OtpLoginBloc(gh<_i787.AuthRepository>()));
     gh.factory<_i961.VerifyOtpBloc>(
