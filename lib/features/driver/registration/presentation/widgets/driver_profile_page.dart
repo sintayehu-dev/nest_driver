@@ -4,7 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nest_driver/core/presentation/widgets/app_back_button.dart';
 import 'package:nest_driver/core/services/image_picker_service.dart';
-import 'package:nest_driver/features/driver/registration/presentation/pages/widgets/driver_registration_progress_indicator.dart';
+import 'package:nest_driver/features/driver/registration/presentation/models/driver_registration_form_data.dart';
+import 'package:nest_driver/features/driver/registration/presentation/widgets/driver_registration_progress_indicator.dart';
 
 class DriverProfilePage extends StatefulWidget {
   final VoidCallback? onBackPressed;
@@ -12,6 +13,7 @@ class DriverProfilePage extends StatefulWidget {
   final int currentPage;
   final int totalPages;
   final String title;
+  final DriverRegistrationFormData formData;
 
   const DriverProfilePage({
     super.key,
@@ -20,6 +22,7 @@ class DriverProfilePage extends StatefulWidget {
     required this.currentPage,
     required this.totalPages,
     required this.title,
+    required this.formData,
   });
 
   @override
@@ -28,36 +31,53 @@ class DriverProfilePage extends StatefulWidget {
 
 class _DriverProfilePageState extends State<DriverProfilePage> {
   final _formKey = GlobalKey<FormState>();
-  final _fullNameController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _finNumberController = TextEditingController();
+  late final TextEditingController _fullNameController;
+  late final TextEditingController _emailController;
+  late final TextEditingController _finNumberController;
   final _imagePickerService = ImagePickerService();
-  File? _profileImage;
-  File? _licenseImage;
+
+  @override
+  void initState() {
+    super.initState();
+    _fullNameController = TextEditingController(text: widget.formData.fullName);
+    _emailController = TextEditingController(text: widget.formData.email);
+    _finNumberController = TextEditingController(text: widget.formData.finNumber);
+    
+    // Add listeners to update formData
+    _fullNameController.addListener(() {
+      widget.formData.fullName = _fullNameController.text;
+    });
+    _emailController.addListener(() {
+      widget.formData.email = _emailController.text;
+    });
+    _finNumberController.addListener(() {
+      widget.formData.finNumber = _finNumberController.text.isEmpty ? null : _finNumberController.text;
+    });
+  }
 
   Future<void> _pickImage(BuildContext context, bool isProfile) async {
     final imagePath = await _imagePickerService.showImageSourceSelectionDialog(
       context,
       currentImagePath: isProfile 
-          ? (_profileImage?.path) 
-          : (_licenseImage?.path),
+          ? (widget.formData.profileImage?.path) 
+          : (widget.formData.licenseImage?.path),
     );
 
     if (imagePath != null && imagePath.isNotEmpty) {
       setState(() {
         if (isProfile) {
-          _profileImage = File(imagePath);
+          widget.formData.profileImage = File(imagePath);
         } else {
-          _licenseImage = File(imagePath);
+          widget.formData.licenseImage = File(imagePath);
         }
       });
     } else if (imagePath != null && imagePath.isEmpty) {
       // User selected remove photo option (empty string indicates remove)
       setState(() {
         if (isProfile) {
-          _profileImage = null;
+          widget.formData.profileImage = null;
         } else {
-          _licenseImage = null;
+          widget.formData.licenseImage = null;
         }
       });
     }
@@ -136,20 +156,20 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                           height: 140.w,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: const Color(0xFFF5F5F5),
-                            image: _profileImage != null
+                            color: theme.colorScheme.surfaceContainerHighest,
+                            image: widget.formData.profileImage != null
                                 ? DecorationImage(
-                                    image: FileImage(_profileImage!),
+                                    image: FileImage(widget.formData.profileImage!),
                                     fit: BoxFit.cover,
                                   )
                                 : null,
                           ),
-                          child: _profileImage == null
+                          child: widget.formData.profileImage == null
                               ? Center(
                                   child: Icon(
                                     Icons.person_outline,
                                     size: 70.sp,
-                                    color: const Color(0xFFE0E0E0),
+                                    color: theme.colorScheme.onSurfaceVariant,
                                   ),
                                 )
                               : null,
@@ -176,7 +196,7 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                               child: Icon(
                                 Icons.camera_alt,
                                 size: 20.sp,
-                                color: const Color(0xFF9E9E9E),
+                                color: theme.colorScheme.onSurfaceVariant,
                               ),
                             ),
                           ),
@@ -187,21 +207,49 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
 
                   SizedBox(height: 16.h),
 
+                  // Phone Number (from OTP verification - read only)
+                  if (widget.formData.phoneNumber != null && widget.formData.phoneNumber!.isNotEmpty)
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Phone Number',
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        SizedBox(height: 8.h),
+                        Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 16.w,
+                            vertical: 14.h,
+                          ),
+                          decoration: BoxDecoration(
+                            color: theme.colorScheme.surfaceContainerHighest,
+                            borderRadius: BorderRadius.circular(8.r),
+                          ),
+                          child: Text(
+                            widget.formData.phoneNumber!,
+                            style: theme.textTheme.bodyMedium,
+                          ),
+                        ),
+                        SizedBox(height: 20.h),
+                      ],
+                    ),
+
                   // Full Name
                   RichText(
                     text: TextSpan(
                       text: 'Full Name',
                       style: theme.textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.w500,
-                        color: const Color(0xFF212121),
-                        fontSize: 14.sp,
                       ),
                       children: [
                         TextSpan(
                           text: ' *',
                           style: TextStyle(
-                            color: Colors.red,
-                            fontSize: 14.sp,
+                            color: theme.colorScheme.error,
                           ),
                         ),
                       ],
@@ -210,18 +258,14 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                   SizedBox(height: 8.h),
                   TextFormField(
                     controller: _fullNameController,
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      fontSize: 14.sp,
-                      color: const Color(0xFF212121),
-                    ),
+                    style: theme.textTheme.bodyMedium,
                     decoration: InputDecoration(
                       hintText: 'Enter Full Name',
-                      hintStyle: TextStyle(
-                        color: const Color(0xFFBDBDBD),
-                        fontSize: 14.sp,
+                      hintStyle: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
                       ),
                       filled: true,
-                      fillColor: const Color(0xFFF5F5F5),
+                      fillColor: theme.colorScheme.surfaceContainerHighest,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.r),
                         borderSide: BorderSide.none,
@@ -254,26 +298,20 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                     'Email Address',
                     style: theme.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w500,
-                      color: const Color(0xFF212121),
-                      fontSize: 14.sp,
                     ),
                   ),
                   SizedBox(height: 8.h),
                   TextFormField(
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      fontSize: 14.sp,
-                      color: const Color(0xFF212121),
-                    ),
+                    style: theme.textTheme.bodyMedium,
                     decoration: InputDecoration(
                       hintText: 'Enter Email Address',
-                      hintStyle: TextStyle(
-                        color: const Color(0xFFBDBDBD),
-                        fontSize: 14.sp,
+                      hintStyle: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
                       ),
                       filled: true,
-                      fillColor: const Color(0xFFF5F5F5),
+                      fillColor: theme.colorScheme.surfaceContainerHighest,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.r),
                         borderSide: BorderSide.none,
@@ -300,8 +338,6 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                     'Upload photo of your license',
                     style: theme.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w500,
-                      color: const Color(0xFF212121),
-                      fontSize: 14.sp,
                     ),
                   ),
                   SizedBox(height: 8.h),
@@ -311,14 +347,14 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                       width: double.infinity,
                       padding: EdgeInsets.symmetric(vertical: 48.h),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFF5F5F5),
+                        color: theme.colorScheme.surfaceContainerHighest,
                         borderRadius: BorderRadius.circular(8.r),
                       ),
-                      child: _licenseImage != null
+                      child: widget.formData.licenseImage != null
                           ? ClipRRect(
                               borderRadius: BorderRadius.circular(8.r),
                               child: Image.file(
-                                _licenseImage!,
+                                widget.formData.licenseImage!,
                                 height: 120.h,
                                 fit: BoxFit.cover,
                               ),
@@ -329,29 +365,26 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                                 Icon(
                                   Icons.insert_drive_file_outlined,
                                   size: 32.sp,
-                                  color: const Color(0xFFBDBDBD),
+                                  color: theme.colorScheme.onSurfaceVariant,
                                 ),
                                 SizedBox(height: 12.h),
                                 Text(
                                   'Click to upload your driver\'s license photo',
-                                  style: TextStyle(
-                                    color: const Color(0xFF757575),
-                                    fontSize: 13.sp,
+                                  style: theme.textTheme.bodySmall?.copyWith(
+                                    color: theme.colorScheme.onSurfaceVariant,
                                   ),
                                 ),
                                 SizedBox(height: 4.h),
                                 Text(
                                   'File should be JPG, PNG, or PDF',
-                                  style: TextStyle(
-                                    color: const Color(0xFF9E9E9E),
-                                    fontSize: 11.sp,
+                                  style: theme.textTheme.bodySmall?.copyWith(
+                                    color: theme.colorScheme.onSurfaceVariant,
                                   ),
                                 ),
                                 Text(
                                   'Max. File Size: 10MB',
-                                  style: TextStyle(
-                                    color: const Color(0xFF9E9E9E),
-                                    fontSize: 11.sp,
+                                  style: theme.textTheme.bodySmall?.copyWith(
+                                    color: theme.colorScheme.onSurfaceVariant,
                                   ),
                                 ),
                               ],
@@ -367,15 +400,12 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                       text: 'FIN Number',
                       style: theme.textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.w500,
-                        color: const Color(0xFF212121),
-                        fontSize: 14.sp,
                       ),
                       children: [
                         TextSpan(
                           text: ' *',
                           style: TextStyle(
-                            color: Colors.red,
-                            fontSize: 14.sp,
+                            color: theme.colorScheme.error,
                           ),
                         ),
                       ],
@@ -384,18 +414,14 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                   SizedBox(height: 8.h),
                   TextFormField(
                     controller: _finNumberController,
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      fontSize: 14.sp,
-                      color: const Color(0xFF212121),
-                    ),
+                    style: theme.textTheme.bodyMedium,
                     decoration: InputDecoration(
                       hintText: 'Fayda Identification Number',
-                      hintStyle: TextStyle(
-                        color: const Color(0xFFBDBDBD),
-                        fontSize: 14.sp,
+                      hintStyle: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
                       ),
                       filled: true,
-                      fillColor: const Color(0xFFF5F5F5),
+                      fillColor: theme.colorScheme.surfaceContainerHighest,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.r),
                         borderSide: BorderSide.none,
@@ -441,6 +467,7 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                     widget.currentPage == widget.totalPages - 1 ? 'Submit' : 'Next',
                     style: theme.textTheme.bodyLarge?.copyWith(
                       fontWeight: FontWeight.w600,
+                      color: theme.colorScheme.onPrimary,
                     ),
                   ),
                 ),

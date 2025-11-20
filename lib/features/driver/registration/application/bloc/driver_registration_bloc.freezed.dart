@@ -16,6 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$DriverRegistrationEvent {
+  String? get phoneNumber => throw _privateConstructorUsedError;
   DriverRequestData get driverData => throw _privateConstructorUsedError;
   VehicleRequestData get vehicleData => throw _privateConstructorUsedError;
   List<DriverDocumentRequestData> get driverDocuments =>
@@ -25,6 +26,7 @@ mixin _$DriverRegistrationEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
+            String? phoneNumber,
             DriverRequestData driverData,
             VehicleRequestData vehicleData,
             List<DriverDocumentRequestData> driverDocuments,
@@ -35,6 +37,7 @@ mixin _$DriverRegistrationEvent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
+            String? phoneNumber,
             DriverRequestData driverData,
             VehicleRequestData vehicleData,
             List<DriverDocumentRequestData> driverDocuments,
@@ -45,6 +48,7 @@ mixin _$DriverRegistrationEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(
+            String? phoneNumber,
             DriverRequestData driverData,
             VehicleRequestData vehicleData,
             List<DriverDocumentRequestData> driverDocuments,
@@ -84,7 +88,8 @@ abstract class $DriverRegistrationEventCopyWith<$Res> {
       _$DriverRegistrationEventCopyWithImpl<$Res, DriverRegistrationEvent>;
   @useResult
   $Res call(
-      {DriverRequestData driverData,
+      {String? phoneNumber,
+      DriverRequestData driverData,
       VehicleRequestData vehicleData,
       List<DriverDocumentRequestData> driverDocuments,
       List<VehicleDocumentRequestData> vehicleDocuments});
@@ -109,12 +114,17 @@ class _$DriverRegistrationEventCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? phoneNumber = freezed,
     Object? driverData = null,
     Object? vehicleData = null,
     Object? driverDocuments = null,
     Object? vehicleDocuments = null,
   }) {
     return _then(_value.copyWith(
+      phoneNumber: freezed == phoneNumber
+          ? _value.phoneNumber
+          : phoneNumber // ignore: cast_nullable_to_non_nullable
+              as String?,
       driverData: null == driverData
           ? _value.driverData
           : driverData // ignore: cast_nullable_to_non_nullable
@@ -165,7 +175,8 @@ abstract class _$$DriverRegistrationSubmittedImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {DriverRequestData driverData,
+      {String? phoneNumber,
+      DriverRequestData driverData,
       VehicleRequestData vehicleData,
       List<DriverDocumentRequestData> driverDocuments,
       List<VehicleDocumentRequestData> vehicleDocuments});
@@ -191,12 +202,17 @@ class __$$DriverRegistrationSubmittedImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? phoneNumber = freezed,
     Object? driverData = null,
     Object? vehicleData = null,
     Object? driverDocuments = null,
     Object? vehicleDocuments = null,
   }) {
     return _then(_$DriverRegistrationSubmittedImpl(
+      phoneNumber: freezed == phoneNumber
+          ? _value.phoneNumber
+          : phoneNumber // ignore: cast_nullable_to_non_nullable
+              as String?,
       driverData: null == driverData
           ? _value.driverData
           : driverData // ignore: cast_nullable_to_non_nullable
@@ -221,13 +237,16 @@ class __$$DriverRegistrationSubmittedImplCopyWithImpl<$Res>
 
 class _$DriverRegistrationSubmittedImpl implements DriverRegistrationSubmitted {
   const _$DriverRegistrationSubmittedImpl(
-      {required this.driverData,
+      {this.phoneNumber,
+      required this.driverData,
       required this.vehicleData,
       required final List<DriverDocumentRequestData> driverDocuments,
       required final List<VehicleDocumentRequestData> vehicleDocuments})
       : _driverDocuments = driverDocuments,
         _vehicleDocuments = vehicleDocuments;
 
+  @override
+  final String? phoneNumber;
   @override
   final DriverRequestData driverData;
   @override
@@ -251,7 +270,7 @@ class _$DriverRegistrationSubmittedImpl implements DriverRegistrationSubmitted {
 
   @override
   String toString() {
-    return 'DriverRegistrationEvent.submitted(driverData: $driverData, vehicleData: $vehicleData, driverDocuments: $driverDocuments, vehicleDocuments: $vehicleDocuments)';
+    return 'DriverRegistrationEvent.submitted(phoneNumber: $phoneNumber, driverData: $driverData, vehicleData: $vehicleData, driverDocuments: $driverDocuments, vehicleDocuments: $vehicleDocuments)';
   }
 
   @override
@@ -259,6 +278,8 @@ class _$DriverRegistrationSubmittedImpl implements DriverRegistrationSubmitted {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DriverRegistrationSubmittedImpl &&
+            (identical(other.phoneNumber, phoneNumber) ||
+                other.phoneNumber == phoneNumber) &&
             (identical(other.driverData, driverData) ||
                 other.driverData == driverData) &&
             (identical(other.vehicleData, vehicleData) ||
@@ -272,6 +293,7 @@ class _$DriverRegistrationSubmittedImpl implements DriverRegistrationSubmitted {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      phoneNumber,
       driverData,
       vehicleData,
       const DeepCollectionEquality().hash(_driverDocuments),
@@ -290,34 +312,37 @@ class _$DriverRegistrationSubmittedImpl implements DriverRegistrationSubmitted {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
+            String? phoneNumber,
             DriverRequestData driverData,
             VehicleRequestData vehicleData,
             List<DriverDocumentRequestData> driverDocuments,
             List<VehicleDocumentRequestData> vehicleDocuments)
         submitted,
   }) {
-    return submitted(
-        driverData, vehicleData, driverDocuments, vehicleDocuments);
+    return submitted(phoneNumber, driverData, vehicleData, driverDocuments,
+        vehicleDocuments);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
+            String? phoneNumber,
             DriverRequestData driverData,
             VehicleRequestData vehicleData,
             List<DriverDocumentRequestData> driverDocuments,
             List<VehicleDocumentRequestData> vehicleDocuments)?
         submitted,
   }) {
-    return submitted?.call(
-        driverData, vehicleData, driverDocuments, vehicleDocuments);
+    return submitted?.call(phoneNumber, driverData, vehicleData,
+        driverDocuments, vehicleDocuments);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(
+            String? phoneNumber,
             DriverRequestData driverData,
             VehicleRequestData vehicleData,
             List<DriverDocumentRequestData> driverDocuments,
@@ -326,8 +351,8 @@ class _$DriverRegistrationSubmittedImpl implements DriverRegistrationSubmitted {
     required TResult orElse(),
   }) {
     if (submitted != null) {
-      return submitted(
-          driverData, vehicleData, driverDocuments, vehicleDocuments);
+      return submitted(phoneNumber, driverData, vehicleData, driverDocuments,
+          vehicleDocuments);
     }
     return orElse();
   }
@@ -363,12 +388,15 @@ class _$DriverRegistrationSubmittedImpl implements DriverRegistrationSubmitted {
 
 abstract class DriverRegistrationSubmitted implements DriverRegistrationEvent {
   const factory DriverRegistrationSubmitted(
-          {required final DriverRequestData driverData,
+          {final String? phoneNumber,
+          required final DriverRequestData driverData,
           required final VehicleRequestData vehicleData,
           required final List<DriverDocumentRequestData> driverDocuments,
           required final List<VehicleDocumentRequestData> vehicleDocuments}) =
       _$DriverRegistrationSubmittedImpl;
 
+  @override
+  String? get phoneNumber;
   @override
   DriverRequestData get driverData;
   @override

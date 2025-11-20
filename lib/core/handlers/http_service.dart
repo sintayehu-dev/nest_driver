@@ -16,6 +16,7 @@ class HttpService {
           'accept': 'application/json',
           'Content-Type': isMultipart ? 'multipart/form-data' : 'application/json',
         },
+        
       ),
     );
     if (requireAuth) {

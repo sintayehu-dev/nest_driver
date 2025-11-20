@@ -19,85 +19,83 @@ class DriverRegistrationRemoteDataSourceImpl
   Future<DriverRegistrationResponse> registerDriver(
     DriverRegistrationRequest request,
   ) async {
+    // Create FormData for multipart request
+    final formData = FormData();
+
+    // Add phone number (required field)
+    final phoneNumber = request.phoneNumber?.trim();
+    if (phoneNumber != null && phoneNumber.isNotEmpty) {
+      formData.fields.add(
+        MapEntry('phone_number', phoneNumber),
+      );
+    } else {
+      throw Exception('Phone number is required but was not provided');
+    }
+
+    // Add driver data (flat structure) - trim all string fields
+    formData.fields.addAll([
+      MapEntry('email', request.driver.email.trim()),
+      MapEntry('full_name', request.driver.fullName.trim()),
+      if (request.driver.finNumber != null)
+        MapEntry('fin_number', request.driver.finNumber!.trim()),
+    ]);
+
+    // Add vehicle data (flat structure) - trim all string fields
+    formData.fields.addAll([
+      MapEntry('car_make', request.vehicle.carMake.trim()),
+      MapEntry('car_model', request.vehicle.carModel.trim()),
+      MapEntry(
+        'year_of_manufacture',
+        request.vehicle.yearOfManufacture.toString(),
+      ),
+      MapEntry('plate_number', request.vehicle.plateNumber.trim()),
+      MapEntry('color', request.vehicle.color.trim()),
+      MapEntry('capacity', request.vehicle.capacity.toString()),
+      MapEntry('vehicle_type', request.vehicle.vehicleType.trim()),
+    ]);
+
+    // Add driver documents (direct field names)
+    for (final doc in request.driverDocuments) {
+      final file = File(doc.path);
+      
+      if (await file.exists()) {
+        final fileName = file.path.split('/').last;
+        formData.files.add(
+          MapEntry(
+            doc.docType, // Direct field name: 'profile_picture' or 'driver_license'
+            await MultipartFile.fromFile(
+              doc.path,
+              filename: fileName,
+            ),
+          ),
+        );
+      }
+    }
+
+    // Add vehicle documents (direct field names)
+    for (final doc in request.vehicleDocuments) {
+      final file = File(doc.path);
+      
+      if (await file.exists()) {
+        final fileName = file.path.split('/').last;
+        // For 'other_seats', we can add multiple files with the same field name
+        formData.files.add(
+          MapEntry(
+            doc.docType, // Direct field name: 'front_side', 'back_side', etc.
+            await MultipartFile.fromFile(
+              doc.path,
+              filename: fileName,
+            ),
+          ),
+        );
+      }
+    }
+
     try {
-      // Create FormData for multipart request
-      final formData = FormData();
-
-      // Add driver data
-      formData.fields.addAll([
-        MapEntry('driver[full_name]', request.driver.fullName),
-        MapEntry('driver[email]', request.driver.email),
-        if (request.driver.finNumber != null)
-          MapEntry('driver[fin_number]', request.driver.finNumber!),
-      ]);
-
-      // Add vehicle data
-      formData.fields.addAll([
-        MapEntry('vehicle[car_make]', request.vehicle.carMake),
-        MapEntry('vehicle[car_model]', request.vehicle.carModel),
-        MapEntry(
-          'vehicle[year_of_manufacture]',
-          request.vehicle.yearOfManufacture.toString(),
-        ),
-        MapEntry('vehicle[plate_number]', request.vehicle.plateNumber),
-        MapEntry('vehicle[color]', request.vehicle.color),
-        MapEntry('vehicle[capacity]', request.vehicle.capacity.toString()),
-        MapEntry('vehicle[vehicle_type]', request.vehicle.vehicleType),
-      ]);
-
-      // Add driver documents
-      for (var i = 0; i < request.driverDocuments.length; i++) {
-        final doc = request.driverDocuments[i];
-        final file = File(doc.path);
-        
-        if (await file.exists()) {
-          final fileName = file.path.split('/').last;
-          formData.files.add(
-            MapEntry(
-              'driverDocuments[$i][file]',
-              await MultipartFile.fromFile(
-                doc.path,
-                filename: fileName,
-              ),
-            ),
-          );
-          formData.fields.add(
-            MapEntry('driverDocuments[$i][doc_type]', doc.docType),
-          );
-          if (doc.expiryDate != null) {
-            formData.fields.add(
-              MapEntry('driverDocuments[$i][expiry_date]', doc.expiryDate!),
-            );
-          }
-        }
-      }
-
-      // Add vehicle documents
-      for (var i = 0; i < request.vehicleDocuments.length; i++) {
-        final doc = request.vehicleDocuments[i];
-        final file = File(doc.path);
-        
-        if (await file.exists()) {
-          final fileName = file.path.split('/').last;
-          formData.files.add(
-            MapEntry(
-              'vehicleDocuments[$i][file]',
-              await MultipartFile.fromFile(
-                doc.path,
-                filename: fileName,
-              ),
-            ),
-          );
-          formData.fields.add(
-            MapEntry('vehicleDocuments[$i][doc_type]', doc.docType),
-          );
-        }
-      }
-
       final response = await getIt<HttpService>()
-          .client(requireAuth: true, isMultipart: true)
+          .client(requireAuth: false, isMultipart: true)
           .post(
-        '/driver/register',
+        '/drivers/bulk-register',
         data: formData,
       );
 
@@ -109,4 +107,5 @@ class DriverRegistrationRemoteDataSourceImpl
     }
   }
 }
+
 

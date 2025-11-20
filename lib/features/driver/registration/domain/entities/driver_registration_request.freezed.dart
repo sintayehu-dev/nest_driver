@@ -21,6 +21,8 @@ DriverRegistrationRequest _$DriverRegistrationRequestFromJson(
 
 /// @nodoc
 mixin _$DriverRegistrationRequest {
+  @JsonKey(name: 'phone_number')
+  String? get phoneNumber => throw _privateConstructorUsedError;
   DriverRequestData get driver => throw _privateConstructorUsedError;
   VehicleRequestData get vehicle => throw _privateConstructorUsedError;
   List<DriverDocumentRequestData> get driverDocuments =>
@@ -45,7 +47,8 @@ abstract class $DriverRegistrationRequestCopyWith<$Res> {
       _$DriverRegistrationRequestCopyWithImpl<$Res, DriverRegistrationRequest>;
   @useResult
   $Res call(
-      {DriverRequestData driver,
+      {@JsonKey(name: 'phone_number') String? phoneNumber,
+      DriverRequestData driver,
       VehicleRequestData vehicle,
       List<DriverDocumentRequestData> driverDocuments,
       List<VehicleDocumentRequestData> vehicleDocuments});
@@ -70,12 +73,17 @@ class _$DriverRegistrationRequestCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? phoneNumber = freezed,
     Object? driver = null,
     Object? vehicle = null,
     Object? driverDocuments = null,
     Object? vehicleDocuments = null,
   }) {
     return _then(_value.copyWith(
+      phoneNumber: freezed == phoneNumber
+          ? _value.phoneNumber
+          : phoneNumber // ignore: cast_nullable_to_non_nullable
+              as String?,
       driver: null == driver
           ? _value.driver
           : driver // ignore: cast_nullable_to_non_nullable
@@ -126,7 +134,8 @@ abstract class _$$DriverRegistrationRequestImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {DriverRequestData driver,
+      {@JsonKey(name: 'phone_number') String? phoneNumber,
+      DriverRequestData driver,
       VehicleRequestData vehicle,
       List<DriverDocumentRequestData> driverDocuments,
       List<VehicleDocumentRequestData> vehicleDocuments});
@@ -152,12 +161,17 @@ class __$$DriverRegistrationRequestImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? phoneNumber = freezed,
     Object? driver = null,
     Object? vehicle = null,
     Object? driverDocuments = null,
     Object? vehicleDocuments = null,
   }) {
     return _then(_$DriverRegistrationRequestImpl(
+      phoneNumber: freezed == phoneNumber
+          ? _value.phoneNumber
+          : phoneNumber // ignore: cast_nullable_to_non_nullable
+              as String?,
       driver: null == driver
           ? _value.driver
           : driver // ignore: cast_nullable_to_non_nullable
@@ -182,7 +196,8 @@ class __$$DriverRegistrationRequestImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$DriverRegistrationRequestImpl extends _DriverRegistrationRequest {
   const _$DriverRegistrationRequestImpl(
-      {required this.driver,
+      {@JsonKey(name: 'phone_number') this.phoneNumber,
+      required this.driver,
       required this.vehicle,
       final List<DriverDocumentRequestData> driverDocuments = const [],
       final List<VehicleDocumentRequestData> vehicleDocuments = const []})
@@ -193,6 +208,9 @@ class _$DriverRegistrationRequestImpl extends _DriverRegistrationRequest {
   factory _$DriverRegistrationRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$DriverRegistrationRequestImplFromJson(json);
 
+  @override
+  @JsonKey(name: 'phone_number')
+  final String? phoneNumber;
   @override
   final DriverRequestData driver;
   @override
@@ -218,7 +236,7 @@ class _$DriverRegistrationRequestImpl extends _DriverRegistrationRequest {
 
   @override
   String toString() {
-    return 'DriverRegistrationRequest(driver: $driver, vehicle: $vehicle, driverDocuments: $driverDocuments, vehicleDocuments: $vehicleDocuments)';
+    return 'DriverRegistrationRequest(phoneNumber: $phoneNumber, driver: $driver, vehicle: $vehicle, driverDocuments: $driverDocuments, vehicleDocuments: $vehicleDocuments)';
   }
 
   @override
@@ -226,6 +244,8 @@ class _$DriverRegistrationRequestImpl extends _DriverRegistrationRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DriverRegistrationRequestImpl &&
+            (identical(other.phoneNumber, phoneNumber) ||
+                other.phoneNumber == phoneNumber) &&
             (identical(other.driver, driver) || other.driver == driver) &&
             (identical(other.vehicle, vehicle) || other.vehicle == vehicle) &&
             const DeepCollectionEquality()
@@ -238,6 +258,7 @@ class _$DriverRegistrationRequestImpl extends _DriverRegistrationRequest {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      phoneNumber,
       driver,
       vehicle,
       const DeepCollectionEquality().hash(_driverDocuments),
@@ -262,7 +283,8 @@ class _$DriverRegistrationRequestImpl extends _DriverRegistrationRequest {
 
 abstract class _DriverRegistrationRequest extends DriverRegistrationRequest {
   const factory _DriverRegistrationRequest(
-          {required final DriverRequestData driver,
+          {@JsonKey(name: 'phone_number') final String? phoneNumber,
+          required final DriverRequestData driver,
           required final VehicleRequestData vehicle,
           final List<DriverDocumentRequestData> driverDocuments,
           final List<VehicleDocumentRequestData> vehicleDocuments}) =
@@ -272,6 +294,9 @@ abstract class _DriverRegistrationRequest extends DriverRegistrationRequest {
   factory _DriverRegistrationRequest.fromJson(Map<String, dynamic> json) =
       _$DriverRegistrationRequestImpl.fromJson;
 
+  @override
+  @JsonKey(name: 'phone_number')
+  String? get phoneNumber;
   @override
   DriverRequestData get driver;
   @override

@@ -5,7 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:nest_driver/core/presentation/widgets/app_back_button.dart';
 import 'package:nest_driver/core/services/image_picker_service.dart';
 import 'package:nest_driver/core/theme/app_colors.dart';
-import 'package:nest_driver/features/driver/registration/presentation/pages/widgets/driver_registration_progress_indicator.dart';
+import 'package:nest_driver/features/driver/registration/presentation/models/driver_registration_form_data.dart';
+import 'package:nest_driver/features/driver/registration/presentation/widgets/driver_registration_progress_indicator.dart';
 
 class ExteriorPhotosPage extends StatefulWidget {
   final VoidCallback? onBackPressed;
@@ -13,6 +14,7 @@ class ExteriorPhotosPage extends StatefulWidget {
   final int currentPage;
   final int totalPages;
   final String title;
+  final DriverRegistrationFormData formData;
 
   const ExteriorPhotosPage({
     super.key,
@@ -21,6 +23,7 @@ class ExteriorPhotosPage extends StatefulWidget {
     required this.currentPage,
     required this.totalPages,
     required this.title,
+    required this.formData,
   });
 
   @override
@@ -29,25 +32,21 @@ class ExteriorPhotosPage extends StatefulWidget {
 
 class _ExteriorPhotosPageState extends State<ExteriorPhotosPage> {
   final _imagePickerService = ImagePickerService();
-  File? _frontPhoto;
-  File? _backPhoto;
-  File? _leftPhoto;
-  File? _rightPhoto;
 
   Future<void> _pickImage(BuildContext context, String position) async {
     File? currentPhoto;
     switch (position) {
       case 'front':
-        currentPhoto = _frontPhoto;
+        currentPhoto = widget.formData.frontPhoto;
         break;
       case 'back':
-        currentPhoto = _backPhoto;
+        currentPhoto = widget.formData.backPhoto;
         break;
       case 'left':
-        currentPhoto = _leftPhoto;
+        currentPhoto = widget.formData.leftPhoto;
         break;
       case 'right':
-        currentPhoto = _rightPhoto;
+        currentPhoto = widget.formData.rightPhoto;
         break;
     }
 
@@ -60,16 +59,16 @@ class _ExteriorPhotosPageState extends State<ExteriorPhotosPage> {
       setState(() {
         switch (position) {
           case 'front':
-            _frontPhoto = File(imagePath);
+            widget.formData.frontPhoto = File(imagePath);
             break;
           case 'back':
-            _backPhoto = File(imagePath);
+            widget.formData.backPhoto = File(imagePath);
             break;
           case 'left':
-            _leftPhoto = File(imagePath);
+            widget.formData.leftPhoto = File(imagePath);
             break;
           case 'right':
-            _rightPhoto = File(imagePath);
+            widget.formData.rightPhoto = File(imagePath);
             break;
         }
       });
@@ -78,16 +77,16 @@ class _ExteriorPhotosPageState extends State<ExteriorPhotosPage> {
       setState(() {
         switch (position) {
           case 'front':
-            _frontPhoto = null;
+            widget.formData.frontPhoto = null;
             break;
           case 'back':
-            _backPhoto = null;
+            widget.formData.backPhoto = null;
             break;
           case 'left':
-            _leftPhoto = null;
+            widget.formData.leftPhoto = null;
             break;
           case 'right':
-            _rightPhoto = null;
+            widget.formData.rightPhoto = null;
             break;
         }
       });
@@ -199,7 +198,7 @@ class _ExteriorPhotosPageState extends State<ExteriorPhotosPage> {
                   child: _buildPhotoCard(
                     context,
                     'Front side of the vehicle',
-                    _frontPhoto,
+                    widget.formData.frontPhoto,
                     () => _pickImage(context, 'front'),
                   ),
                 ),
@@ -208,7 +207,7 @@ class _ExteriorPhotosPageState extends State<ExteriorPhotosPage> {
                   child: _buildPhotoCard(
                     context,
                     'Back side of the vehicle',
-                    _backPhoto,
+                    widget.formData.backPhoto,
                     () => _pickImage(context, 'back'),
                   ),
                 ),
@@ -223,7 +222,7 @@ class _ExteriorPhotosPageState extends State<ExteriorPhotosPage> {
                   child: _buildPhotoCard(
                     context,
                     'Left side of the vehicle',
-                    _leftPhoto,
+                    widget.formData.leftPhoto,
                     () => _pickImage(context, 'left'),
                   ),
                 ),
@@ -232,7 +231,7 @@ class _ExteriorPhotosPageState extends State<ExteriorPhotosPage> {
                   child: _buildPhotoCard(
                     context,
                     'Right side of the vehicle',
-                    _rightPhoto,
+                    widget.formData.rightPhoto,
                     () => _pickImage(context, 'right'),
                   ),
                 ),
@@ -259,6 +258,7 @@ class _ExteriorPhotosPageState extends State<ExteriorPhotosPage> {
                   widget.currentPage == widget.totalPages - 1 ? 'Submit' : 'Next',
                   style: theme.textTheme.bodyLarge?.copyWith(
                     fontWeight: FontWeight.w600,
+                    color: theme.colorScheme.onPrimary,
                   ),
                 ),
               ),
@@ -316,18 +316,18 @@ class _ExteriorPhotosPageState extends State<ExteriorPhotosPage> {
                         Positioned(
                           top: 8.h,
                           right: 8.w,
-                          child: Container(
-                            padding: EdgeInsets.all(4.w),
-                            decoration: BoxDecoration(
-                              color: Colors.black54,
-                              shape: BoxShape.circle,
+                            child: Container(
+                              padding: EdgeInsets.all(4.w),
+                              decoration: BoxDecoration(
+                                color: theme.colorScheme.scrim.withOpacity(0.54),
+                                shape: BoxShape.circle,
+                              ),
+                              child: Icon(
+                                Icons.edit,
+                                color: theme.colorScheme.onPrimary,
+                                size: 16.sp,
+                              ),
                             ),
-                            child: Icon(
-                              Icons.edit,
-                              color: Colors.white,
-                              size: 16.sp,
-                            ),
-                          ),
                         ),
                       ],
                     ),

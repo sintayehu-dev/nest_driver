@@ -15,8 +15,8 @@ import 'package:nest_driver/core/presentation/main/driver_shell_page.dart';
 import 'package:nest_driver/features/driver/trip_history/presentation/driver_trip_history_screen.dart';
 import 'package:nest_driver/features/driver/earnings/presentation/driver_earnings_screen.dart';
 import 'package:nest_driver/features/driver/message/presentation/driver_message_screen.dart';
-import 'package:nest_driver/features/driver/registration/presentation/pages/driver_registration_screen.dart';
-import 'package:nest_driver/features/driver/registration/presentation/pages/driver_vehicle_registration_screen.dart';
+import 'package:nest_driver/features/driver/registration/presentation/driver_registration_screen.dart';
+
 
 final router = GoRouter(
     navigatorKey: NavigationService.navigatorKey,
@@ -133,16 +133,9 @@ final router = GoRouter(
         name: RouteName.driverRegistration,
         path: '/driver/registration',
         builder: (context, state) {
-          return const DriverRegistrationScreen();
-        },
-      ),
-
-      // Driver Vehicle Registration (Photo Upload Flow)
-      GoRoute(
-        name: RouteName.driverVehicleRegistration,
-        path: '/driver/vehicle-registration',
-        builder: (context, state) {
-          return const DriverVehicleRegistrationScreen();
+          final extra = state.extra as Map<String, dynamic>?;
+          final phoneNumber = extra?['phoneNumber'] as String?;
+          return DriverRegistrationScreen(phoneNumber: phoneNumber);
         },
       ),
 

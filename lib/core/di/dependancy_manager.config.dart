@@ -21,6 +21,8 @@ import '../../features/auth/infrastructure/auth/datasources/auth_remote_data_sou
     as _i1046;
 import '../../features/auth/infrastructure/auth/repositories/auth_repository_impl.dart'
     as _i446;
+import '../../features/driver/registration/application/bloc/driver_registration_bloc.dart'
+    as _i894;
 import '../../features/driver/registration/domain/repositories/driver_registration_repository.dart'
     as _i958;
 import '../../features/driver/registration/infrastructure/datasources/driver_registration_remote_data_source.dart'
@@ -60,6 +62,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i187.OtpLoginBloc(gh<_i787.AuthRepository>()));
     gh.factory<_i961.VerifyOtpBloc>(
         () => _i961.VerifyOtpBloc(gh<_i787.AuthRepository>()));
+    gh.factory<_i894.DriverRegistrationBloc>(() =>
+        _i894.DriverRegistrationBloc(gh<_i958.DriverRegistrationRepository>()));
     return this;
   }
 }

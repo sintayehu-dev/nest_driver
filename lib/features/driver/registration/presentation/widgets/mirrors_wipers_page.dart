@@ -5,7 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:nest_driver/core/presentation/widgets/app_back_button.dart';
 import 'package:nest_driver/core/services/image_picker_service.dart';
 import 'package:nest_driver/core/theme/app_colors.dart';
-import 'package:nest_driver/features/driver/registration/presentation/pages/widgets/driver_registration_progress_indicator.dart';
+import 'package:nest_driver/features/driver/registration/presentation/models/driver_registration_form_data.dart';
+import 'package:nest_driver/features/driver/registration/presentation/widgets/driver_registration_progress_indicator.dart';
 
 class MirrorsWipersPage extends StatefulWidget {
   final VoidCallback? onBackPressed;
@@ -13,6 +14,7 @@ class MirrorsWipersPage extends StatefulWidget {
   final int currentPage;
   final int totalPages;
   final String title;
+  final DriverRegistrationFormData formData;
 
   const MirrorsWipersPage({
     super.key,
@@ -21,6 +23,7 @@ class MirrorsWipersPage extends StatefulWidget {
     required this.currentPage,
     required this.totalPages,
     required this.title,
+    required this.formData,
   });
 
   @override
@@ -29,29 +32,24 @@ class MirrorsWipersPage extends StatefulWidget {
 
 class _MirrorsWipersPageState extends State<MirrorsWipersPage> {
   final _imagePickerService = ImagePickerService();
-  File? _frontWiperPhoto;
-  File? _rearWiperPhoto;
-  File? _sideMirror1Photo;
-  File? _sideMirror2Photo;
-  File? _rearViewMirrorPhoto;
 
   Future<void> _pickImage(BuildContext context, String position) async {
     File? currentPhoto;
     switch (position) {
       case 'frontWiper':
-        currentPhoto = _frontWiperPhoto;
+        currentPhoto = widget.formData.frontWiperPhoto;
         break;
       case 'rearWiper':
-        currentPhoto = _rearWiperPhoto;
+        currentPhoto = widget.formData.rearWiperPhoto;
         break;
       case 'sideMirror1':
-        currentPhoto = _sideMirror1Photo;
+        currentPhoto = widget.formData.sideMirror1Photo;
         break;
       case 'sideMirror2':
-        currentPhoto = _sideMirror2Photo;
+        currentPhoto = widget.formData.sideMirror2Photo;
         break;
       case 'rearViewMirror':
-        currentPhoto = _rearViewMirrorPhoto;
+        currentPhoto = widget.formData.rearViewMirrorPhoto;
         break;
     }
 
@@ -64,19 +62,19 @@ class _MirrorsWipersPageState extends State<MirrorsWipersPage> {
       setState(() {
         switch (position) {
           case 'frontWiper':
-            _frontWiperPhoto = File(imagePath);
+            widget.formData.frontWiperPhoto = File(imagePath);
             break;
           case 'rearWiper':
-            _rearWiperPhoto = File(imagePath);
+            widget.formData.rearWiperPhoto = File(imagePath);
             break;
           case 'sideMirror1':
-            _sideMirror1Photo = File(imagePath);
+            widget.formData.sideMirror1Photo = File(imagePath);
             break;
           case 'sideMirror2':
-            _sideMirror2Photo = File(imagePath);
+            widget.formData.sideMirror2Photo = File(imagePath);
             break;
           case 'rearViewMirror':
-            _rearViewMirrorPhoto = File(imagePath);
+            widget.formData.rearViewMirrorPhoto = File(imagePath);
             break;
         }
       });
@@ -85,19 +83,19 @@ class _MirrorsWipersPageState extends State<MirrorsWipersPage> {
       setState(() {
         switch (position) {
           case 'frontWiper':
-            _frontWiperPhoto = null;
+            widget.formData.frontWiperPhoto = null;
             break;
           case 'rearWiper':
-            _rearWiperPhoto = null;
+            widget.formData.rearWiperPhoto = null;
             break;
           case 'sideMirror1':
-            _sideMirror1Photo = null;
+            widget.formData.sideMirror1Photo = null;
             break;
           case 'sideMirror2':
-            _sideMirror2Photo = null;
+            widget.formData.sideMirror2Photo = null;
             break;
           case 'rearViewMirror':
-            _rearViewMirrorPhoto = null;
+            widget.formData.rearViewMirrorPhoto = null;
             break;
         }
       });
@@ -197,7 +195,7 @@ class _MirrorsWipersPageState extends State<MirrorsWipersPage> {
                   child: _buildPhotoCard(
                     context,
                     'Front Wiper',
-                    _frontWiperPhoto,
+                    widget.formData.frontWiperPhoto,
                     () => _pickImage(context, 'frontWiper'),
                   ),
                 ),
@@ -206,7 +204,7 @@ class _MirrorsWipersPageState extends State<MirrorsWipersPage> {
                   child: _buildPhotoCard(
                     context,
                     'Rear wiper',
-                    _rearWiperPhoto,
+                    widget.formData.rearWiperPhoto,
                     () => _pickImage(context, 'rearWiper'),
                   ),
                 ),
@@ -222,7 +220,7 @@ class _MirrorsWipersPageState extends State<MirrorsWipersPage> {
                   child: _buildPhotoCard(
                     context,
                     'Side Mirror 1',
-                    _sideMirror1Photo,
+                    widget.formData.sideMirror1Photo,
                     () => _pickImage(context, 'sideMirror1'),
                   ),
                 ),
@@ -231,7 +229,7 @@ class _MirrorsWipersPageState extends State<MirrorsWipersPage> {
                   child: _buildPhotoCard(
                     context,
                     'Side Mirror 2',
-                    _sideMirror2Photo,
+                    widget.formData.sideMirror2Photo,
                     () => _pickImage(context, 'sideMirror2'),
                   ),
                 ),
@@ -262,13 +260,13 @@ class _MirrorsWipersPageState extends State<MirrorsWipersPage> {
                     width: 1,
                   ),
                 ),
-                child: _rearViewMirrorPhoto != null
+                child: widget.formData.rearViewMirrorPhoto != null
                     ? ClipRRect(
                         borderRadius: BorderRadius.circular(12.r),
                         child: Stack(
                           children: [
                             Image.file(
-                              _rearViewMirrorPhoto!,
+                              widget.formData.rearViewMirrorPhoto!,
                               width: double.infinity,
                               height: double.infinity,
                               fit: BoxFit.cover,
@@ -276,18 +274,18 @@ class _MirrorsWipersPageState extends State<MirrorsWipersPage> {
                             Positioned(
                               top: 8.h,
                               right: 8.w,
-                              child: Container(
-                                padding: EdgeInsets.all(4.w),
-                                decoration: BoxDecoration(
-                                  color: Colors.black54,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Icon(
-                                  Icons.edit,
-                                  color: Colors.white,
-                                  size: 16.sp,
-                                ),
+                            child: Container(
+                              padding: EdgeInsets.all(4.w),
+                              decoration: BoxDecoration(
+                                color: theme.colorScheme.scrim.withOpacity(0.54),
+                                shape: BoxShape.circle,
                               ),
+                              child: Icon(
+                                Icons.edit,
+                                color: theme.colorScheme.onPrimary,
+                                size: 16.sp,
+                              ),
+                            ),
                             ),
                           ],
                         ),
@@ -322,6 +320,7 @@ class _MirrorsWipersPageState extends State<MirrorsWipersPage> {
                   widget.currentPage == widget.totalPages - 1 ? 'Submit' : 'Next',
                   style: theme.textTheme.bodyLarge?.copyWith(
                     fontWeight: FontWeight.w600,
+                    color: theme.colorScheme.onPrimary,
                   ),
                 ),
               ),
@@ -379,18 +378,18 @@ class _MirrorsWipersPageState extends State<MirrorsWipersPage> {
                         Positioned(
                           top: 8.h,
                           right: 8.w,
-                          child: Container(
-                            padding: EdgeInsets.all(4.w),
-                            decoration: BoxDecoration(
-                              color: Colors.black54,
-                              shape: BoxShape.circle,
+                            child: Container(
+                              padding: EdgeInsets.all(4.w),
+                              decoration: BoxDecoration(
+                                color: theme.colorScheme.scrim.withOpacity(0.54),
+                                shape: BoxShape.circle,
+                              ),
+                              child: Icon(
+                                Icons.edit,
+                                color: theme.colorScheme.onPrimary,
+                                size: 16.sp,
+                              ),
                             ),
-                            child: Icon(
-                              Icons.edit,
-                              color: Colors.white,
-                              size: 16.sp,
-                            ),
-                          ),
                         ),
                       ],
                     ),

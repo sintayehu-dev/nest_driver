@@ -1,11 +1,14 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nest_driver/core/presentation/widgets/app_back_button.dart';
 import 'package:nest_driver/core/services/image_picker_service.dart';
 import 'package:nest_driver/core/theme/app_colors.dart';
-import 'package:nest_driver/features/driver/registration/presentation/pages/widgets/driver_registration_progress_indicator.dart';
+import 'package:nest_driver/features/driver/registration/application/bloc/driver_registration_bloc.dart';
+import 'package:nest_driver/features/driver/registration/presentation/models/driver_registration_form_data.dart';
+import 'package:nest_driver/features/driver/registration/presentation/widgets/driver_registration_progress_indicator.dart';
 
 class InteriorPhotosPage extends StatefulWidget {
   final VoidCallback? onBackPressed;
@@ -13,6 +16,7 @@ class InteriorPhotosPage extends StatefulWidget {
   final int currentPage;
   final int totalPages;
   final String title;
+  final DriverRegistrationFormData formData;
 
   const InteriorPhotosPage({
     super.key,
@@ -21,6 +25,7 @@ class InteriorPhotosPage extends StatefulWidget {
     required this.currentPage,
     required this.totalPages,
     required this.title,
+    required this.formData,
   });
 
   @override
@@ -29,23 +34,18 @@ class InteriorPhotosPage extends StatefulWidget {
 
 class _InteriorPhotosPageState extends State<InteriorPhotosPage> {
   final _imagePickerService = ImagePickerService();
-  File? _dashboardPhoto;
-  File? _frontSeatsPhoto;
-  File? _backSeatsPhoto;
-  final List<File> _additionalPhotos = [];
-  bool _agreedToTerms = false;
 
   Future<void> _pickImage(BuildContext context, String position) async {
     File? currentPhoto;
     switch (position) {
       case 'dashboard':
-        currentPhoto = _dashboardPhoto;
+        currentPhoto = widget.formData.dashboardPhoto;
         break;
       case 'frontSeats':
-        currentPhoto = _frontSeatsPhoto;
+        currentPhoto = widget.formData.frontSeatsPhoto;
         break;
       case 'backSeats':
-        currentPhoto = _backSeatsPhoto;
+        currentPhoto = widget.formData.backSeatsPhoto;
         break;
       case 'additional':
         // For additional photos, we don't have a current photo to check
@@ -61,17 +61,17 @@ class _InteriorPhotosPageState extends State<InteriorPhotosPage> {
       setState(() {
         switch (position) {
           case 'dashboard':
-            _dashboardPhoto = File(imagePath);
+            widget.formData.dashboardPhoto = File(imagePath);
             break;
           case 'frontSeats':
-            _frontSeatsPhoto = File(imagePath);
+            widget.formData.frontSeatsPhoto = File(imagePath);
             break;
           case 'backSeats':
-            _backSeatsPhoto = File(imagePath);
+            widget.formData.backSeatsPhoto = File(imagePath);
             break;
           case 'additional':
-            if (_additionalPhotos.length < 3) {
-              _additionalPhotos.add(File(imagePath));
+            if (widget.formData.additionalPhotos.length < 3) {
+              widget.formData.additionalPhotos.add(File(imagePath));
             }
             break;
         }
@@ -81,13 +81,13 @@ class _InteriorPhotosPageState extends State<InteriorPhotosPage> {
       setState(() {
         switch (position) {
           case 'dashboard':
-            _dashboardPhoto = null;
+            widget.formData.dashboardPhoto = null;
             break;
           case 'frontSeats':
-            _frontSeatsPhoto = null;
+            widget.formData.frontSeatsPhoto = null;
             break;
           case 'backSeats':
-            _backSeatsPhoto = null;
+            widget.formData.backSeatsPhoto = null;
             break;
         }
       });
@@ -181,13 +181,13 @@ class _InteriorPhotosPageState extends State<InteriorPhotosPage> {
                     width: 1,
                   ),
                 ),
-                child: _dashboardPhoto != null
+                child: widget.formData.dashboardPhoto != null
                     ? ClipRRect(
                         borderRadius: BorderRadius.circular(12.r),
                         child: Stack(
                           children: [
                             Image.file(
-                              _dashboardPhoto!,
+                              widget.formData.dashboardPhoto!,
                               width: double.infinity,
                               height: double.infinity,
                               fit: BoxFit.cover,
@@ -195,18 +195,18 @@ class _InteriorPhotosPageState extends State<InteriorPhotosPage> {
                             Positioned(
                               top: 8.h,
                               right: 8.w,
-                              child: Container(
-                                padding: EdgeInsets.all(4.w),
-                                decoration: BoxDecoration(
-                                  color: Colors.black54,
-                                  shape: BoxShape.circle,
+                                child: Container(
+                                  padding: EdgeInsets.all(4.w),
+                                  decoration: BoxDecoration(
+                                    color: theme.colorScheme.scrim.withOpacity(0.54),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(
+                                    Icons.edit,
+                                    color: theme.colorScheme.onPrimary,
+                                    size: 16.sp,
+                                  ),
                                 ),
-                                child: Icon(
-                                  Icons.edit,
-                                  color: Colors.white,
-                                  size: 16.sp,
-                                ),
-                              ),
                             ),
                           ],
                         ),
@@ -245,13 +245,13 @@ class _InteriorPhotosPageState extends State<InteriorPhotosPage> {
                     width: 1,
                   ),
                 ),
-                child: _frontSeatsPhoto != null
+                child: widget.formData.frontSeatsPhoto != null
                     ? ClipRRect(
                         borderRadius: BorderRadius.circular(12.r),
                         child: Stack(
                           children: [
                             Image.file(
-                              _frontSeatsPhoto!,
+                              widget.formData.frontSeatsPhoto!,
                               width: double.infinity,
                               height: double.infinity,
                               fit: BoxFit.cover,
@@ -259,18 +259,18 @@ class _InteriorPhotosPageState extends State<InteriorPhotosPage> {
                             Positioned(
                               top: 8.h,
                               right: 8.w,
-                              child: Container(
-                                padding: EdgeInsets.all(4.w),
-                                decoration: BoxDecoration(
-                                  color: Colors.black54,
-                                  shape: BoxShape.circle,
+                                child: Container(
+                                  padding: EdgeInsets.all(4.w),
+                                  decoration: BoxDecoration(
+                                    color: theme.colorScheme.scrim.withOpacity(0.54),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(
+                                    Icons.edit,
+                                    color: theme.colorScheme.onPrimary,
+                                    size: 16.sp,
+                                  ),
                                 ),
-                                child: Icon(
-                                  Icons.edit,
-                                  color: Colors.white,
-                                  size: 16.sp,
-                                ),
-                              ),
                             ),
                           ],
                         ),
@@ -309,13 +309,13 @@ class _InteriorPhotosPageState extends State<InteriorPhotosPage> {
                     width: 1,
                   ),
                 ),
-                child: _backSeatsPhoto != null
+                child: widget.formData.backSeatsPhoto != null
                     ? ClipRRect(
                         borderRadius: BorderRadius.circular(12.r),
                         child: Stack(
                           children: [
                             Image.file(
-                              _backSeatsPhoto!,
+                              widget.formData.backSeatsPhoto!,
                               width: double.infinity,
                               height: double.infinity,
                               fit: BoxFit.cover,
@@ -323,18 +323,18 @@ class _InteriorPhotosPageState extends State<InteriorPhotosPage> {
                             Positioned(
                               top: 8.h,
                               right: 8.w,
-                              child: Container(
-                                padding: EdgeInsets.all(4.w),
-                                decoration: BoxDecoration(
-                                  color: Colors.black54,
-                                  shape: BoxShape.circle,
+                                child: Container(
+                                  padding: EdgeInsets.all(4.w),
+                                  decoration: BoxDecoration(
+                                    color: theme.colorScheme.scrim.withOpacity(0.54),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(
+                                    Icons.edit,
+                                    color: theme.colorScheme.onPrimary,
+                                    size: 16.sp,
+                                  ),
                                 ),
-                                child: Icon(
-                                  Icons.edit,
-                                  color: Colors.white,
-                                  size: 16.sp,
-                                ),
-                              ),
                             ),
                           ],
                         ),
@@ -368,7 +368,7 @@ class _InteriorPhotosPageState extends State<InteriorPhotosPage> {
                     child: Padding(
                       padding: EdgeInsets.only(right: index < 2 ? 8.w : 0),
                       child: GestureDetector(
-                        onTap: index < _additionalPhotos.length
+                        onTap: index < widget.formData.additionalPhotos.length
                             ? null
                             : () => _pickImage(context, 'additional'),
                         child: Container(
@@ -381,13 +381,13 @@ class _InteriorPhotosPageState extends State<InteriorPhotosPage> {
                               width: 1,
                             ),
                           ),
-                          child: index < _additionalPhotos.length
+                          child: index < widget.formData.additionalPhotos.length
                               ? ClipRRect(
                                   borderRadius: BorderRadius.circular(12.r),
                                   child: Stack(
                                     children: [
                                       Image.file(
-                                        _additionalPhotos[index],
+                                        widget.formData.additionalPhotos[index],
                                         fit: BoxFit.cover,
                                         width: double.infinity,
                                         height: double.infinity,
@@ -433,10 +433,10 @@ class _InteriorPhotosPageState extends State<InteriorPhotosPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Checkbox(
-                  value: _agreedToTerms,
+                  value: widget.formData.agreedToTerms,
                   onChanged: (value) {
                     setState(() {
-                      _agreedToTerms = value ?? false;
+                      widget.formData.agreedToTerms = value ?? false;
                     });
                   },
                   activeColor: AppColors.primary,
@@ -447,7 +447,7 @@ class _InteriorPhotosPageState extends State<InteriorPhotosPage> {
                     child: GestureDetector(
                       onTap: () {
                         setState(() {
-                          _agreedToTerms = !_agreedToTerms;
+                          widget.formData.agreedToTerms = !widget.formData.agreedToTerms;
                         });
                       },
                       child: Text(
@@ -465,26 +465,47 @@ class _InteriorPhotosPageState extends State<InteriorPhotosPage> {
             SizedBox(height: 24.h),
 
             // Navigation Button
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: widget.onNextPressed,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: theme.colorScheme.primary,
-                  foregroundColor: theme.colorScheme.onPrimary,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(32.r),
+            BlocBuilder<DriverRegistrationBloc, DriverRegistrationState>(
+              builder: (context, state) {
+                final isLoading = state.isLoading;
+                final isLastPage = widget.currentPage == widget.totalPages - 1;
+                
+                return SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: isLoading ? null : widget.onNextPressed,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: theme.colorScheme.primary,
+                      foregroundColor: theme.colorScheme.onPrimary,
+                      disabledBackgroundColor: theme.colorScheme.primary.withOpacity(0.6),
+                      disabledForegroundColor: theme.colorScheme.onPrimary.withOpacity(0.6),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(32.r),
+                      ),
+                      elevation: 0,
+                      padding: EdgeInsets.symmetric(vertical: 14.h),
+                    ),
+                    child: isLoading && isLastPage
+                        ? SizedBox(
+                            height: 20.h,
+                            width: 20.w,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                theme.colorScheme.onPrimary,
+                              ),
+                            ),
+                          )
+                        : Text(
+                            isLastPage ? 'Submit' : 'Next',
+                            style: theme.textTheme.bodyLarge?.copyWith(
+                              fontWeight: FontWeight.w600,
+                              color: theme.colorScheme.onPrimary,
+                            ),
+                          ),
                   ),
-                  elevation: 0,
-                  padding: EdgeInsets.symmetric(vertical: 14.h),
-                ),
-                child: Text(
-                  widget.currentPage == widget.totalPages - 1 ? 'Submit' : 'Next',
-                  style: theme.textTheme.bodyLarge?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
+                );
+              },
             ),
 
             SizedBox(height: 24.h),

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:nest_driver/core/theme/app_colors.dart';
 
 class AppHelpers {
   AppHelpers._();
 
-  static showNoConnectionSnackBar(BuildContext context) {
+  static showNoConnectionSnackBar(BuildContext context, {String? message}) {
     Fluttertoast.showToast(
-      msg: 'No internet connection',
+      msg: message ?? 'No internet connection',
       toastLength: Toast.LENGTH_LONG,
       gravity: ToastGravity.TOP,
       backgroundColor: Colors.teal,
@@ -20,8 +21,8 @@ class AppHelpers {
       msg: text,
       toastLength: Toast.LENGTH_LONG,
       gravity: ToastGravity.TOP,
-      backgroundColor: Theme.of(context).colorScheme.primary,
-      textColor: Theme.of(context).colorScheme.onPrimary,
+      backgroundColor: AppColors.success,
+      textColor: AppColors.onSuccess,
       fontSize: 13,
     );
   }

@@ -18,6 +18,8 @@ class AppColors {
   static const Color accentPurple = Color(0xFFF57070); // Maps to secondary
 
   // Theme colors
+  static const Color success = Color(0xFF00C853);
+  static const Color onSuccess = Color(0xFFFFFFFF);
   static const Color error = Color(0xFFBA1A1A);
   static const Color errorContainer = Color(0xFFFFDAD6);
   static const Color onError = Color(0xFFFFFFFF);

@@ -81,6 +81,7 @@ class DriverRegistrationBloc
 
     // Build request
     final request = DriverRegistrationRequest(
+      phoneNumber: event.phoneNumber,
       driver: event.driverData,
       vehicle: event.vehicleData,
       driverDocuments: event.driverDocuments,

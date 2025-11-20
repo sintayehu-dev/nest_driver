@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer' as dev;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -62,18 +63,62 @@ class OTPVerificationView extends StatelessWidget {
                 p.isSuccess != c.isSuccess,
             listener: (context, state) {
               if (!state.isLoading && state.isSuccess) {
-                // If session is created, route to driver home
-                // If session is not created, route to driver registration
+                dev.log('✅ OTP Verification: Success!');
+                dev.log('   Session Created: ${state.sessionCreated}');
+                
                 if (state.sessionCreated) {
-                  // Check if user has completed onboarding
-                  final isDoneOnboarding = LocalStorage.instance.getIsDoneOnboarding();
-                  if (!isDoneOnboarding) {
-                    context.goNamed(RouteName.onboarding);
+                  // Check if user has driver role
+                  final user = state.account;
+                  
+                  dev.log('👤 OTP Verification: User Info:');
+                  dev.log('   User ID: ${user?.id ?? "null"}');
+                  dev.log('   Username: ${user?.username ?? "null"}');
+                  dev.log('   User Status: ${user?.status ?? "null"}');
+                  dev.log('   Is Verified: ${user?.isVerified ?? "null"}');
+                  
+                  if (user?.roles != null && user!.roles.isNotEmpty) {
+                    dev.log('   Roles Count: ${user.roles.length}');
+                    dev.log('   Roles:');
+                    for (var role in user.roles) {
+                      dev.log('     - ID: ${role.id}, Name: "${role.name}"');
+                    }
                   } else {
-                    context.goNamed(RouteName.driverHome);
+                    dev.log('   Roles: null or empty');
+                  }
+                  
+                  final hasDriverRole = user?.roles.any(
+                    (role) => role.name.toLowerCase() == 'driver',
+                  ) ?? false;
+                  
+                  dev.log('   Has Driver Role: $hasDriverRole');
+
+                  if (hasDriverRole) {
+                    // User is a driver, route to home/onboarding
+                    final isDoneOnboarding = LocalStorage.instance.getIsDoneOnboarding();
+                    dev.log('🚗 OTP Verification: User is a DRIVER');
+                    dev.log('   Onboarding Done: $isDoneOnboarding');
+                    if (!isDoneOnboarding) {
+                      dev.log('   → Routing to: Onboarding');
+                      context.goNamed(RouteName.onboarding);
+                    } else {
+                      dev.log('   → Routing to: Driver Home');
+                      context.goNamed(RouteName.driverHome);
+                    }
+                  } else {
+                    // User is not a driver, route to registration
+                    dev.log('📝 OTP Verification: User is NOT a driver');
+                    dev.log('   → Routing to: Driver Registration');
+                    context.goNamed(
+                      RouteName.driverRegistration,
+                      extra: {
+                        'phoneNumber': phoneNumber,
+                      },
+                    );
                   }
                 } else {
-                  // No session, route to driver registration
+                  // No session created, route to driver registration
+                  dev.log('❌ OTP Verification: No session created');
+                  dev.log('   → Routing to: Driver Registration');
                   context.goNamed(
                     RouteName.driverRegistration,
                     extra: {
@@ -84,7 +129,14 @@ class OTPVerificationView extends StatelessWidget {
               } else if (!state.isLoading &&
                   state.isError &&
                   state.errorMessage.isNotEmpty) {
-                AppHelpers.showErrorFlash(context, state.errorMessage);
+                dev.log('❌ OTP Verification: Error - ${state.errorMessage}');
+                // Check if it's a connectivity error
+                if (state.errorMessage.toLowerCase().contains('no internet connection') ||
+                    state.errorMessage.toLowerCase().contains('network')) {
+                  AppHelpers.showNoConnectionSnackBar(context, message: state.errorMessage);
+                } else {
+                  AppHelpers.showErrorFlash(context, state.errorMessage);
+                }
               }
             },
             builder: (context, state) {

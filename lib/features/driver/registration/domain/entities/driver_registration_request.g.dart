@@ -9,6 +9,7 @@ part of 'driver_registration_request.dart';
 _$DriverRegistrationRequestImpl _$$DriverRegistrationRequestImplFromJson(
         Map<String, dynamic> json) =>
     _$DriverRegistrationRequestImpl(
+      phoneNumber: json['phone_number'] as String?,
       driver:
           DriverRequestData.fromJson(json['driver'] as Map<String, dynamic>),
       vehicle:
@@ -28,6 +29,7 @@ _$DriverRegistrationRequestImpl _$$DriverRegistrationRequestImplFromJson(
 Map<String, dynamic> _$$DriverRegistrationRequestImplToJson(
         _$DriverRegistrationRequestImpl instance) =>
     <String, dynamic>{
+      'phone_number': instance.phoneNumber,
       'driver': instance.driver,
       'vehicle': instance.vehicle,
       'driverDocuments': instance.driverDocuments,

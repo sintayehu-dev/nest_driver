@@ -15,7 +15,6 @@ class RouteName {
 
   // Driver routes
   static const driverRegistration = 'driverRegistration';
-  static const driverVehicleRegistration = 'driverVehicleRegistration';
   static const driverHome = 'driverHome';
 
   // Settings routes

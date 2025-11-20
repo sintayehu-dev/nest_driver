@@ -24,14 +24,38 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
       
       log('isLoggedIn: $isLoggedIn');
       
-      // If logged in, navigate to driver home
+      // If logged in, check user role and route accordingly
       if (isLoggedIn) {
-        // Check if user has completed onboarding
-        final isDoneOnboarding = LocalStorage.instance.getIsDoneOnboarding();
-        if (!isDoneOnboarding) {
-          emit(state.copyWith(isLoading: false, isError: false, routeName: RouteName.onboarding));
+        final user = userService.getCurrentUser();
+        
+        log('SplashBloc: Current user: ${user?.username ?? "null"}');
+        if (user?.roles != null && user!.roles.isNotEmpty) {
+          log('SplashBloc: User roles:');
+          for (var role in user.roles) {
+            log('  - ${role.name}');
+          }
+        }
+        
+        // Check if user has driver role
+        final hasDriverRole = user?.roles.any(
+          (role) => role.name.toLowerCase() == 'driver',
+        ) ?? false;
+        
+        log('SplashBloc: Has driver role: $hasDriverRole');
+        
+        if (hasDriverRole) {
+          // User is a driver, check onboarding status
+          final isDoneOnboarding = LocalStorage.instance.getIsDoneOnboarding();
+          log('SplashBloc: Onboarding done: $isDoneOnboarding');
+          if (!isDoneOnboarding) {
+            emit(state.copyWith(isLoading: false, isError: false, routeName: RouteName.onboarding));
+          } else {
+            emit(state.copyWith(isLoading: false, isError: false, routeName: RouteName.driverHome));
+          }
         } else {
-          emit(state.copyWith(isLoading: false, isError: false, routeName: RouteName.driverHome));
+          // User is not a driver, route to login (they need to register as driver)
+          log('SplashBloc: User is not a driver, routing to login');
+          emit(state.copyWith(isLoading: false, isError: false, routeName: RouteName.login));
         }
         return;
       }
@@ -41,6 +65,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
         emit(state.copyWith(isLoading: false, isError: false, routeName: RouteName.login));
       }
     } catch (e) {
+      log('SplashBloc: Error - $e');
       emit(state.copyWith(isLoading: false, isError: true));
     }
       

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nest_driver/core/presentation/widgets/app_back_button.dart';
-import 'package:nest_driver/features/driver/registration/presentation/pages/widgets/driver_registration_progress_indicator.dart';
+import 'package:nest_driver/features/driver/registration/presentation/models/driver_registration_form_data.dart';
+import 'package:nest_driver/features/driver/registration/presentation/widgets/driver_registration_progress_indicator.dart';
 
 class VehicleInformationPage extends StatefulWidget {
   final VoidCallback? onBackPressed;
@@ -10,6 +11,7 @@ class VehicleInformationPage extends StatefulWidget {
   final int currentPage;
   final int totalPages;
   final String title;
+  final DriverRegistrationFormData formData;
 
   const VehicleInformationPage({
     super.key,
@@ -18,6 +20,7 @@ class VehicleInformationPage extends StatefulWidget {
     required this.currentPage,
     required this.totalPages,
     required this.title,
+    required this.formData,
   });
 
   @override
@@ -26,13 +29,12 @@ class VehicleInformationPage extends StatefulWidget {
 
 class _VehicleInformationPageState extends State<VehicleInformationPage> {
   final _formKey = GlobalKey<FormState>();
-  final _carMakeController = TextEditingController();
-  final _yearOfManufactureController = TextEditingController();
-  final _carModelController = TextEditingController();
-  final _plateNumberController = TextEditingController();
-  final _colorController = TextEditingController();
-  final _capacityController = TextEditingController();
-  String? _selectedVehicleType;
+  late final TextEditingController _carMakeController;
+  late final TextEditingController _yearOfManufactureController;
+  late final TextEditingController _carModelController;
+  late final TextEditingController _plateNumberController;
+  late final TextEditingController _colorController;
+  late final TextEditingController _capacityController;
 
   final List<String> _vehicleTypes = [
     'Sedan',
@@ -44,6 +46,43 @@ class _VehicleInformationPageState extends State<VehicleInformationPage> {
     'Van',
     'Motorcycle',
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    _carMakeController = TextEditingController(text: widget.formData.carMake);
+    _yearOfManufactureController = TextEditingController(
+      text: widget.formData.yearOfManufacture?.toString(),
+    );
+    _carModelController = TextEditingController(text: widget.formData.carModel);
+    _plateNumberController = TextEditingController(text: widget.formData.plateNumber);
+    _colorController = TextEditingController(text: widget.formData.color);
+    _capacityController = TextEditingController(
+      text: widget.formData.capacity?.toString(),
+    );
+
+    // Add listeners to update formData
+    _carMakeController.addListener(() {
+      widget.formData.carMake = _carMakeController.text;
+    });
+    _yearOfManufactureController.addListener(() {
+      final year = int.tryParse(_yearOfManufactureController.text);
+      widget.formData.yearOfManufacture = year;
+    });
+    _carModelController.addListener(() {
+      widget.formData.carModel = _carModelController.text;
+    });
+    _plateNumberController.addListener(() {
+      widget.formData.plateNumber = _plateNumberController.text;
+    });
+    _colorController.addListener(() {
+      widget.formData.color = _colorController.text;
+    });
+    _capacityController.addListener(() {
+      final capacity = int.tryParse(_capacityController.text);
+      widget.formData.capacity = capacity;
+    });
+  }
 
   @override
   void dispose() {
@@ -117,15 +156,12 @@ class _VehicleInformationPageState extends State<VehicleInformationPage> {
                 text: 'Car Make',
                 style: theme.textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.w500,
-                  color: const Color(0xFF212121),
-                  fontSize: 14.sp,
                 ),
                 children: [
                   TextSpan(
                     text: ' *',
                     style: TextStyle(
-                      color: Colors.red,
-                      fontSize: 14.sp,
+                      color: theme.colorScheme.error,
                     ),
                   ),
                 ],
@@ -134,18 +170,14 @@ class _VehicleInformationPageState extends State<VehicleInformationPage> {
             SizedBox(height: 8.h),
             TextFormField(
               controller: _carMakeController,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                fontSize: 14.sp,
-                color: const Color(0xFF212121),
-              ),
+              style: theme.textTheme.bodyMedium,
               decoration: InputDecoration(
                 hintText: 'Eg. "Toyota"',
-                hintStyle: TextStyle(
-                  color: const Color(0xFFBDBDBD),
-                  fontSize: 14.sp,
+                hintStyle: theme.textTheme.bodyMedium?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
                 ),
                 filled: true,
-                fillColor: const Color(0xFFF5F5F5),
+                fillColor: theme.colorScheme.surfaceContainerHighest,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.r),
                   borderSide: BorderSide.none,
@@ -179,15 +211,12 @@ class _VehicleInformationPageState extends State<VehicleInformationPage> {
                 text: 'Year of Manufacture',
                 style: theme.textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.w500,
-                  color: const Color(0xFF212121),
-                  fontSize: 14.sp,
                 ),
                 children: [
                   TextSpan(
                     text: ' *',
                     style: TextStyle(
-                      color: Colors.red,
-                      fontSize: 14.sp,
+                      color: theme.colorScheme.error,
                     ),
                   ),
                 ],
@@ -197,18 +226,14 @@ class _VehicleInformationPageState extends State<VehicleInformationPage> {
             TextFormField(
               controller: _yearOfManufactureController,
               keyboardType: TextInputType.number,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                fontSize: 14.sp,
-                color: const Color(0xFF212121),
-              ),
+              style: theme.textTheme.bodyMedium,
               decoration: InputDecoration(
                 hintText: 'Eg. "2020"',
-                hintStyle: TextStyle(
-                  color: const Color(0xFFBDBDBD),
-                  fontSize: 14.sp,
+                hintStyle: theme.textTheme.bodyMedium?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
                 ),
                 filled: true,
-                fillColor: const Color(0xFFF5F5F5),
+                fillColor: theme.colorScheme.surfaceContainerHighest,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.r),
                   borderSide: BorderSide.none,
@@ -242,15 +267,12 @@ class _VehicleInformationPageState extends State<VehicleInformationPage> {
                 text: 'Car Model',
                 style: theme.textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.w500,
-                  color: const Color(0xFF212121),
-                  fontSize: 14.sp,
                 ),
                 children: [
                   TextSpan(
                     text: ' *',
                     style: TextStyle(
-                      color: Colors.red,
-                      fontSize: 14.sp,
+                      color: theme.colorScheme.error,
                     ),
                   ),
                 ],
@@ -259,18 +281,14 @@ class _VehicleInformationPageState extends State<VehicleInformationPage> {
             SizedBox(height: 8.h),
             TextFormField(
               controller: _carModelController,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                fontSize: 14.sp,
-                color: const Color(0xFF212121),
-              ),
+              style: theme.textTheme.bodyMedium,
               decoration: InputDecoration(
                 hintText: 'Eg. "Corolla"',
-                hintStyle: TextStyle(
-                  color: const Color(0xFFBDBDBD),
-                  fontSize: 14.sp,
+                hintStyle: theme.textTheme.bodyMedium?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
                 ),
                 filled: true,
-                fillColor: const Color(0xFFF5F5F5),
+                fillColor: theme.colorScheme.surfaceContainerHighest,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.r),
                   borderSide: BorderSide.none,
@@ -304,15 +322,12 @@ class _VehicleInformationPageState extends State<VehicleInformationPage> {
                 text: 'Plate Number',
                 style: theme.textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.w500,
-                  color: const Color(0xFF212121),
-                  fontSize: 14.sp,
                 ),
                 children: [
                   TextSpan(
                     text: ' *',
                     style: TextStyle(
-                      color: Colors.red,
-                      fontSize: 14.sp,
+                      color: theme.colorScheme.error,
                     ),
                   ),
                 ],
@@ -321,18 +336,14 @@ class _VehicleInformationPageState extends State<VehicleInformationPage> {
             SizedBox(height: 8.h),
             TextFormField(
               controller: _plateNumberController,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                fontSize: 14.sp,
-                color: const Color(0xFF212121),
-              ),
+              style: theme.textTheme.bodyMedium,
               decoration: InputDecoration(
                 hintText: 'ABC-1234',
-                hintStyle: TextStyle(
-                  color: const Color(0xFFBDBDBD),
-                  fontSize: 14.sp,
+                hintStyle: theme.textTheme.bodyMedium?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
                 ),
                 filled: true,
-                fillColor: const Color(0xFFF5F5F5),
+                fillColor: theme.colorScheme.surfaceContainerHighest,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.r),
                   borderSide: BorderSide.none,
@@ -366,15 +377,12 @@ class _VehicleInformationPageState extends State<VehicleInformationPage> {
                 text: 'Color',
                 style: theme.textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.w500,
-                  color: const Color(0xFF212121),
-                  fontSize: 14.sp,
                 ),
                 children: [
                   TextSpan(
                     text: ' *',
                     style: TextStyle(
-                      color: Colors.red,
-                      fontSize: 14.sp,
+                      color: theme.colorScheme.error,
                     ),
                   ),
                 ],
@@ -383,18 +391,14 @@ class _VehicleInformationPageState extends State<VehicleInformationPage> {
             SizedBox(height: 8.h),
             TextFormField(
               controller: _colorController,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                fontSize: 14.sp,
-                color: const Color(0xFF212121),
-              ),
+              style: theme.textTheme.bodyMedium,
               decoration: InputDecoration(
                 hintText: 'Eg. "Red"',
-                hintStyle: TextStyle(
-                  color: const Color(0xFFBDBDBD),
-                  fontSize: 14.sp,
+                hintStyle: theme.textTheme.bodyMedium?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
                 ),
                 filled: true,
-                fillColor: const Color(0xFFF5F5F5),
+                fillColor: theme.colorScheme.surfaceContainerHighest,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.r),
                   borderSide: BorderSide.none,
@@ -428,15 +432,12 @@ class _VehicleInformationPageState extends State<VehicleInformationPage> {
                 text: 'Capacity',
                 style: theme.textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.w500,
-                  color: const Color(0xFF212121),
-                  fontSize: 14.sp,
                 ),
                 children: [
                   TextSpan(
                     text: ' *',
                     style: TextStyle(
-                      color: Colors.red,
-                      fontSize: 14.sp,
+                      color: theme.colorScheme.error,
                     ),
                   ),
                 ],
@@ -446,18 +447,14 @@ class _VehicleInformationPageState extends State<VehicleInformationPage> {
             TextFormField(
               controller: _capacityController,
               keyboardType: TextInputType.number,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                fontSize: 14.sp,
-                color: const Color(0xFF212121),
-              ),
+              style: theme.textTheme.bodyMedium,
               decoration: InputDecoration(
                 hintText: 'Eg. 4',
-                hintStyle: TextStyle(
-                  color: const Color(0xFFBDBDBD),
-                  fontSize: 14.sp,
+                hintStyle: theme.textTheme.bodyMedium?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
                 ),
                 filled: true,
-                fillColor: const Color(0xFFF5F5F5),
+                fillColor: theme.colorScheme.surfaceContainerHighest,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.r),
                   borderSide: BorderSide.none,
@@ -491,15 +488,12 @@ class _VehicleInformationPageState extends State<VehicleInformationPage> {
                 text: 'Vehicle Type',
                 style: theme.textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.w500,
-                  color: const Color(0xFF212121),
-                  fontSize: 14.sp,
                 ),
                 children: [
                   TextSpan(
                     text: ' *',
                     style: TextStyle(
-                      color: Colors.red,
-                      fontSize: 14.sp,
+                      color: theme.colorScheme.error,
                     ),
                   ),
                 ],
@@ -507,15 +501,14 @@ class _VehicleInformationPageState extends State<VehicleInformationPage> {
             ),
             SizedBox(height: 8.h),
             DropdownButtonFormField<String>(
-              value: _selectedVehicleType,
+              value: widget.formData.vehicleType,
               decoration: InputDecoration(
                 hintText: 'Select vehicle category',
-                hintStyle: TextStyle(
-                  color: const Color(0xFFBDBDBD),
-                  fontSize: 14.sp,
+                hintStyle: theme.textTheme.bodyMedium?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
                 ),
                 filled: true,
-                fillColor: const Color(0xFFF5F5F5),
+                fillColor: theme.colorScheme.surfaceContainerHighest,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.r),
                   borderSide: BorderSide.none,
@@ -538,10 +531,7 @@ class _VehicleInformationPageState extends State<VehicleInformationPage> {
                   size: 24.sp,
                 ),
               ),
-              style: theme.textTheme.bodyMedium?.copyWith(
-                fontSize: 14.sp,
-                color: const Color(0xFF212121),
-              ),
+              style: theme.textTheme.bodyMedium,
               items: _vehicleTypes.map((String type) {
                 return DropdownMenuItem<String>(
                   value: type,
@@ -550,7 +540,7 @@ class _VehicleInformationPageState extends State<VehicleInformationPage> {
               }).toList(),
               onChanged: (String? newValue) {
                 setState(() {
-                  _selectedVehicleType = newValue;
+                  widget.formData.vehicleType = newValue;
                 });
               },
               validator: (value) {

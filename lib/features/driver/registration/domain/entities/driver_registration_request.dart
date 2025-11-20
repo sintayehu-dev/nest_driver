@@ -6,6 +6,7 @@ part 'driver_registration_request.g.dart';
 @freezed
 class DriverRegistrationRequest with _$DriverRegistrationRequest {
   const factory DriverRegistrationRequest({
+    @JsonKey(name: 'phone_number') String? phoneNumber,
     required DriverRequestData driver,
     required VehicleRequestData vehicle,
     @Default([]) List<DriverDocumentRequestData> driverDocuments,
