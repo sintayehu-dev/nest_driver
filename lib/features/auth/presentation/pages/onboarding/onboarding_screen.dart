@@ -19,9 +19,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   final List<OnboardingPageData> _pages = [
     OnboardingPageData(
-      imagePath: 'assets/onboarding1.png',
-      title: 'Book your rides and track every trip',
-      description: 'Schedule rides in seconds and follow every journey in real time — whether it\'s yours or your child\'s.',
+      imagePath: 'assets/onbording1.png',
+      title: 'Accept ride requests and start your trip with one tap.',
+      description: 'View all your assigned trips, pickup points, and schedules ',
       showSkip: true,
       buttonText: 'Next',
     ),
@@ -30,15 +30,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       overlayImagePath: 'assets/overlay_on_onbording2.png',
       verifiedDriversImagePath: 'assets/Verified drivers.png',
       safeTravelsImagePath: 'assets/save_travel.png',
-      title: 'Simple and Safe',
-      description: 'Every driver is verified, every ride is monitored — giving you peace of mind from pickup to drop-off.',
+      title: 'Track Routes and Update in Real Time',
+      description: 'Map with live route, pickup and drop-off markers, and driver location indicator.',
       showSkip: true,
       buttonText: 'Next',
     ),
     OnboardingPageData(
       imagePath: 'assets/onboarding3.png',
-      title: 'Pay Easily',
-      description: 'Add your preferred payment method — Telebirr, Kacha or pay with cash — and enjoy smooth, secure payments after every ride.',
+      title: 'Get Paid Instantly',
+      description: 'Receive payments directly through the app, view your earnings, and track your ride income anytime.',
       showSkip: false,
       buttonText: 'Continue',
     ),

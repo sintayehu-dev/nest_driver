@@ -9,6 +9,7 @@ import 'package:nest_driver/core/theme/app_colors.dart';
 import 'package:nest_driver/features/driver/registration/application/bloc/driver_registration_bloc.dart';
 import 'package:nest_driver/features/driver/registration/presentation/models/driver_registration_form_data.dart';
 import 'package:nest_driver/features/driver/registration/presentation/widgets/driver_registration_progress_indicator.dart';
+import 'package:nest_driver/features/driver/registration/presentation/widgets/driver_registration_button.dart';
 
 class InteriorPhotosPage extends StatefulWidget {
   final VoidCallback? onBackPressed;
@@ -467,43 +468,10 @@ class _InteriorPhotosPageState extends State<InteriorPhotosPage> {
             // Navigation Button
             BlocBuilder<DriverRegistrationBloc, DriverRegistrationState>(
               builder: (context, state) {
-                final isLoading = state.isLoading;
-                final isLastPage = widget.currentPage == widget.totalPages - 1;
-                
-                return SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: isLoading ? null : widget.onNextPressed,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: theme.colorScheme.primary,
-                      foregroundColor: theme.colorScheme.onPrimary,
-                      disabledBackgroundColor: theme.colorScheme.primary.withOpacity(0.6),
-                      disabledForegroundColor: theme.colorScheme.onPrimary.withOpacity(0.6),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(32.r),
-                      ),
-                      elevation: 0,
-                      padding: EdgeInsets.symmetric(vertical: 14.h),
-                    ),
-                    child: isLoading && isLastPage
-                        ? SizedBox(
-                            height: 20.h,
-                            width: 20.w,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                theme.colorScheme.onPrimary,
-                              ),
-                            ),
-                          )
-                        : Text(
-                            isLastPage ? 'Submit' : 'Next',
-                            style: theme.textTheme.bodyLarge?.copyWith(
-                              fontWeight: FontWeight.w600,
-                              color: theme.colorScheme.onPrimary,
-                            ),
-                          ),
-                  ),
+                return DriverRegistrationButton(
+                  onPressed: widget.onNextPressed,
+                  isLastPage: widget.currentPage == widget.totalPages - 1,
+                  isLoading: state.isLoading,
                 );
               },
             ),

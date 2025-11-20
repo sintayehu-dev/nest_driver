@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:nest_driver/core/presentation/widgets/app_back_button.dart';
 import 'package:nest_driver/features/driver/registration/presentation/models/driver_registration_form_data.dart';
 import 'package:nest_driver/features/driver/registration/presentation/widgets/driver_registration_progress_indicator.dart';
+import 'package:nest_driver/features/driver/registration/presentation/widgets/driver_registration_button.dart';
 
 class VehicleInformationPage extends StatefulWidget {
   final VoidCallback? onBackPressed;
@@ -554,26 +555,9 @@ class _VehicleInformationPageState extends State<VehicleInformationPage> {
               SizedBox(height: 24.h),
 
               // Navigation Button
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: widget.onNextPressed,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: theme.colorScheme.primary,
-                    foregroundColor: theme.colorScheme.onPrimary,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(32.r),
-                    ),
-                    elevation: 0,
-                    padding: EdgeInsets.symmetric(vertical: 14.h),
-                  ),
-                  child: Text(
-                    widget.currentPage == widget.totalPages - 1 ? 'Submit' : 'Next',
-                    style: theme.textTheme.bodyLarge?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
+              DriverRegistrationButton(
+                onPressed: widget.onNextPressed,
+                isLastPage: widget.currentPage == widget.totalPages - 1,
               ),
 
               SizedBox(height: 24.h),

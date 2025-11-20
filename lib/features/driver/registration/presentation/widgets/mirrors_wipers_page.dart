@@ -7,6 +7,7 @@ import 'package:nest_driver/core/services/image_picker_service.dart';
 import 'package:nest_driver/core/theme/app_colors.dart';
 import 'package:nest_driver/features/driver/registration/presentation/models/driver_registration_form_data.dart';
 import 'package:nest_driver/features/driver/registration/presentation/widgets/driver_registration_progress_indicator.dart';
+import 'package:nest_driver/features/driver/registration/presentation/widgets/driver_registration_button.dart';
 
 class MirrorsWipersPage extends StatefulWidget {
   final VoidCallback? onBackPressed;
@@ -303,27 +304,9 @@ class _MirrorsWipersPageState extends State<MirrorsWipersPage> {
             SizedBox(height: 24.h),
 
             // Navigation Button
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: widget.onNextPressed,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: theme.colorScheme.primary,
-                  foregroundColor: theme.colorScheme.onPrimary,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(32.r),
-                  ),
-                  elevation: 0,
-                  padding: EdgeInsets.symmetric(vertical: 14.h),
-                ),
-                child: Text(
-                  widget.currentPage == widget.totalPages - 1 ? 'Submit' : 'Next',
-                  style: theme.textTheme.bodyLarge?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: theme.colorScheme.onPrimary,
-                  ),
-                ),
-              ),
+            DriverRegistrationButton(
+              onPressed: widget.onNextPressed,
+              isLastPage: widget.currentPage == widget.totalPages - 1,
             ),
 
             SizedBox(height: 24.h),

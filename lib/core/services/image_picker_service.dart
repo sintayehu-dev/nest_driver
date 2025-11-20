@@ -22,12 +22,24 @@ class ImagePickerService {
   }) async {
     dev.log('ImagePickerService: Starting takePhoto');
     
+    // Check if context is still valid
+    if (!context.mounted) {
+      dev.log('ImagePickerService: Context is no longer mounted');
+      return null;
+    }
+    
     final hasPermission =
         await PermissionHandlerUtil.requestCameraPermission(context);
     dev.log('ImagePickerService: Camera permission granted: $hasPermission');
     
     if (!hasPermission) {
       dev.log('ImagePickerService: Camera permission denied');
+      return null;
+    }
+    
+    // Check context again after permission request (async operation)
+    if (!context.mounted) {
+      dev.log('ImagePickerService: Context is no longer mounted after permission request');
       return null;
     }
     
@@ -40,22 +52,43 @@ class ImagePickerService {
         imageQuality: imageQuality,
       );
       
+      // Check context after camera returns (app might have gone to background)
+      if (!context.mounted) {
+        dev.log('ImagePickerService: Context is no longer mounted after camera returned');
+        // Still return the image path if we got one, even if context is invalid
+        if (pickedImage != null) {
+          return pickedImage.path;
+        }
+        return null;
+      }
+      
       if (pickedImage != null) {
         dev.log(
             'ImagePickerService: Photo taken successfully: ${pickedImage.path}');
         
         // Verify file exists
+        try {
         final file = File(pickedImage.path);
         final exists = await file.exists();
         dev.log('ImagePickerService: File exists: $exists');
+          
+          if (!exists) {
+            dev.log('ImagePickerService: File does not exist at path: ${pickedImage.path}');
+            return null;
+          }
         
         return pickedImage.path;
+        } catch (e) {
+          dev.log('ImagePickerService: Error verifying file: $e');
+          return null;
+        }
       } else {
         dev.log('ImagePickerService: No photo was taken (pickedImage is null)');
         return null;
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
       dev.log('ImagePickerService: Error taking photo: $e');
+      dev.log('ImagePickerService: Stack trace: $stackTrace');
       // Only show error if context is still valid
       if (context.mounted) {
         PermissionHandlerUtil.showErrorDialog(
@@ -139,6 +172,8 @@ class ImagePickerService {
     
     final selectedSource = await showModalBottomSheet<String>(
       context: context,
+      isDismissible: true,
+      enableDrag: true,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
       ),
@@ -215,22 +250,52 @@ class ImagePickerService {
     }
     
     String? result;
-    if (selectedSource == 'camera') {
-      result = await takePhoto(
-        context,
-        maxWidth: maxWidth,
-        maxHeight: maxHeight,
-        imageQuality: imageQuality,
-      );
-      dev.log('ImagePickerService: Camera result: $result');
-    } else if (selectedSource == 'gallery') {
-      result = await chooseFromGallery(
-        context,
-        maxWidth: maxWidth,
-        maxHeight: maxHeight,
-        imageQuality: imageQuality,
-      );
-      dev.log('ImagePickerService: Gallery result: $result');
+    try {
+      if (selectedSource == 'camera') {
+        // Wait a bit to ensure bottom sheet is fully closed and app is ready
+        await Future.delayed(const Duration(milliseconds: 300));
+        
+        // Check if context is still valid before opening camera
+        if (!context.mounted) {
+          dev.log('ImagePickerService: Context is no longer mounted, cannot open camera');
+          return null;
+        }
+        result = await takePhoto(
+          context,
+          maxWidth: maxWidth,
+          maxHeight: maxHeight,
+          imageQuality: imageQuality,
+        );
+        dev.log('ImagePickerService: Camera result: $result');
+      } else if (selectedSource == 'gallery') {
+        // Wait a bit to ensure bottom sheet is fully closed and app is ready
+        await Future.delayed(const Duration(milliseconds: 300));
+        
+        // Check if context is still valid before opening gallery
+        if (!context.mounted) {
+          dev.log('ImagePickerService: Context is no longer mounted, cannot open gallery');
+          return null;
+        }
+        result = await chooseFromGallery(
+          context,
+          maxWidth: maxWidth,
+          maxHeight: maxHeight,
+          imageQuality: imageQuality,
+        );
+        dev.log('ImagePickerService: Gallery result: $result');
+      }
+    } catch (e, stackTrace) {
+      dev.log('ImagePickerService: Error in showImageSourceSelectionDialog: $e');
+      dev.log('ImagePickerService: Stack trace: $stackTrace');
+      // If context is still valid, show error
+      if (context.mounted) {
+        PermissionHandlerUtil.showErrorDialog(
+          context,
+          'Error',
+          'An error occurred while selecting image. Please try again.',
+        );
+      }
+      return null;
     }
     
     dev.log('ImagePickerService: Bottom sheet closed, final result: $result');

@@ -6,6 +6,7 @@ import 'package:nest_driver/core/presentation/widgets/app_back_button.dart';
 import 'package:nest_driver/core/services/image_picker_service.dart';
 import 'package:nest_driver/features/driver/registration/presentation/models/driver_registration_form_data.dart';
 import 'package:nest_driver/features/driver/registration/presentation/widgets/driver_registration_progress_indicator.dart';
+import 'package:nest_driver/features/driver/registration/presentation/widgets/driver_registration_button.dart';
 
 class DriverProfilePage extends StatefulWidget {
   final VoidCallback? onBackPressed;
@@ -206,37 +207,6 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                   ),
 
                   SizedBox(height: 16.h),
-
-                  // Phone Number (from OTP verification - read only)
-                  if (widget.formData.phoneNumber != null && widget.formData.phoneNumber!.isNotEmpty)
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Phone Number',
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        SizedBox(height: 8.h),
-                        Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 16.w,
-                            vertical: 14.h,
-                          ),
-                          decoration: BoxDecoration(
-                            color: theme.colorScheme.surfaceContainerHighest,
-                            borderRadius: BorderRadius.circular(8.r),
-                          ),
-                          child: Text(
-                            widget.formData.phoneNumber!,
-                            style: theme.textTheme.bodyMedium,
-                          ),
-                        ),
-                        SizedBox(height: 20.h),
-                      ],
-                    ),
 
                   // Full Name
                   RichText(
@@ -450,27 +420,9 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
               SizedBox(height: 24.h),
 
               // Navigation Button
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: widget.onNextPressed,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: theme.colorScheme.primary,
-                    foregroundColor: theme.colorScheme.onPrimary,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(32.r),
-                    ),
-                    elevation: 0,
-                    padding: EdgeInsets.symmetric(vertical: 14.h),
-                  ),
-                  child: Text(
-                    widget.currentPage == widget.totalPages - 1 ? 'Submit' : 'Next',
-                    style: theme.textTheme.bodyLarge?.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: theme.colorScheme.onPrimary,
-                    ),
-                  ),
-                ),
+              DriverRegistrationButton(
+                onPressed: widget.onNextPressed,
+                isLastPage: widget.currentPage == widget.totalPages - 1,
               ),
 
               SizedBox(height: 24.h),
