@@ -87,7 +87,7 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
         context.read<DriverRegistrationBloc>().add(
               DriverRegistrationEvent.licenseImageChanged(imagePath),
             );
-    }
+        }
     }
   }
 
@@ -225,7 +225,7 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
       context.read<DriverRegistrationBloc>().add(
             DriverRegistrationEvent.licenseImageChanged(filePath),
           );
-    }
+        }
   }
 
   /// Check if file is an image based on extension
@@ -457,8 +457,8 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                   RichText(
                     text: TextSpan(
                       text: 'Email Address',
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w500,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w500,
                       ),
                       children: [
                         TextSpan(
@@ -515,8 +515,8 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                   RichText(
                     text: TextSpan(
                       text: 'Upload photo of your license',
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w500,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w500,
                       ),
                       children: [
                         TextSpan(
@@ -553,14 +553,14 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                               children: [
                                 // Check if file is an image or document
                                 _isImageFile(state.licenseImagePath)
-                                    ? ClipRRect(
-                                        borderRadius: BorderRadius.circular(8.r),
-                                        child: Image.file(
+                          ? ClipRRect(
+                              borderRadius: BorderRadius.circular(8.r),
+                              child: Image.file(
                                           File(state.licenseImagePath),
-                                          height: 120.h,
+                                height: 120.h,
                                           width: double.infinity,
-                                          fit: BoxFit.cover,
-                                        ),
+                                fit: BoxFit.cover,
+                              ),
                                       )
                                     : Container(
                                         height: 120.h,
@@ -700,7 +700,7 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                         message: failure.failedValue.toString(),
                       ),
                       (_) => const SizedBox.shrink(),
-                    ),
+                  ),
 
               SizedBox(height: 24.h),
 

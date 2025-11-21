@@ -5,7 +5,6 @@ import 'package:nest_driver/core/handlers/app_connectivity.dart';
 import 'package:nest_driver/core/handlers/network_exceptions.dart';
 import 'package:nest_driver/core/utils/local_storage.dart';
 import 'package:nest_driver/core/value_object/value_objects.dart';
-import 'package:nest_driver/core/value_object/abstract_value_objects.dart';
 import 'package:nest_driver/features/driver/registration/domain/entities/driver_registration_request.dart';
 import 'package:nest_driver/features/driver/registration/domain/entities/driver_registration_response.dart';
 import 'package:nest_driver/features/driver/registration/domain/repositories/driver_registration_repository.dart';
@@ -488,7 +487,7 @@ class DriverRegistrationBloc
     SubmitForm event,
     Emitter<DriverRegistrationState> emit,
   ) async {
-    // Step 1: First validate the last page (page 4 - interior photos) only
+    // Step 1: Validate the last page (page 4 - interior photos) only
     final validatedPages = Set<int>.from(state.validatedPages);
     validatedPages.add(state.currentPage);
     
@@ -506,20 +505,7 @@ class DriverRegistrationBloc
       return;
     }
 
-    // Step 2: Last page validation passed, now validate all fields before submitting
-    final allFieldsInvalid = _validateAllFields();
-    if (allFieldsInvalid != null) {
-      emit(state.copyWith(
-        validatedPages: validatedPages,
-        firstInvalidField: allFieldsInvalid,
-        showErrorMessages: true,
-        isLoading: false,
-        isError: false,
-        errorMessage: '',
-      ));
-      return;
-    }
-
+    // Step 2: Check terms and conditions
     if (!state.termsAccepted) {
       emit(state.copyWith(
         firstInvalidField: 'terms',
@@ -667,9 +653,7 @@ class DriverRegistrationBloc
         if (state.frontWiperPhotoPath == null || state.frontWiperPhotoPath!.isEmpty) {
           return 'frontWiperPhoto';
         }
-        if (state.rearWiperPhotoPath == null || state.rearWiperPhotoPath!.isEmpty) {
-          return 'rearWiperPhoto';
-        }
+        // Rear wiper is optional, skip validation
         if (state.sideMirror1PhotoPath == null || state.sideMirror1PhotoPath!.isEmpty) {
           return 'sideMirror1Photo';
         }
@@ -715,51 +699,6 @@ class DriverRegistrationBloc
     }
   }
 
-  String? _validateAllFields() {
-    // Validate all required fields - return first error found
-    if (!state.phoneNumber.isValid()) {
-      return _getValidationError(state.phoneNumber);
-    }
-    if (!state.fullName.isValid()) {
-      return _getValidationError(state.fullName);
-    }
-    if (!state.email.isValid()) {
-      return _getValidationError(state.email);
-    }
-    if (!state.finNumber.isValid()) {
-      return _getValidationError(state.finNumber);
-    }
-    if (!state.carMake.isValid()) {
-      return _getValidationError(state.carMake);
-    }
-    if (!state.carModel.isValid()) {
-      return _getValidationError(state.carModel);
-    }
-    if (!state.yearOfManufacture.isValid()) {
-      return _getValidationError(state.yearOfManufacture);
-    }
-    if (!state.plateNumber.isValid()) {
-      return _getValidationError(state.plateNumber);
-    }
-    if (!state.color.isValid()) {
-      return _getValidationError(state.color);
-    }
-    if (!state.capacity.isValid()) {
-      return _getValidationError(state.capacity);
-    }
-    if (!state.vehicleType.isValid()) {
-      return _getValidationError(state.vehicleType);
-    }
-    return null;
-  }
-
-  /// Helper method to extract error message from value object
-  String? _getValidationError<T>(AbstractValueObject<T> valueObject) {
-    return valueObject.value.fold(
-      (failure) => failure.failedValue.toString(),
-      (_) => null,
-    );
-  }
 
   /// Build driver documents list
   List<DriverDocumentRequestData> _buildDriverDocuments() {

@@ -128,39 +128,39 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
           }
         },
         builder: (context, state) {
-          return Scaffold(
-            backgroundColor: theme.colorScheme.surface,
-            body: SafeArea(
-              top: true,
-              bottom: true,
-              child: Column(
-                children: [
-                  // Page View
-                  Expanded(
-                    child: PageView.builder(
-                      controller: _pageController,
+            return Scaffold(
+              backgroundColor: theme.colorScheme.surface,
+              body: SafeArea(
+                top: true,
+                bottom: true,
+                child: Column(
+                  children: [
+                    // Page View
+                    Expanded(
+                      child: PageView.builder(
+                        controller: _pageController,
                       physics: const NeverScrollableScrollPhysics(), // Disable swipe gesture
-                      onPageChanged: (index) {
+                        onPageChanged: (index) {
                         context.read<DriverRegistrationBloc>().add(
                               DriverRegistrationEvent.pageChanged(index),
                             );
-                      },
-                      itemCount: _pages.length,
-                      itemBuilder: (context, index) {
-                        return _DriverRegistrationPage(
-                          data: _pages[index],
+                        },
+                        itemCount: _pages.length,
+                        itemBuilder: (context, index) {
+                          return _DriverRegistrationPage(
+                            data: _pages[index],
                           currentPage: state.currentPage,
-                          totalPages: _pages.length,
+                            totalPages: _pages.length,
                           title: _pages[index].title,
-                        );
-                      },
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          );
-        },
+            );
+          },
       ),
     );
   }

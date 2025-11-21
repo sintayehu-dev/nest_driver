@@ -191,24 +191,9 @@ class _VehicleInformationPageState extends State<VehicleInformationPage> {
         );
       case 'yearOfManufacture':
         return state.yearOfManufacture.value.fold(
-          (failure) {
-            final failedValue = failure.failedValue;
-            // Show meaningful message for invalid year
-            if (failedValue == 0 || failedValue < 1900) {
-              return const InputValidationMessage(
-                message: 'Please enter a valid year (1900 or later)',
-              );
-            }
-            final currentYear = DateTime.now().year;
-            if (failedValue > currentYear + 1) {
-              return InputValidationMessage(
-                message: 'Year cannot be greater than ${currentYear + 1}',
-              );
-            }
-            return InputValidationMessage(
-              message: 'Please enter a valid year',
-            );
-          },
+          (failure) => InputValidationMessage(
+            message: failure.failedValue.toString(),
+          ),
           (_) => const SizedBox.shrink(),
         );
       case 'plateNumber':
@@ -227,23 +212,9 @@ class _VehicleInformationPageState extends State<VehicleInformationPage> {
         );
       case 'capacity':
         return state.capacity.value.fold(
-          (failure) {
-            final failedValue = failure.failedValue;
-            // Show meaningful message for invalid capacity
-            if (failedValue == 0 || failedValue < 1) {
-              return const InputValidationMessage(
-                message: 'Please enter a valid capacity (1 or more)',
-              );
-            }
-            if (failedValue > 50) {
-              return const InputValidationMessage(
-                message: 'Capacity cannot be greater than 50',
-              );
-            }
-            return const InputValidationMessage(
-              message: 'Please enter a valid capacity',
-            );
-          },
+          (failure) => InputValidationMessage(
+            message: failure.failedValue.toString(),
+          ),
           (_) => const SizedBox.shrink(),
         );
       case 'vehicleType':
@@ -301,135 +272,135 @@ class _VehicleInformationPageState extends State<VehicleInformationPage> {
 
     return BlocBuilder<DriverRegistrationBloc, DriverRegistrationState>(
       builder: (context, state) {
-        return SingleChildScrollView(
-          child: Form(
-            key: _formKey,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+    return SingleChildScrollView(
+      child: Form(
+        key: _formKey,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 24.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
                   // Header
-                  Padding(
-                    padding: EdgeInsets.only(top: 16.h),
-                    child: Column(
+              Padding(
+                padding: EdgeInsets.only(top: 16.h),
+                child: Column(
+                  children: [
+                    Row(
                       children: [
-                        Row(
-                          children: [
-                            AppBackButton(
+                        AppBackButton(
                               onPressed: () {
                                 context.read<DriverRegistrationBloc>().add(
                                       const DriverRegistrationEvent.previousPage(),
                                     );
                               },
-                            ),
-                            const Spacer(),
-                            Text(
-                              '${widget.currentPage + 1}/${widget.totalPages}',
-                              style: theme.textTheme.bodyMedium?.copyWith(
-                                color: theme.colorScheme.onSurfaceVariant,
-                              ),
-                            ),
-                          ],
                         ),
-                        SizedBox(height: 16.h),
-                        DriverRegistrationProgressIndicator(
-                          currentPage: widget.currentPage,
-                          totalPages: widget.totalPages,
+                        const Spacer(),
+                        Text(
+                          '${widget.currentPage + 1}/${widget.totalPages}',
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            color: theme.colorScheme.onSurfaceVariant,
+                          ),
                         ),
                       ],
                     ),
-                  ),
-
-                  // Title
-                  Padding(
-                    padding: EdgeInsets.only(top: 32.h),
-                    child: Text(
-                      widget.title,
-                      style: theme.textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: theme.colorScheme.onSurface,
-                      ),
+                    SizedBox(height: 16.h),
+                    DriverRegistrationProgressIndicator(
+                      currentPage: widget.currentPage,
+                      totalPages: widget.totalPages,
                     ),
+                  ],
+                ),
+              ),
+
+              // Title
+              Padding(
+                padding: EdgeInsets.only(top: 32.h),
+                child: Text(
+                  widget.title,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: theme.colorScheme.onSurface,
                   ),
+                ),
+              ),
 
-                  SizedBox(height: 32.h),
+              SizedBox(height: 32.h),
 
-                  // Car Make
+              // Car Make
                   _buildField(
                     label: 'Car Make',
                     isRequired: true,
                     child: _buildTextField(
-                      controller: _carMakeController,
+              controller: _carMakeController,
                       hintText: 'Eg. "Toyota"',
                     ),
                     fieldName: 'carMake',
                     state: state,
-                  ),
+            ),
 
-                  // Year of Manufacture
+            // Year of Manufacture
                   _buildField(
                     label: 'Year of Manufacture',
                     isRequired: true,
                     child: _buildTextField(
-                      controller: _yearOfManufactureController,
+              controller: _yearOfManufactureController,
                       hintText: 'Eg. "2020"',
                       keyboardType: TextInputType.number,
-                    ),
+                ),
                     fieldName: 'yearOfManufacture',
                     state: state,
-                  ),
+            ),
 
-                  // Car Model
+            // Car Model
                   _buildField(
                     label: 'Car Model',
                     isRequired: true,
                     child: _buildTextField(
-                      controller: _carModelController,
+              controller: _carModelController,
                       hintText: 'Eg. "Corolla"',
                     ),
                     fieldName: 'carModel',
                     state: state,
-                  ),
+            ),
 
-                  // Plate Number
+            // Plate Number
                   _buildField(
                     label: 'Plate Number',
                     isRequired: true,
                     child: _buildTextField(
-                      controller: _plateNumberController,
+              controller: _plateNumberController,
                       hintText: 'ABC-1234',
                     ),
                     fieldName: 'plateNumber',
                     state: state,
-                  ),
+            ),
 
-                  // Color
+            // Color
                   _buildField(
                     label: 'Color',
                     isRequired: true,
                     child: _buildTextField(
-                      controller: _colorController,
+              controller: _colorController,
                       hintText: 'Eg. "Red"',
                     ),
                     fieldName: 'color',
                     state: state,
-                  ),
+                ),
 
-                  // Capacity
+            // Capacity
                   _buildField(
                     label: 'Capacity',
                     isRequired: true,
                     child: _buildTextField(
-                      controller: _capacityController,
+              controller: _capacityController,
                       hintText: 'Eg. 4',
                       keyboardType: TextInputType.number,
-                    ),
+                ),
                     fieldName: 'capacity',
                     state: state,
-                  ),
+            ),
 
-                  // Vehicle Type
+            // Vehicle Type
                   _buildField(
                     label: 'Vehicle Type',
                     isRequired: true,
@@ -437,43 +408,43 @@ class _VehicleInformationPageState extends State<VehicleInformationPage> {
                       value: state.vehicleType.isValid()
                           ? state.vehicleType.getOrElse('')
                           : null,
-                      decoration: InputDecoration(
-                        hintText: 'Select vehicle category',
+              decoration: InputDecoration(
+                hintText: 'Select vehicle category',
                         hintStyle: theme.textTheme.bodyMedium?.copyWith(
                           color: theme.colorScheme.onSurfaceVariant,
-                        ),
-                        filled: true,
+                ),
+                filled: true,
                         fillColor: theme.inputDecorationTheme.fillColor,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                          borderSide: BorderSide.none,
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                          borderSide: BorderSide.none,
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                          borderSide: BorderSide.none,
-                        ),
-                        contentPadding: EdgeInsets.symmetric(
-                          horizontal: 16.w,
-                          vertical: 14.h,
-                        ),
-                        suffixIcon: Icon(
-                          Icons.keyboard_arrow_down,
-                          color: theme.colorScheme.onSurfaceVariant,
-                          size: 24.sp,
-                        ),
-                      ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.r),
+                  borderSide: BorderSide.none,
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.r),
+                  borderSide: BorderSide.none,
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.r),
+                  borderSide: BorderSide.none,
+                ),
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: 16.w,
+                  vertical: 14.h,
+                ),
+                suffixIcon: Icon(
+                  Icons.keyboard_arrow_down,
+                  color: theme.colorScheme.onSurfaceVariant,
+                  size: 24.sp,
+                ),
+              ),
                       style: theme.textTheme.bodyMedium,
-                      items: _vehicleTypes.map((String type) {
-                        return DropdownMenuItem<String>(
-                          value: type,
-                          child: Text(type),
-                        );
-                      }).toList(),
-                      onChanged: (String? newValue) {
+              items: _vehicleTypes.map((String type) {
+                return DropdownMenuItem<String>(
+                  value: type,
+                  child: Text(type),
+                );
+              }).toList(),
+              onChanged: (String? newValue) {
                         if (newValue != null && newValue.isNotEmpty) {
                           context.read<DriverRegistrationBloc>().add(
                                 DriverRegistrationEvent.vehicleTypeChanged(newValue),
@@ -483,9 +454,9 @@ class _VehicleInformationPageState extends State<VehicleInformationPage> {
                     ),
                     fieldName: 'vehicleType',
                     state: state,
-                  ),
+            ),
 
-                  SizedBox(height: 24.h),
+              SizedBox(height: 24.h),
 
                   // Next Button
                   DriverRegistrationButton(
@@ -495,13 +466,13 @@ class _VehicleInformationPageState extends State<VehicleInformationPage> {
                           );
                     },
                     isLastPage: false,
-                  ),
-
-                  SizedBox(height: 24.h),
-                ],
               ),
-            ),
+
+              SizedBox(height: 24.h),
+            ],
           ),
+        ),
+      ),
         );
       },
     );

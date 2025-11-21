@@ -25,7 +25,7 @@ class InteriorPhotosPage extends StatelessWidget {
   Future<void> _pickImage(BuildContext context, String position) async {
     final state = context.read<DriverRegistrationBloc>().state;
     String? currentImagePath;
-    
+
     switch (position) {
       case 'dashboard':
         currentImagePath = state.dashboardPhotoPath;
@@ -98,7 +98,8 @@ class InteriorPhotosPage extends StatelessWidget {
                           AppBackButton(
                             onPressed: () {
                               context.read<DriverRegistrationBloc>().add(
-                                    const DriverRegistrationEvent.previousPage(),
+                                    const DriverRegistrationEvent
+                                        .previousPage(),
                                   );
                             },
                           ),
@@ -198,7 +199,8 @@ class InteriorPhotosPage extends StatelessWidget {
                                   child: Container(
                                     padding: EdgeInsets.all(4.w),
                                     decoration: BoxDecoration(
-                                      color: theme.colorScheme.scrim.withOpacity(0.54),
+                                      color: theme.colorScheme.scrim
+                                          .withOpacity(0.54),
                                       shape: BoxShape.circle,
                                     ),
                                     child: Icon(
@@ -284,7 +286,8 @@ class InteriorPhotosPage extends StatelessWidget {
                                   child: Container(
                                     padding: EdgeInsets.all(4.w),
                                     decoration: BoxDecoration(
-                                      color: theme.colorScheme.scrim.withOpacity(0.54),
+                                      color: theme.colorScheme.scrim
+                                          .withOpacity(0.54),
                                       shape: BoxShape.circle,
                                     ),
                                     child: Icon(
@@ -370,7 +373,8 @@ class InteriorPhotosPage extends StatelessWidget {
                                   child: Container(
                                     padding: EdgeInsets.all(4.w),
                                     decoration: BoxDecoration(
-                                      color: theme.colorScheme.scrim.withOpacity(0.54),
+                                      color: theme.colorScheme.scrim
+                                          .withOpacity(0.54),
                                       shape: BoxShape.circle,
                                     ),
                                     child: Icon(
@@ -436,7 +440,8 @@ class InteriorPhotosPage extends StatelessWidget {
                                       child: Stack(
                                         children: [
                                           Image.file(
-                                            File(state.additionalPhotoPaths[index]),
+                                            File(state
+                                                .additionalPhotoPaths[index]),
                                             fit: BoxFit.cover,
                                             width: double.infinity,
                                             height: double.infinity,
@@ -447,12 +452,14 @@ class InteriorPhotosPage extends StatelessWidget {
                                             child: Container(
                                               padding: EdgeInsets.all(4.w),
                                               decoration: BoxDecoration(
-                                                color: theme.colorScheme.scrim.withOpacity(0.54),
+                                                color: theme.colorScheme.scrim
+                                                    .withOpacity(0.54),
                                                 shape: BoxShape.circle,
                                               ),
                                               child: Icon(
                                                 Icons.edit,
-                                                color: theme.colorScheme.onPrimary,
+                                                color:
+                                                    theme.colorScheme.onPrimary,
                                                 size: 14.sp,
                                               ),
                                             ),
@@ -464,7 +471,8 @@ class InteriorPhotosPage extends StatelessWidget {
                                       child: Icon(
                                         Icons.camera_alt,
                                         size: 24.sp,
-                                        color: theme.colorScheme.onSurfaceVariant,
+                                        color:
+                                            theme.colorScheme.onSurfaceVariant,
                                       ),
                                     ),
                             ),
@@ -481,51 +489,41 @@ class InteriorPhotosPage extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.r),
-                        border: state.showErrorMessages &&
-                                state.firstInvalidField == 'terms'
-                            ? Border.all(
-                                color: theme.colorScheme.error,
-                                width: 2,
-                              )
-                            : null,
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Checkbox(
-                            value: state.termsAccepted,
-                            onChanged: (value) {
-                              context.read<DriverRegistrationBloc>().add(
-                                    DriverRegistrationEvent.termsAcceptedChanged(value ?? false),
-                                  );
-                            },
-                            activeColor: AppColors.primary,
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 12.h),
-                              child: GestureDetector(
-                                onTap: () {
-                                  context.read<DriverRegistrationBloc>().add(
-                                        DriverRegistrationEvent.termsAcceptedChanged(
-                                          !state.termsAccepted,
-                                        ),
-                                      );
-                                },
-                                child: Text(
-                                  'I agree to the Driver Terms & Conditions.',
-                                  style: theme.textTheme.bodyMedium?.copyWith(
-                                    color: theme.colorScheme.onSurface,
-                                  ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Checkbox(
+                          value: state.termsAccepted,
+                          onChanged: (value) {
+                            context.read<DriverRegistrationBloc>().add(
+                                  DriverRegistrationEvent
+                                      .termsAcceptedChanged(value ?? false),
+                                );
+                          },
+                          activeColor: AppColors.primary,
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 12.h),
+                            child: GestureDetector(
+                              onTap: () {
+                                context.read<DriverRegistrationBloc>().add(
+                                      DriverRegistrationEvent
+                                          .termsAcceptedChanged(
+                                        !state.termsAccepted,
+                                      ),
+                                    );
+                              },
+                              child: Text(
+                                'I agree to the Driver Terms & Conditions.',
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  color: theme.colorScheme.onSurface,
                                 ),
                               ),
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                     if (state.showErrorMessages &&
                         state.firstInvalidField == 'terms')

@@ -111,7 +111,7 @@ class VehicleType extends AbstractValueObject<String> {
   final Either<ValueFailure<String>, String> value;
 }
 
-class YearOfManufacture extends AbstractValueObject<int> {
+class YearOfManufacture {
   factory YearOfManufacture(int input) {
     return YearOfManufacture._(
       validateYearOfManufacture(input),
@@ -119,11 +119,22 @@ class YearOfManufacture extends AbstractValueObject<int> {
   }
 
   const YearOfManufacture._(this.value);
-  @override
-  final Either<ValueFailure<int>, int> value;
+  final Either<ValueFailure<String>, int> value;
+
+  int getOrCrash() {
+    return value.fold((f) => throw Exception(f.failedValue), (r) => r);
+  }
+
+  int getOrElse(int dflt) {
+    return value.getOrElse(() => dflt);
+  }
+
+  bool isValid() {
+    return value.isRight();
+  }
 }
 
-class VehicleCapacity extends AbstractValueObject<int> {
+class VehicleCapacity {
   factory VehicleCapacity(int input) {
     return VehicleCapacity._(
       validateCapacity(input),
@@ -131,6 +142,17 @@ class VehicleCapacity extends AbstractValueObject<int> {
   }
 
   const VehicleCapacity._(this.value);
-  @override
-  final Either<ValueFailure<int>, int> value;
+  final Either<ValueFailure<String>, int> value;
+
+  int getOrCrash() {
+    return value.fold((f) => throw Exception(f.failedValue), (r) => r);
+  }
+
+  int getOrElse(int dflt) {
+    return value.getOrElse(() => dflt);
+  }
+
+  bool isValid() {
+    return value.isRight();
+  }
 }

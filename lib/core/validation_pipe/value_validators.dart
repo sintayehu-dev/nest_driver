@@ -433,37 +433,51 @@ Either<ValueFailure<String>, String> validateVehicleType(String input) {
   return right(trimmedInput);
 }
 
-Either<ValueFailure<int>, int> validateYearOfManufacture(int input) {
+Either<ValueFailure<String>, int> validateYearOfManufacture(int input) {
   final currentYear = DateTime.now().year;
+  if (input == 0) {
+    return left(
+      const ValueFailure.invalidYear(
+        failedValue: 'Please enter year of manufacture',
+      ),
+    );
+  }
   if (input < 1900) {
     return left(
-      ValueFailure.invalidYear(
-        failedValue: input,
+      const ValueFailure.invalidYear(
+        failedValue: 'Please enter a valid year (1900 or later)',
       ),
     );
   }
   if (input > currentYear + 1) {
     return left(
       ValueFailure.invalidYear(
-        failedValue: input,
+        failedValue: 'Year cannot be greater than ${currentYear + 1}',
       ),
     );
   }
   return right(input);
 }
 
-Either<ValueFailure<int>, int> validateCapacity(int input) {
+Either<ValueFailure<String>, int> validateCapacity(int input) {
+  if (input == 0) {
+    return left(
+      const ValueFailure.invalidCapacity(
+        failedValue: 'Please enter vehicle capacity',
+      ),
+    );
+  }
   if (input < 1) {
     return left(
-      ValueFailure.invalidCapacity(
-        failedValue: input,
+      const ValueFailure.invalidCapacity(
+        failedValue: 'Please enter a valid capacity (1 or more)',
       ),
     );
   }
   if (input > 50) {
     return left(
-      ValueFailure.invalidCapacity(
-        failedValue: input,
+      const ValueFailure.invalidCapacity(
+        failedValue: 'Capacity cannot be greater than 50',
       ),
     );
   }
