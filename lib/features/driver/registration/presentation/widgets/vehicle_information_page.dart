@@ -1,27 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:nest_driver/core/presentation/widgets/app_back_button.dart';
-import 'package:nest_driver/features/driver/registration/presentation/models/driver_registration_form_data.dart';
+import 'package:nest_driver/core/utils/input_validation_message.dart';
+import 'package:nest_driver/features/driver/registration/application/bloc/driver_registration_bloc.dart';
 import 'package:nest_driver/features/driver/registration/presentation/widgets/driver_registration_progress_indicator.dart';
 import 'package:nest_driver/features/driver/registration/presentation/widgets/driver_registration_button.dart';
 
 class VehicleInformationPage extends StatefulWidget {
-  final VoidCallback? onBackPressed;
-  final VoidCallback? onNextPressed;
   final int currentPage;
   final int totalPages;
   final String title;
-  final DriverRegistrationFormData formData;
 
   const VehicleInformationPage({
     super.key,
-    required this.onBackPressed,
-    required this.onNextPressed,
     required this.currentPage,
     required this.totalPages,
     required this.title,
-    required this.formData,
   });
 
   @override
@@ -51,37 +46,63 @@ class _VehicleInformationPageState extends State<VehicleInformationPage> {
   @override
   void initState() {
     super.initState();
-    _carMakeController = TextEditingController(text: widget.formData.carMake);
-    _yearOfManufactureController = TextEditingController(
-      text: widget.formData.yearOfManufacture?.toString(),
+    // Initialize controllers from BLoC state
+    final state = context.read<DriverRegistrationBloc>().state;
+    _carMakeController = TextEditingController(
+      text: state.carMake.getOrElse(''),
     );
-    _carModelController = TextEditingController(text: widget.formData.carModel);
-    _plateNumberController = TextEditingController(text: widget.formData.plateNumber);
-    _colorController = TextEditingController(text: widget.formData.color);
+    _yearOfManufactureController = TextEditingController(
+      text: state.yearOfManufacture.getOrElse(0).toString(),
+    );
+    _carModelController = TextEditingController(
+      text: state.carModel.getOrElse(''),
+    );
+    _plateNumberController = TextEditingController(
+      text: state.plateNumber.getOrElse(''),
+    );
+    _colorController = TextEditingController(
+      text: state.color.getOrElse(''),
+    );
     _capacityController = TextEditingController(
-      text: widget.formData.capacity?.toString(),
+      text: state.capacity?.getOrElse(0).toString() ?? '',
     );
 
-    // Add listeners to update formData
+    // Add listeners to dispatch BLoC events
     _carMakeController.addListener(() {
-      widget.formData.carMake = _carMakeController.text;
+      context.read<DriverRegistrationBloc>().add(
+            DriverRegistrationEvent.carMakeChanged(_carMakeController.text),
+          );
     });
     _yearOfManufactureController.addListener(() {
       final year = int.tryParse(_yearOfManufactureController.text);
-      widget.formData.yearOfManufacture = year;
+      if (year != null) {
+        context.read<DriverRegistrationBloc>().add(
+              DriverRegistrationEvent.yearOfManufactureChanged(year),
+            );
+      }
     });
     _carModelController.addListener(() {
-      widget.formData.carModel = _carModelController.text;
+      context.read<DriverRegistrationBloc>().add(
+            DriverRegistrationEvent.carModelChanged(_carModelController.text),
+          );
     });
     _plateNumberController.addListener(() {
-      widget.formData.plateNumber = _plateNumberController.text;
+      context.read<DriverRegistrationBloc>().add(
+            DriverRegistrationEvent.plateNumberChanged(_plateNumberController.text),
+          );
     });
     _colorController.addListener(() {
-      widget.formData.color = _colorController.text;
+      context.read<DriverRegistrationBloc>().add(
+            DriverRegistrationEvent.colorChanged(_colorController.text),
+          );
     });
     _capacityController.addListener(() {
       final capacity = int.tryParse(_capacityController.text);
-      widget.formData.capacity = capacity;
+      if (capacity != null) {
+        context.read<DriverRegistrationBloc>().add(
+              DriverRegistrationEvent.capacityChanged(capacity),
+            );
+      }
     });
   }
 
@@ -96,475 +117,353 @@ class _VehicleInformationPageState extends State<VehicleInformationPage> {
     super.dispose();
   }
 
+  Widget _buildField({
+    required String label,
+    required bool isRequired,
+    required Widget child,
+    String? fieldName,
+    required DriverRegistrationState state,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        RichText(
+          text: TextSpan(
+            text: label,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.w500,
+                ),
+            children: isRequired
+                ? [
+                    TextSpan(
+                      text: ' *',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.error,
+                      ),
+                    ),
+                  ]
+                : [],
+          ),
+        ),
+        SizedBox(height: 8.h),
+        child,
+        if (fieldName != null &&
+            state.showErrorMessages &&
+            state.firstInvalidField == fieldName)
+          _buildValidationMessage(state, fieldName),
+        SizedBox(height: 20.h),
+      ],
+    );
+  }
+
+  Widget _buildValidationMessage(
+    DriverRegistrationState state,
+    String fieldName,
+  ) {
+    switch (fieldName) {
+      case 'carMake':
+        return state.carMake.value.fold(
+          (failure) => InputValidationMessage(
+            message: failure.failedValue.toString(),
+          ),
+          (_) => const SizedBox.shrink(),
+        );
+      case 'carModel':
+        return state.carModel.value.fold(
+          (failure) => InputValidationMessage(
+            message: failure.failedValue.toString(),
+          ),
+          (_) => const SizedBox.shrink(),
+        );
+      case 'yearOfManufacture':
+        return state.yearOfManufacture.value.fold(
+          (failure) => InputValidationMessage(
+            message: failure.failedValue.toString(),
+          ),
+          (_) => const SizedBox.shrink(),
+        );
+      case 'plateNumber':
+        return state.plateNumber.value.fold(
+          (failure) => InputValidationMessage(
+            message: failure.failedValue.toString(),
+          ),
+          (_) => const SizedBox.shrink(),
+        );
+      case 'color':
+        return state.color.value.fold(
+          (failure) => InputValidationMessage(
+            message: failure.failedValue.toString(),
+          ),
+          (_) => const SizedBox.shrink(),
+        );
+      case 'capacity':
+        if (state.capacity != null) {
+          return state.capacity!.value.fold(
+            (failure) => InputValidationMessage(
+              message: failure.failedValue.toString(),
+            ),
+            (_) => const SizedBox.shrink(),
+          );
+        }
+        return const SizedBox.shrink();
+      case 'vehicleType':
+        return state.vehicleType.value.fold(
+          (failure) => InputValidationMessage(
+            message: failure.failedValue.toString(),
+          ),
+          (_) => const SizedBox.shrink(),
+        );
+      default:
+        return const SizedBox.shrink();
+    }
+  }
+
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required String hintText,
+    TextInputType? keyboardType,
+  }) {
+    final theme = Theme.of(context);
+    return TextFormField(
+      controller: controller,
+      keyboardType: keyboardType,
+      style: theme.textTheme.bodyMedium,
+      decoration: InputDecoration(
+        hintText: hintText,
+        hintStyle: theme.textTheme.bodyMedium?.copyWith(
+          color: theme.colorScheme.onSurfaceVariant,
+        ),
+        filled: true,
+        fillColor: theme.colorScheme.surfaceContainerHighest,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8.r),
+          borderSide: BorderSide.none,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8.r),
+          borderSide: BorderSide.none,
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8.r),
+          borderSide: BorderSide.none,
+        ),
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: 16.w,
+          vertical: 14.h,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return SingleChildScrollView(
-      child: Form(
-        key: _formKey,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Header with back button and progress
-              Padding(
-                padding: EdgeInsets.only(top: 16.h),
-                child: Column(
-                  children: [
-                    Row(
+    return BlocBuilder<DriverRegistrationBloc, DriverRegistrationState>(
+      builder: (context, state) {
+        return SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Header
+                  Padding(
+                    padding: EdgeInsets.only(top: 16.h),
+                    child: Column(
                       children: [
-                        AppBackButton(
-                          onPressed: widget.onBackPressed ?? () => context.pop(),
+                        Row(
+                          children: [
+                            AppBackButton(
+                              onPressed: () {
+                                context.read<DriverRegistrationBloc>().add(
+                                      const DriverRegistrationEvent.previousPage(),
+                                    );
+                              },
+                            ),
+                            const Spacer(),
+                            Text(
+                              '${widget.currentPage + 1}/${widget.totalPages}',
+                              style: theme.textTheme.bodyMedium?.copyWith(
+                                color: theme.colorScheme.onSurfaceVariant,
+                              ),
+                            ),
+                          ],
                         ),
-                        const Spacer(),
-                        Text(
-                          '${widget.currentPage + 1}/${widget.totalPages}',
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            color: theme.colorScheme.onSurfaceVariant,
-                          ),
+                        SizedBox(height: 16.h),
+                        DriverRegistrationProgressIndicator(
+                          currentPage: widget.currentPage,
+                          totalPages: widget.totalPages,
                         ),
                       ],
                     ),
-                    SizedBox(height: 16.h),
-                    // Progress indicator
-                    DriverRegistrationProgressIndicator(
-                      currentPage: widget.currentPage,
-                      totalPages: widget.totalPages,
-                    ),
-                  ],
-                ),
-              ),
-
-              // Title
-              Padding(
-                padding: EdgeInsets.only(top: 32.h),
-                child: Text(
-                  widget.title,
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: theme.colorScheme.onSurface,
                   ),
-                ),
-              ),
 
-              SizedBox(height: 32.h),
-
-              // Car Make
-            RichText(
-              text: TextSpan(
-                text: 'Car Make',
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w500,
-                ),
-                children: [
-                  TextSpan(
-                    text: ' *',
-                    style: TextStyle(
-                      color: theme.colorScheme.error,
+                  // Title
+                  Padding(
+                    padding: EdgeInsets.only(top: 32.h),
+                    child: Text(
+                      widget.title,
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: theme.colorScheme.onSurface,
+                      ),
                     ),
                   ),
+
+                  SizedBox(height: 32.h),
+
+                  // Car Make
+                  _buildField(
+                    label: 'Car Make',
+                    isRequired: true,
+                    child: _buildTextField(
+                      controller: _carMakeController,
+                      hintText: 'Eg. "Toyota"',
+                    ),
+                    fieldName: 'carMake',
+                    state: state,
+                  ),
+
+                  // Year of Manufacture
+                  _buildField(
+                    label: 'Year of Manufacture',
+                    isRequired: true,
+                    child: _buildTextField(
+                      controller: _yearOfManufactureController,
+                      hintText: 'Eg. "2020"',
+                      keyboardType: TextInputType.number,
+                    ),
+                    fieldName: 'yearOfManufacture',
+                    state: state,
+                  ),
+
+                  // Car Model
+                  _buildField(
+                    label: 'Car Model',
+                    isRequired: true,
+                    child: _buildTextField(
+                      controller: _carModelController,
+                      hintText: 'Eg. "Corolla"',
+                    ),
+                    fieldName: 'carModel',
+                    state: state,
+                  ),
+
+                  // Plate Number
+                  _buildField(
+                    label: 'Plate Number',
+                    isRequired: true,
+                    child: _buildTextField(
+                      controller: _plateNumberController,
+                      hintText: 'ABC-1234',
+                    ),
+                    fieldName: 'plateNumber',
+                    state: state,
+                  ),
+
+                  // Color
+                  _buildField(
+                    label: 'Color',
+                    isRequired: true,
+                    child: _buildTextField(
+                      controller: _colorController,
+                      hintText: 'Eg. "Red"',
+                    ),
+                    fieldName: 'color',
+                    state: state,
+                  ),
+
+                  // Capacity
+                  _buildField(
+                    label: 'Capacity',
+                    isRequired: true,
+                    child: _buildTextField(
+                      controller: _capacityController,
+                      hintText: 'Eg. 4',
+                      keyboardType: TextInputType.number,
+                    ),
+                    fieldName: 'capacity',
+                    state: state,
+                  ),
+
+                  // Vehicle Type
+                  _buildField(
+                    label: 'Vehicle Type',
+                    isRequired: true,
+                    child: DropdownButtonFormField<String>(
+                      value: state.vehicleType.isValid()
+                          ? state.vehicleType.getOrElse('')
+                          : null,
+                      decoration: InputDecoration(
+                        hintText: 'Select vehicle category',
+                        hintStyle: theme.textTheme.bodyMedium?.copyWith(
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
+                        filled: true,
+                        fillColor: theme.colorScheme.surfaceContainerHighest,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                          borderSide: BorderSide.none,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                          borderSide: BorderSide.none,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                          borderSide: BorderSide.none,
+                        ),
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: 16.w,
+                          vertical: 14.h,
+                        ),
+                        suffixIcon: Icon(
+                          Icons.keyboard_arrow_down,
+                          color: theme.colorScheme.onSurfaceVariant,
+                          size: 24.sp,
+                        ),
+                      ),
+                      style: theme.textTheme.bodyMedium,
+                      items: _vehicleTypes.map((String type) {
+                        return DropdownMenuItem<String>(
+                          value: type,
+                          child: Text(type),
+                        );
+                      }).toList(),
+                      onChanged: (String? newValue) {
+                        if (newValue != null && newValue.isNotEmpty) {
+                          context.read<DriverRegistrationBloc>().add(
+                                DriverRegistrationEvent.vehicleTypeChanged(newValue),
+                              );
+                        }
+                      },
+                    ),
+                    fieldName: 'vehicleType',
+                    state: state,
+                  ),
+
+                  SizedBox(height: 24.h),
+
+                  // Navigation Button
+                  DriverRegistrationButton(
+                    onPressed: () {
+                      context.read<DriverRegistrationBloc>().add(
+                            const DriverRegistrationEvent.nextPage(),
+                          );
+                    },
+                    isLastPage: widget.currentPage == widget.totalPages - 1,
+                  ),
+
+                  SizedBox(height: 24.h),
                 ],
               ),
             ),
-            SizedBox(height: 8.h),
-            TextFormField(
-              controller: _carMakeController,
-              style: theme.textTheme.bodyMedium,
-              decoration: InputDecoration(
-                hintText: 'Eg. "Toyota"',
-                hintStyle: theme.textTheme.bodyMedium?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
-                ),
-                filled: true,
-                fillColor: theme.colorScheme.surfaceContainerHighest,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                  borderSide: BorderSide.none,
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                  borderSide: BorderSide.none,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                  borderSide: BorderSide.none,
-                ),
-                contentPadding: EdgeInsets.symmetric(
-                  horizontal: 16.w,
-                  vertical: 14.h,
-                ),
-              ),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter car make';
-                }
-                return null;
-              },
-            ),
-
-            SizedBox(height: 20.h),
-
-            // Year of Manufacture
-            RichText(
-              text: TextSpan(
-                text: 'Year of Manufacture',
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w500,
-                ),
-                children: [
-                  TextSpan(
-                    text: ' *',
-                    style: TextStyle(
-                      color: theme.colorScheme.error,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 8.h),
-            TextFormField(
-              controller: _yearOfManufactureController,
-              keyboardType: TextInputType.number,
-              style: theme.textTheme.bodyMedium,
-              decoration: InputDecoration(
-                hintText: 'Eg. "2020"',
-                hintStyle: theme.textTheme.bodyMedium?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
-                ),
-                filled: true,
-                fillColor: theme.colorScheme.surfaceContainerHighest,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                  borderSide: BorderSide.none,
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                  borderSide: BorderSide.none,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                  borderSide: BorderSide.none,
-                ),
-                contentPadding: EdgeInsets.symmetric(
-                  horizontal: 16.w,
-                  vertical: 14.h,
-                ),
-              ),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter year of manufacture';
-                }
-                return null;
-              },
-            ),
-
-            SizedBox(height: 20.h),
-
-            // Car Model
-            RichText(
-              text: TextSpan(
-                text: 'Car Model',
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w500,
-                ),
-                children: [
-                  TextSpan(
-                    text: ' *',
-                    style: TextStyle(
-                      color: theme.colorScheme.error,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 8.h),
-            TextFormField(
-              controller: _carModelController,
-              style: theme.textTheme.bodyMedium,
-              decoration: InputDecoration(
-                hintText: 'Eg. "Corolla"',
-                hintStyle: theme.textTheme.bodyMedium?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
-                ),
-                filled: true,
-                fillColor: theme.colorScheme.surfaceContainerHighest,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                  borderSide: BorderSide.none,
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                  borderSide: BorderSide.none,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                  borderSide: BorderSide.none,
-                ),
-                contentPadding: EdgeInsets.symmetric(
-                  horizontal: 16.w,
-                  vertical: 14.h,
-                ),
-              ),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter car model';
-                }
-                return null;
-              },
-            ),
-
-            SizedBox(height: 20.h),
-
-            // Plate Number
-            RichText(
-              text: TextSpan(
-                text: 'Plate Number',
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w500,
-                ),
-                children: [
-                  TextSpan(
-                    text: ' *',
-                    style: TextStyle(
-                      color: theme.colorScheme.error,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 8.h),
-            TextFormField(
-              controller: _plateNumberController,
-              style: theme.textTheme.bodyMedium,
-              decoration: InputDecoration(
-                hintText: 'ABC-1234',
-                hintStyle: theme.textTheme.bodyMedium?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
-                ),
-                filled: true,
-                fillColor: theme.colorScheme.surfaceContainerHighest,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                  borderSide: BorderSide.none,
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                  borderSide: BorderSide.none,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                  borderSide: BorderSide.none,
-                ),
-                contentPadding: EdgeInsets.symmetric(
-                  horizontal: 16.w,
-                  vertical: 14.h,
-                ),
-              ),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter plate number';
-                }
-                return null;
-              },
-            ),
-
-            SizedBox(height: 20.h),
-
-            // Color
-            RichText(
-              text: TextSpan(
-                text: 'Color',
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w500,
-                ),
-                children: [
-                  TextSpan(
-                    text: ' *',
-                    style: TextStyle(
-                      color: theme.colorScheme.error,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 8.h),
-            TextFormField(
-              controller: _colorController,
-              style: theme.textTheme.bodyMedium,
-              decoration: InputDecoration(
-                hintText: 'Eg. "Red"',
-                hintStyle: theme.textTheme.bodyMedium?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
-                ),
-                filled: true,
-                fillColor: theme.colorScheme.surfaceContainerHighest,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                  borderSide: BorderSide.none,
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                  borderSide: BorderSide.none,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                  borderSide: BorderSide.none,
-                ),
-                contentPadding: EdgeInsets.symmetric(
-                  horizontal: 16.w,
-                  vertical: 14.h,
-                ),
-              ),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter color';
-                }
-                return null;
-              },
-            ),
-
-            SizedBox(height: 20.h),
-
-            // Capacity
-            RichText(
-              text: TextSpan(
-                text: 'Capacity',
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w500,
-                ),
-                children: [
-                  TextSpan(
-                    text: ' *',
-                    style: TextStyle(
-                      color: theme.colorScheme.error,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 8.h),
-            TextFormField(
-              controller: _capacityController,
-              keyboardType: TextInputType.number,
-              style: theme.textTheme.bodyMedium,
-              decoration: InputDecoration(
-                hintText: 'Eg. 4',
-                hintStyle: theme.textTheme.bodyMedium?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
-                ),
-                filled: true,
-                fillColor: theme.colorScheme.surfaceContainerHighest,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                  borderSide: BorderSide.none,
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                  borderSide: BorderSide.none,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                  borderSide: BorderSide.none,
-                ),
-                contentPadding: EdgeInsets.symmetric(
-                  horizontal: 16.w,
-                  vertical: 14.h,
-                ),
-              ),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter capacity';
-                }
-                return null;
-              },
-            ),
-
-            SizedBox(height: 20.h),
-
-            // Vehicle Type
-            RichText(
-              text: TextSpan(
-                text: 'Vehicle Type',
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w500,
-                ),
-                children: [
-                  TextSpan(
-                    text: ' *',
-                    style: TextStyle(
-                      color: theme.colorScheme.error,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 8.h),
-            DropdownButtonFormField<String>(
-              value: widget.formData.vehicleType,
-              decoration: InputDecoration(
-                hintText: 'Select vehicle category',
-                hintStyle: theme.textTheme.bodyMedium?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
-                ),
-                filled: true,
-                fillColor: theme.colorScheme.surfaceContainerHighest,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                  borderSide: BorderSide.none,
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                  borderSide: BorderSide.none,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                  borderSide: BorderSide.none,
-                ),
-                contentPadding: EdgeInsets.symmetric(
-                  horizontal: 16.w,
-                  vertical: 14.h,
-                ),
-                suffixIcon: Icon(
-                  Icons.keyboard_arrow_down,
-                  color: theme.colorScheme.onSurfaceVariant,
-                  size: 24.sp,
-                ),
-              ),
-              style: theme.textTheme.bodyMedium,
-              items: _vehicleTypes.map((String type) {
-                return DropdownMenuItem<String>(
-                  value: type,
-                  child: Text(type),
-                );
-              }).toList(),
-              onChanged: (String? newValue) {
-                setState(() {
-                  widget.formData.vehicleType = newValue;
-                });
-              },
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please select vehicle type';
-                }
-                return null;
-              },
-            ),
-
-              SizedBox(height: 24.h),
-
-              // Navigation Button
-              DriverRegistrationButton(
-                onPressed: widget.onNextPressed,
-                isLastPage: widget.currentPage == widget.totalPages - 1,
-              ),
-
-              SizedBox(height: 24.h),
-            ],
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

@@ -38,3 +38,99 @@ class FullName extends AbstractValueObject<String> {
   @override
   final Either<ValueFailure<String>, String> value;
 }
+
+class FinNumber extends AbstractValueObject<String> {
+  factory FinNumber(String input) {
+    return FinNumber._(
+      validateFinNumber(input),
+    );
+  }
+
+  const FinNumber._(this.value);
+  @override
+  final Either<ValueFailure<String>, String> value;
+}
+
+class CarMake extends AbstractValueObject<String> {
+  factory CarMake(String input) {
+    return CarMake._(
+      validateCarMake(input),
+    );
+  }
+
+  const CarMake._(this.value);
+  @override
+  final Either<ValueFailure<String>, String> value;
+}
+
+class CarModel extends AbstractValueObject<String> {
+  factory CarModel(String input) {
+    return CarModel._(
+      validateCarModel(input),
+    );
+  }
+
+  const CarModel._(this.value);
+  @override
+  final Either<ValueFailure<String>, String> value;
+}
+
+class PlateNumber extends AbstractValueObject<String> {
+  factory PlateNumber(String input) {
+    return PlateNumber._(
+      validatePlateNumber(input),
+    );
+  }
+
+  const PlateNumber._(this.value);
+  @override
+  final Either<ValueFailure<String>, String> value;
+}
+
+class VehicleColor extends AbstractValueObject<String> {
+  factory VehicleColor(String input) {
+    return VehicleColor._(
+      validateColor(input),
+    );
+  }
+
+  const VehicleColor._(this.value);
+  @override
+  final Either<ValueFailure<String>, String> value;
+}
+
+class VehicleType extends AbstractValueObject<String> {
+  factory VehicleType(String input) {
+    return VehicleType._(
+      validateVehicleType(input),
+    );
+  }
+
+  const VehicleType._(this.value);
+  @override
+  final Either<ValueFailure<String>, String> value;
+}
+
+class YearOfManufacture extends AbstractValueObject<int> {
+  factory YearOfManufacture(int input) {
+    return YearOfManufacture._(
+      validateYearOfManufacture(input),
+    );
+  }
+
+  const YearOfManufacture._(this.value);
+  @override
+  final Either<ValueFailure<int>, int> value;
+}
+
+class VehicleCapacity extends AbstractValueObject<int> {
+  factory VehicleCapacity(int input) {
+    return VehicleCapacity._(
+      validateCapacity(input),
+    );
+  }
+
+  const VehicleCapacity._(this.value);
+  @override
+  final Either<ValueFailure<int>, int> value;
+}

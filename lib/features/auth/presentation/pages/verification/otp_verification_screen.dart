@@ -94,12 +94,12 @@ class OTPVerificationView extends StatelessWidget {
 
                   if (hasDriverRole) {
                     // User is a driver, route to home/onboarding
-                    final isDoneOnboarding = LocalStorage.instance.getIsDoneOnboarding();
+                  final isDoneOnboarding = LocalStorage.instance.getIsDoneOnboarding();
                     dev.log('🚗 OTP Verification: User is a DRIVER');
                     dev.log('   Onboarding Done: $isDoneOnboarding');
-                    if (!isDoneOnboarding) {
+                  if (!isDoneOnboarding) {
                       dev.log('   → Routing to: Onboarding');
-                      context.goNamed(RouteName.onboarding);
+                    context.goNamed(RouteName.onboarding);
                     } else {
                       dev.log('   → Routing to: Driver Home');
                       context.goNamed(RouteName.driverHome);
@@ -135,7 +135,7 @@ class OTPVerificationView extends StatelessWidget {
                     state.errorMessage.toLowerCase().contains('network')) {
                   AppHelpers.showNoConnectionSnackBar(context, message: state.errorMessage);
                 } else {
-                  AppHelpers.showErrorFlash(context, state.errorMessage);
+                AppHelpers.showErrorFlash(context, state.errorMessage);
                 }
               }
             },

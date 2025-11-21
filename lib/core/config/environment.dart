@@ -24,7 +24,7 @@ class AppEnvironment {
   /// Development environment configuration
   static const AppEnvironment development = AppEnvironment(
     environment: Environment.development,
-    baseUrl: 'https://091f1c8186e6.ngrok-free.app',
+    baseUrl: 'https://bbac4812e63f.ngrok-free.app',
     appName: 'nest_driver dev',
     enableLogging: true,
     enableCrashReporting: false,

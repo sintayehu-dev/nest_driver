@@ -23,6 +23,14 @@ mixin _$ValueFailure<T> {
     required TResult Function(T failedValue) invalidEmail,
     required TResult Function(T failedValue) invalidFullName,
     required TResult Function(T failedValue) invalidPhoneNumber,
+    required TResult Function(T failedValue) invalidFinNumber,
+    required TResult Function(T failedValue) invalidCarMake,
+    required TResult Function(T failedValue) invalidCarModel,
+    required TResult Function(T failedValue) invalidPlateNumber,
+    required TResult Function(T failedValue) invalidColor,
+    required TResult Function(T failedValue) invalidVehicleType,
+    required TResult Function(T failedValue) invalidYear,
+    required TResult Function(T failedValue) invalidCapacity,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -31,6 +39,14 @@ mixin _$ValueFailure<T> {
     TResult? Function(T failedValue)? invalidEmail,
     TResult? Function(T failedValue)? invalidFullName,
     TResult? Function(T failedValue)? invalidPhoneNumber,
+    TResult? Function(T failedValue)? invalidFinNumber,
+    TResult? Function(T failedValue)? invalidCarMake,
+    TResult? Function(T failedValue)? invalidCarModel,
+    TResult? Function(T failedValue)? invalidPlateNumber,
+    TResult? Function(T failedValue)? invalidColor,
+    TResult? Function(T failedValue)? invalidVehicleType,
+    TResult? Function(T failedValue)? invalidYear,
+    TResult? Function(T failedValue)? invalidCapacity,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -39,6 +55,14 @@ mixin _$ValueFailure<T> {
     TResult Function(T failedValue)? invalidEmail,
     TResult Function(T failedValue)? invalidFullName,
     TResult Function(T failedValue)? invalidPhoneNumber,
+    TResult Function(T failedValue)? invalidFinNumber,
+    TResult Function(T failedValue)? invalidCarMake,
+    TResult Function(T failedValue)? invalidCarModel,
+    TResult Function(T failedValue)? invalidPlateNumber,
+    TResult Function(T failedValue)? invalidColor,
+    TResult Function(T failedValue)? invalidVehicleType,
+    TResult Function(T failedValue)? invalidYear,
+    TResult Function(T failedValue)? invalidCapacity,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -48,6 +72,14 @@ mixin _$ValueFailure<T> {
     required TResult Function(InvalidEmail<T> value) invalidEmail,
     required TResult Function(InvalidFullName<T> value) invalidFullName,
     required TResult Function(InvalidPhoneNumber<T> value) invalidPhoneNumber,
+    required TResult Function(InvalidFinNumber<T> value) invalidFinNumber,
+    required TResult Function(InvalidCarMake<T> value) invalidCarMake,
+    required TResult Function(InvalidCarModel<T> value) invalidCarModel,
+    required TResult Function(InvalidPlateNumber<T> value) invalidPlateNumber,
+    required TResult Function(InvalidColor<T> value) invalidColor,
+    required TResult Function(InvalidVehicleType<T> value) invalidVehicleType,
+    required TResult Function(InvalidYear<T> value) invalidYear,
+    required TResult Function(InvalidCapacity<T> value) invalidCapacity,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -56,6 +88,14 @@ mixin _$ValueFailure<T> {
     TResult? Function(InvalidEmail<T> value)? invalidEmail,
     TResult? Function(InvalidFullName<T> value)? invalidFullName,
     TResult? Function(InvalidPhoneNumber<T> value)? invalidPhoneNumber,
+    TResult? Function(InvalidFinNumber<T> value)? invalidFinNumber,
+    TResult? Function(InvalidCarMake<T> value)? invalidCarMake,
+    TResult? Function(InvalidCarModel<T> value)? invalidCarModel,
+    TResult? Function(InvalidPlateNumber<T> value)? invalidPlateNumber,
+    TResult? Function(InvalidColor<T> value)? invalidColor,
+    TResult? Function(InvalidVehicleType<T> value)? invalidVehicleType,
+    TResult? Function(InvalidYear<T> value)? invalidYear,
+    TResult? Function(InvalidCapacity<T> value)? invalidCapacity,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -64,6 +104,14 @@ mixin _$ValueFailure<T> {
     TResult Function(InvalidEmail<T> value)? invalidEmail,
     TResult Function(InvalidFullName<T> value)? invalidFullName,
     TResult Function(InvalidPhoneNumber<T> value)? invalidPhoneNumber,
+    TResult Function(InvalidFinNumber<T> value)? invalidFinNumber,
+    TResult Function(InvalidCarMake<T> value)? invalidCarMake,
+    TResult Function(InvalidCarModel<T> value)? invalidCarModel,
+    TResult Function(InvalidPlateNumber<T> value)? invalidPlateNumber,
+    TResult Function(InvalidColor<T> value)? invalidColor,
+    TResult Function(InvalidVehicleType<T> value)? invalidVehicleType,
+    TResult Function(InvalidYear<T> value)? invalidYear,
+    TResult Function(InvalidCapacity<T> value)? invalidCapacity,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -194,6 +242,14 @@ class _$EmptyImpl<T> with DiagnosticableTreeMixin implements Empty<T> {
     required TResult Function(T failedValue) invalidEmail,
     required TResult Function(T failedValue) invalidFullName,
     required TResult Function(T failedValue) invalidPhoneNumber,
+    required TResult Function(T failedValue) invalidFinNumber,
+    required TResult Function(T failedValue) invalidCarMake,
+    required TResult Function(T failedValue) invalidCarModel,
+    required TResult Function(T failedValue) invalidPlateNumber,
+    required TResult Function(T failedValue) invalidColor,
+    required TResult Function(T failedValue) invalidVehicleType,
+    required TResult Function(T failedValue) invalidYear,
+    required TResult Function(T failedValue) invalidCapacity,
   }) {
     return empty(failedValue);
   }
@@ -205,6 +261,14 @@ class _$EmptyImpl<T> with DiagnosticableTreeMixin implements Empty<T> {
     TResult? Function(T failedValue)? invalidEmail,
     TResult? Function(T failedValue)? invalidFullName,
     TResult? Function(T failedValue)? invalidPhoneNumber,
+    TResult? Function(T failedValue)? invalidFinNumber,
+    TResult? Function(T failedValue)? invalidCarMake,
+    TResult? Function(T failedValue)? invalidCarModel,
+    TResult? Function(T failedValue)? invalidPlateNumber,
+    TResult? Function(T failedValue)? invalidColor,
+    TResult? Function(T failedValue)? invalidVehicleType,
+    TResult? Function(T failedValue)? invalidYear,
+    TResult? Function(T failedValue)? invalidCapacity,
   }) {
     return empty?.call(failedValue);
   }
@@ -216,6 +280,14 @@ class _$EmptyImpl<T> with DiagnosticableTreeMixin implements Empty<T> {
     TResult Function(T failedValue)? invalidEmail,
     TResult Function(T failedValue)? invalidFullName,
     TResult Function(T failedValue)? invalidPhoneNumber,
+    TResult Function(T failedValue)? invalidFinNumber,
+    TResult Function(T failedValue)? invalidCarMake,
+    TResult Function(T failedValue)? invalidCarModel,
+    TResult Function(T failedValue)? invalidPlateNumber,
+    TResult Function(T failedValue)? invalidColor,
+    TResult Function(T failedValue)? invalidVehicleType,
+    TResult Function(T failedValue)? invalidYear,
+    TResult Function(T failedValue)? invalidCapacity,
     required TResult orElse(),
   }) {
     if (empty != null) {
@@ -231,6 +303,14 @@ class _$EmptyImpl<T> with DiagnosticableTreeMixin implements Empty<T> {
     required TResult Function(InvalidEmail<T> value) invalidEmail,
     required TResult Function(InvalidFullName<T> value) invalidFullName,
     required TResult Function(InvalidPhoneNumber<T> value) invalidPhoneNumber,
+    required TResult Function(InvalidFinNumber<T> value) invalidFinNumber,
+    required TResult Function(InvalidCarMake<T> value) invalidCarMake,
+    required TResult Function(InvalidCarModel<T> value) invalidCarModel,
+    required TResult Function(InvalidPlateNumber<T> value) invalidPlateNumber,
+    required TResult Function(InvalidColor<T> value) invalidColor,
+    required TResult Function(InvalidVehicleType<T> value) invalidVehicleType,
+    required TResult Function(InvalidYear<T> value) invalidYear,
+    required TResult Function(InvalidCapacity<T> value) invalidCapacity,
   }) {
     return empty(this);
   }
@@ -242,6 +322,14 @@ class _$EmptyImpl<T> with DiagnosticableTreeMixin implements Empty<T> {
     TResult? Function(InvalidEmail<T> value)? invalidEmail,
     TResult? Function(InvalidFullName<T> value)? invalidFullName,
     TResult? Function(InvalidPhoneNumber<T> value)? invalidPhoneNumber,
+    TResult? Function(InvalidFinNumber<T> value)? invalidFinNumber,
+    TResult? Function(InvalidCarMake<T> value)? invalidCarMake,
+    TResult? Function(InvalidCarModel<T> value)? invalidCarModel,
+    TResult? Function(InvalidPlateNumber<T> value)? invalidPlateNumber,
+    TResult? Function(InvalidColor<T> value)? invalidColor,
+    TResult? Function(InvalidVehicleType<T> value)? invalidVehicleType,
+    TResult? Function(InvalidYear<T> value)? invalidYear,
+    TResult? Function(InvalidCapacity<T> value)? invalidCapacity,
   }) {
     return empty?.call(this);
   }
@@ -253,6 +341,14 @@ class _$EmptyImpl<T> with DiagnosticableTreeMixin implements Empty<T> {
     TResult Function(InvalidEmail<T> value)? invalidEmail,
     TResult Function(InvalidFullName<T> value)? invalidFullName,
     TResult Function(InvalidPhoneNumber<T> value)? invalidPhoneNumber,
+    TResult Function(InvalidFinNumber<T> value)? invalidFinNumber,
+    TResult Function(InvalidCarMake<T> value)? invalidCarMake,
+    TResult Function(InvalidCarModel<T> value)? invalidCarModel,
+    TResult Function(InvalidPlateNumber<T> value)? invalidPlateNumber,
+    TResult Function(InvalidColor<T> value)? invalidColor,
+    TResult Function(InvalidVehicleType<T> value)? invalidVehicleType,
+    TResult Function(InvalidYear<T> value)? invalidYear,
+    TResult Function(InvalidCapacity<T> value)? invalidCapacity,
     required TResult orElse(),
   }) {
     if (empty != null) {
@@ -363,6 +459,14 @@ class _$InvalidEmailImpl<T>
     required TResult Function(T failedValue) invalidEmail,
     required TResult Function(T failedValue) invalidFullName,
     required TResult Function(T failedValue) invalidPhoneNumber,
+    required TResult Function(T failedValue) invalidFinNumber,
+    required TResult Function(T failedValue) invalidCarMake,
+    required TResult Function(T failedValue) invalidCarModel,
+    required TResult Function(T failedValue) invalidPlateNumber,
+    required TResult Function(T failedValue) invalidColor,
+    required TResult Function(T failedValue) invalidVehicleType,
+    required TResult Function(T failedValue) invalidYear,
+    required TResult Function(T failedValue) invalidCapacity,
   }) {
     return invalidEmail(failedValue);
   }
@@ -374,6 +478,14 @@ class _$InvalidEmailImpl<T>
     TResult? Function(T failedValue)? invalidEmail,
     TResult? Function(T failedValue)? invalidFullName,
     TResult? Function(T failedValue)? invalidPhoneNumber,
+    TResult? Function(T failedValue)? invalidFinNumber,
+    TResult? Function(T failedValue)? invalidCarMake,
+    TResult? Function(T failedValue)? invalidCarModel,
+    TResult? Function(T failedValue)? invalidPlateNumber,
+    TResult? Function(T failedValue)? invalidColor,
+    TResult? Function(T failedValue)? invalidVehicleType,
+    TResult? Function(T failedValue)? invalidYear,
+    TResult? Function(T failedValue)? invalidCapacity,
   }) {
     return invalidEmail?.call(failedValue);
   }
@@ -385,6 +497,14 @@ class _$InvalidEmailImpl<T>
     TResult Function(T failedValue)? invalidEmail,
     TResult Function(T failedValue)? invalidFullName,
     TResult Function(T failedValue)? invalidPhoneNumber,
+    TResult Function(T failedValue)? invalidFinNumber,
+    TResult Function(T failedValue)? invalidCarMake,
+    TResult Function(T failedValue)? invalidCarModel,
+    TResult Function(T failedValue)? invalidPlateNumber,
+    TResult Function(T failedValue)? invalidColor,
+    TResult Function(T failedValue)? invalidVehicleType,
+    TResult Function(T failedValue)? invalidYear,
+    TResult Function(T failedValue)? invalidCapacity,
     required TResult orElse(),
   }) {
     if (invalidEmail != null) {
@@ -400,6 +520,14 @@ class _$InvalidEmailImpl<T>
     required TResult Function(InvalidEmail<T> value) invalidEmail,
     required TResult Function(InvalidFullName<T> value) invalidFullName,
     required TResult Function(InvalidPhoneNumber<T> value) invalidPhoneNumber,
+    required TResult Function(InvalidFinNumber<T> value) invalidFinNumber,
+    required TResult Function(InvalidCarMake<T> value) invalidCarMake,
+    required TResult Function(InvalidCarModel<T> value) invalidCarModel,
+    required TResult Function(InvalidPlateNumber<T> value) invalidPlateNumber,
+    required TResult Function(InvalidColor<T> value) invalidColor,
+    required TResult Function(InvalidVehicleType<T> value) invalidVehicleType,
+    required TResult Function(InvalidYear<T> value) invalidYear,
+    required TResult Function(InvalidCapacity<T> value) invalidCapacity,
   }) {
     return invalidEmail(this);
   }
@@ -411,6 +539,14 @@ class _$InvalidEmailImpl<T>
     TResult? Function(InvalidEmail<T> value)? invalidEmail,
     TResult? Function(InvalidFullName<T> value)? invalidFullName,
     TResult? Function(InvalidPhoneNumber<T> value)? invalidPhoneNumber,
+    TResult? Function(InvalidFinNumber<T> value)? invalidFinNumber,
+    TResult? Function(InvalidCarMake<T> value)? invalidCarMake,
+    TResult? Function(InvalidCarModel<T> value)? invalidCarModel,
+    TResult? Function(InvalidPlateNumber<T> value)? invalidPlateNumber,
+    TResult? Function(InvalidColor<T> value)? invalidColor,
+    TResult? Function(InvalidVehicleType<T> value)? invalidVehicleType,
+    TResult? Function(InvalidYear<T> value)? invalidYear,
+    TResult? Function(InvalidCapacity<T> value)? invalidCapacity,
   }) {
     return invalidEmail?.call(this);
   }
@@ -422,6 +558,14 @@ class _$InvalidEmailImpl<T>
     TResult Function(InvalidEmail<T> value)? invalidEmail,
     TResult Function(InvalidFullName<T> value)? invalidFullName,
     TResult Function(InvalidPhoneNumber<T> value)? invalidPhoneNumber,
+    TResult Function(InvalidFinNumber<T> value)? invalidFinNumber,
+    TResult Function(InvalidCarMake<T> value)? invalidCarMake,
+    TResult Function(InvalidCarModel<T> value)? invalidCarModel,
+    TResult Function(InvalidPlateNumber<T> value)? invalidPlateNumber,
+    TResult Function(InvalidColor<T> value)? invalidColor,
+    TResult Function(InvalidVehicleType<T> value)? invalidVehicleType,
+    TResult Function(InvalidYear<T> value)? invalidYear,
+    TResult Function(InvalidCapacity<T> value)? invalidCapacity,
     required TResult orElse(),
   }) {
     if (invalidEmail != null) {
@@ -533,6 +677,14 @@ class _$InvalidFullNameImpl<T>
     required TResult Function(T failedValue) invalidEmail,
     required TResult Function(T failedValue) invalidFullName,
     required TResult Function(T failedValue) invalidPhoneNumber,
+    required TResult Function(T failedValue) invalidFinNumber,
+    required TResult Function(T failedValue) invalidCarMake,
+    required TResult Function(T failedValue) invalidCarModel,
+    required TResult Function(T failedValue) invalidPlateNumber,
+    required TResult Function(T failedValue) invalidColor,
+    required TResult Function(T failedValue) invalidVehicleType,
+    required TResult Function(T failedValue) invalidYear,
+    required TResult Function(T failedValue) invalidCapacity,
   }) {
     return invalidFullName(failedValue);
   }
@@ -544,6 +696,14 @@ class _$InvalidFullNameImpl<T>
     TResult? Function(T failedValue)? invalidEmail,
     TResult? Function(T failedValue)? invalidFullName,
     TResult? Function(T failedValue)? invalidPhoneNumber,
+    TResult? Function(T failedValue)? invalidFinNumber,
+    TResult? Function(T failedValue)? invalidCarMake,
+    TResult? Function(T failedValue)? invalidCarModel,
+    TResult? Function(T failedValue)? invalidPlateNumber,
+    TResult? Function(T failedValue)? invalidColor,
+    TResult? Function(T failedValue)? invalidVehicleType,
+    TResult? Function(T failedValue)? invalidYear,
+    TResult? Function(T failedValue)? invalidCapacity,
   }) {
     return invalidFullName?.call(failedValue);
   }
@@ -555,6 +715,14 @@ class _$InvalidFullNameImpl<T>
     TResult Function(T failedValue)? invalidEmail,
     TResult Function(T failedValue)? invalidFullName,
     TResult Function(T failedValue)? invalidPhoneNumber,
+    TResult Function(T failedValue)? invalidFinNumber,
+    TResult Function(T failedValue)? invalidCarMake,
+    TResult Function(T failedValue)? invalidCarModel,
+    TResult Function(T failedValue)? invalidPlateNumber,
+    TResult Function(T failedValue)? invalidColor,
+    TResult Function(T failedValue)? invalidVehicleType,
+    TResult Function(T failedValue)? invalidYear,
+    TResult Function(T failedValue)? invalidCapacity,
     required TResult orElse(),
   }) {
     if (invalidFullName != null) {
@@ -570,6 +738,14 @@ class _$InvalidFullNameImpl<T>
     required TResult Function(InvalidEmail<T> value) invalidEmail,
     required TResult Function(InvalidFullName<T> value) invalidFullName,
     required TResult Function(InvalidPhoneNumber<T> value) invalidPhoneNumber,
+    required TResult Function(InvalidFinNumber<T> value) invalidFinNumber,
+    required TResult Function(InvalidCarMake<T> value) invalidCarMake,
+    required TResult Function(InvalidCarModel<T> value) invalidCarModel,
+    required TResult Function(InvalidPlateNumber<T> value) invalidPlateNumber,
+    required TResult Function(InvalidColor<T> value) invalidColor,
+    required TResult Function(InvalidVehicleType<T> value) invalidVehicleType,
+    required TResult Function(InvalidYear<T> value) invalidYear,
+    required TResult Function(InvalidCapacity<T> value) invalidCapacity,
   }) {
     return invalidFullName(this);
   }
@@ -581,6 +757,14 @@ class _$InvalidFullNameImpl<T>
     TResult? Function(InvalidEmail<T> value)? invalidEmail,
     TResult? Function(InvalidFullName<T> value)? invalidFullName,
     TResult? Function(InvalidPhoneNumber<T> value)? invalidPhoneNumber,
+    TResult? Function(InvalidFinNumber<T> value)? invalidFinNumber,
+    TResult? Function(InvalidCarMake<T> value)? invalidCarMake,
+    TResult? Function(InvalidCarModel<T> value)? invalidCarModel,
+    TResult? Function(InvalidPlateNumber<T> value)? invalidPlateNumber,
+    TResult? Function(InvalidColor<T> value)? invalidColor,
+    TResult? Function(InvalidVehicleType<T> value)? invalidVehicleType,
+    TResult? Function(InvalidYear<T> value)? invalidYear,
+    TResult? Function(InvalidCapacity<T> value)? invalidCapacity,
   }) {
     return invalidFullName?.call(this);
   }
@@ -592,6 +776,14 @@ class _$InvalidFullNameImpl<T>
     TResult Function(InvalidEmail<T> value)? invalidEmail,
     TResult Function(InvalidFullName<T> value)? invalidFullName,
     TResult Function(InvalidPhoneNumber<T> value)? invalidPhoneNumber,
+    TResult Function(InvalidFinNumber<T> value)? invalidFinNumber,
+    TResult Function(InvalidCarMake<T> value)? invalidCarMake,
+    TResult Function(InvalidCarModel<T> value)? invalidCarModel,
+    TResult Function(InvalidPlateNumber<T> value)? invalidPlateNumber,
+    TResult Function(InvalidColor<T> value)? invalidColor,
+    TResult Function(InvalidVehicleType<T> value)? invalidVehicleType,
+    TResult Function(InvalidYear<T> value)? invalidYear,
+    TResult Function(InvalidCapacity<T> value)? invalidCapacity,
     required TResult orElse(),
   }) {
     if (invalidFullName != null) {
@@ -703,6 +895,14 @@ class _$InvalidPhoneNumberImpl<T>
     required TResult Function(T failedValue) invalidEmail,
     required TResult Function(T failedValue) invalidFullName,
     required TResult Function(T failedValue) invalidPhoneNumber,
+    required TResult Function(T failedValue) invalidFinNumber,
+    required TResult Function(T failedValue) invalidCarMake,
+    required TResult Function(T failedValue) invalidCarModel,
+    required TResult Function(T failedValue) invalidPlateNumber,
+    required TResult Function(T failedValue) invalidColor,
+    required TResult Function(T failedValue) invalidVehicleType,
+    required TResult Function(T failedValue) invalidYear,
+    required TResult Function(T failedValue) invalidCapacity,
   }) {
     return invalidPhoneNumber(failedValue);
   }
@@ -714,6 +914,14 @@ class _$InvalidPhoneNumberImpl<T>
     TResult? Function(T failedValue)? invalidEmail,
     TResult? Function(T failedValue)? invalidFullName,
     TResult? Function(T failedValue)? invalidPhoneNumber,
+    TResult? Function(T failedValue)? invalidFinNumber,
+    TResult? Function(T failedValue)? invalidCarMake,
+    TResult? Function(T failedValue)? invalidCarModel,
+    TResult? Function(T failedValue)? invalidPlateNumber,
+    TResult? Function(T failedValue)? invalidColor,
+    TResult? Function(T failedValue)? invalidVehicleType,
+    TResult? Function(T failedValue)? invalidYear,
+    TResult? Function(T failedValue)? invalidCapacity,
   }) {
     return invalidPhoneNumber?.call(failedValue);
   }
@@ -725,6 +933,14 @@ class _$InvalidPhoneNumberImpl<T>
     TResult Function(T failedValue)? invalidEmail,
     TResult Function(T failedValue)? invalidFullName,
     TResult Function(T failedValue)? invalidPhoneNumber,
+    TResult Function(T failedValue)? invalidFinNumber,
+    TResult Function(T failedValue)? invalidCarMake,
+    TResult Function(T failedValue)? invalidCarModel,
+    TResult Function(T failedValue)? invalidPlateNumber,
+    TResult Function(T failedValue)? invalidColor,
+    TResult Function(T failedValue)? invalidVehicleType,
+    TResult Function(T failedValue)? invalidYear,
+    TResult Function(T failedValue)? invalidCapacity,
     required TResult orElse(),
   }) {
     if (invalidPhoneNumber != null) {
@@ -740,6 +956,14 @@ class _$InvalidPhoneNumberImpl<T>
     required TResult Function(InvalidEmail<T> value) invalidEmail,
     required TResult Function(InvalidFullName<T> value) invalidFullName,
     required TResult Function(InvalidPhoneNumber<T> value) invalidPhoneNumber,
+    required TResult Function(InvalidFinNumber<T> value) invalidFinNumber,
+    required TResult Function(InvalidCarMake<T> value) invalidCarMake,
+    required TResult Function(InvalidCarModel<T> value) invalidCarModel,
+    required TResult Function(InvalidPlateNumber<T> value) invalidPlateNumber,
+    required TResult Function(InvalidColor<T> value) invalidColor,
+    required TResult Function(InvalidVehicleType<T> value) invalidVehicleType,
+    required TResult Function(InvalidYear<T> value) invalidYear,
+    required TResult Function(InvalidCapacity<T> value) invalidCapacity,
   }) {
     return invalidPhoneNumber(this);
   }
@@ -751,6 +975,14 @@ class _$InvalidPhoneNumberImpl<T>
     TResult? Function(InvalidEmail<T> value)? invalidEmail,
     TResult? Function(InvalidFullName<T> value)? invalidFullName,
     TResult? Function(InvalidPhoneNumber<T> value)? invalidPhoneNumber,
+    TResult? Function(InvalidFinNumber<T> value)? invalidFinNumber,
+    TResult? Function(InvalidCarMake<T> value)? invalidCarMake,
+    TResult? Function(InvalidCarModel<T> value)? invalidCarModel,
+    TResult? Function(InvalidPlateNumber<T> value)? invalidPlateNumber,
+    TResult? Function(InvalidColor<T> value)? invalidColor,
+    TResult? Function(InvalidVehicleType<T> value)? invalidVehicleType,
+    TResult? Function(InvalidYear<T> value)? invalidYear,
+    TResult? Function(InvalidCapacity<T> value)? invalidCapacity,
   }) {
     return invalidPhoneNumber?.call(this);
   }
@@ -762,6 +994,14 @@ class _$InvalidPhoneNumberImpl<T>
     TResult Function(InvalidEmail<T> value)? invalidEmail,
     TResult Function(InvalidFullName<T> value)? invalidFullName,
     TResult Function(InvalidPhoneNumber<T> value)? invalidPhoneNumber,
+    TResult Function(InvalidFinNumber<T> value)? invalidFinNumber,
+    TResult Function(InvalidCarMake<T> value)? invalidCarMake,
+    TResult Function(InvalidCarModel<T> value)? invalidCarModel,
+    TResult Function(InvalidPlateNumber<T> value)? invalidPlateNumber,
+    TResult Function(InvalidColor<T> value)? invalidColor,
+    TResult Function(InvalidVehicleType<T> value)? invalidVehicleType,
+    TResult Function(InvalidYear<T> value)? invalidYear,
+    TResult Function(InvalidCapacity<T> value)? invalidCapacity,
     required TResult orElse(),
   }) {
     if (invalidPhoneNumber != null) {
@@ -784,4 +1024,1748 @@ abstract class InvalidPhoneNumber<T> implements ValueFailure<T> {
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$InvalidPhoneNumberImplCopyWith<T, _$InvalidPhoneNumberImpl<T>>
       get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$InvalidFinNumberImplCopyWith<T, $Res>
+    implements $ValueFailureCopyWith<T, $Res> {
+  factory _$$InvalidFinNumberImplCopyWith(_$InvalidFinNumberImpl<T> value,
+          $Res Function(_$InvalidFinNumberImpl<T>) then) =
+      __$$InvalidFinNumberImplCopyWithImpl<T, $Res>;
+  @override
+  @useResult
+  $Res call({T failedValue});
+}
+
+/// @nodoc
+class __$$InvalidFinNumberImplCopyWithImpl<T, $Res>
+    extends _$ValueFailureCopyWithImpl<T, $Res, _$InvalidFinNumberImpl<T>>
+    implements _$$InvalidFinNumberImplCopyWith<T, $Res> {
+  __$$InvalidFinNumberImplCopyWithImpl(_$InvalidFinNumberImpl<T> _value,
+      $Res Function(_$InvalidFinNumberImpl<T>) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ValueFailure
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? failedValue = freezed,
+  }) {
+    return _then(_$InvalidFinNumberImpl<T>(
+      failedValue: freezed == failedValue
+          ? _value.failedValue
+          : failedValue // ignore: cast_nullable_to_non_nullable
+              as T,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$InvalidFinNumberImpl<T>
+    with DiagnosticableTreeMixin
+    implements InvalidFinNumber<T> {
+  const _$InvalidFinNumberImpl({required this.failedValue});
+
+  @override
+  final T failedValue;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ValueFailure<$T>.invalidFinNumber(failedValue: $failedValue)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'ValueFailure<$T>.invalidFinNumber'))
+      ..add(DiagnosticsProperty('failedValue', failedValue));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$InvalidFinNumberImpl<T> &&
+            const DeepCollectionEquality()
+                .equals(other.failedValue, failedValue));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(failedValue));
+
+  /// Create a copy of ValueFailure
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$InvalidFinNumberImplCopyWith<T, _$InvalidFinNumberImpl<T>> get copyWith =>
+      __$$InvalidFinNumberImplCopyWithImpl<T, _$InvalidFinNumberImpl<T>>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(T failedValue) empty,
+    required TResult Function(T failedValue) invalidEmail,
+    required TResult Function(T failedValue) invalidFullName,
+    required TResult Function(T failedValue) invalidPhoneNumber,
+    required TResult Function(T failedValue) invalidFinNumber,
+    required TResult Function(T failedValue) invalidCarMake,
+    required TResult Function(T failedValue) invalidCarModel,
+    required TResult Function(T failedValue) invalidPlateNumber,
+    required TResult Function(T failedValue) invalidColor,
+    required TResult Function(T failedValue) invalidVehicleType,
+    required TResult Function(T failedValue) invalidYear,
+    required TResult Function(T failedValue) invalidCapacity,
+  }) {
+    return invalidFinNumber(failedValue);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(T failedValue)? empty,
+    TResult? Function(T failedValue)? invalidEmail,
+    TResult? Function(T failedValue)? invalidFullName,
+    TResult? Function(T failedValue)? invalidPhoneNumber,
+    TResult? Function(T failedValue)? invalidFinNumber,
+    TResult? Function(T failedValue)? invalidCarMake,
+    TResult? Function(T failedValue)? invalidCarModel,
+    TResult? Function(T failedValue)? invalidPlateNumber,
+    TResult? Function(T failedValue)? invalidColor,
+    TResult? Function(T failedValue)? invalidVehicleType,
+    TResult? Function(T failedValue)? invalidYear,
+    TResult? Function(T failedValue)? invalidCapacity,
+  }) {
+    return invalidFinNumber?.call(failedValue);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(T failedValue)? empty,
+    TResult Function(T failedValue)? invalidEmail,
+    TResult Function(T failedValue)? invalidFullName,
+    TResult Function(T failedValue)? invalidPhoneNumber,
+    TResult Function(T failedValue)? invalidFinNumber,
+    TResult Function(T failedValue)? invalidCarMake,
+    TResult Function(T failedValue)? invalidCarModel,
+    TResult Function(T failedValue)? invalidPlateNumber,
+    TResult Function(T failedValue)? invalidColor,
+    TResult Function(T failedValue)? invalidVehicleType,
+    TResult Function(T failedValue)? invalidYear,
+    TResult Function(T failedValue)? invalidCapacity,
+    required TResult orElse(),
+  }) {
+    if (invalidFinNumber != null) {
+      return invalidFinNumber(failedValue);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Empty<T> value) empty,
+    required TResult Function(InvalidEmail<T> value) invalidEmail,
+    required TResult Function(InvalidFullName<T> value) invalidFullName,
+    required TResult Function(InvalidPhoneNumber<T> value) invalidPhoneNumber,
+    required TResult Function(InvalidFinNumber<T> value) invalidFinNumber,
+    required TResult Function(InvalidCarMake<T> value) invalidCarMake,
+    required TResult Function(InvalidCarModel<T> value) invalidCarModel,
+    required TResult Function(InvalidPlateNumber<T> value) invalidPlateNumber,
+    required TResult Function(InvalidColor<T> value) invalidColor,
+    required TResult Function(InvalidVehicleType<T> value) invalidVehicleType,
+    required TResult Function(InvalidYear<T> value) invalidYear,
+    required TResult Function(InvalidCapacity<T> value) invalidCapacity,
+  }) {
+    return invalidFinNumber(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Empty<T> value)? empty,
+    TResult? Function(InvalidEmail<T> value)? invalidEmail,
+    TResult? Function(InvalidFullName<T> value)? invalidFullName,
+    TResult? Function(InvalidPhoneNumber<T> value)? invalidPhoneNumber,
+    TResult? Function(InvalidFinNumber<T> value)? invalidFinNumber,
+    TResult? Function(InvalidCarMake<T> value)? invalidCarMake,
+    TResult? Function(InvalidCarModel<T> value)? invalidCarModel,
+    TResult? Function(InvalidPlateNumber<T> value)? invalidPlateNumber,
+    TResult? Function(InvalidColor<T> value)? invalidColor,
+    TResult? Function(InvalidVehicleType<T> value)? invalidVehicleType,
+    TResult? Function(InvalidYear<T> value)? invalidYear,
+    TResult? Function(InvalidCapacity<T> value)? invalidCapacity,
+  }) {
+    return invalidFinNumber?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Empty<T> value)? empty,
+    TResult Function(InvalidEmail<T> value)? invalidEmail,
+    TResult Function(InvalidFullName<T> value)? invalidFullName,
+    TResult Function(InvalidPhoneNumber<T> value)? invalidPhoneNumber,
+    TResult Function(InvalidFinNumber<T> value)? invalidFinNumber,
+    TResult Function(InvalidCarMake<T> value)? invalidCarMake,
+    TResult Function(InvalidCarModel<T> value)? invalidCarModel,
+    TResult Function(InvalidPlateNumber<T> value)? invalidPlateNumber,
+    TResult Function(InvalidColor<T> value)? invalidColor,
+    TResult Function(InvalidVehicleType<T> value)? invalidVehicleType,
+    TResult Function(InvalidYear<T> value)? invalidYear,
+    TResult Function(InvalidCapacity<T> value)? invalidCapacity,
+    required TResult orElse(),
+  }) {
+    if (invalidFinNumber != null) {
+      return invalidFinNumber(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class InvalidFinNumber<T> implements ValueFailure<T> {
+  const factory InvalidFinNumber({required final T failedValue}) =
+      _$InvalidFinNumberImpl<T>;
+
+  @override
+  T get failedValue;
+
+  /// Create a copy of ValueFailure
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$InvalidFinNumberImplCopyWith<T, _$InvalidFinNumberImpl<T>> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$InvalidCarMakeImplCopyWith<T, $Res>
+    implements $ValueFailureCopyWith<T, $Res> {
+  factory _$$InvalidCarMakeImplCopyWith(_$InvalidCarMakeImpl<T> value,
+          $Res Function(_$InvalidCarMakeImpl<T>) then) =
+      __$$InvalidCarMakeImplCopyWithImpl<T, $Res>;
+  @override
+  @useResult
+  $Res call({T failedValue});
+}
+
+/// @nodoc
+class __$$InvalidCarMakeImplCopyWithImpl<T, $Res>
+    extends _$ValueFailureCopyWithImpl<T, $Res, _$InvalidCarMakeImpl<T>>
+    implements _$$InvalidCarMakeImplCopyWith<T, $Res> {
+  __$$InvalidCarMakeImplCopyWithImpl(_$InvalidCarMakeImpl<T> _value,
+      $Res Function(_$InvalidCarMakeImpl<T>) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ValueFailure
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? failedValue = freezed,
+  }) {
+    return _then(_$InvalidCarMakeImpl<T>(
+      failedValue: freezed == failedValue
+          ? _value.failedValue
+          : failedValue // ignore: cast_nullable_to_non_nullable
+              as T,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$InvalidCarMakeImpl<T>
+    with DiagnosticableTreeMixin
+    implements InvalidCarMake<T> {
+  const _$InvalidCarMakeImpl({required this.failedValue});
+
+  @override
+  final T failedValue;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ValueFailure<$T>.invalidCarMake(failedValue: $failedValue)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'ValueFailure<$T>.invalidCarMake'))
+      ..add(DiagnosticsProperty('failedValue', failedValue));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$InvalidCarMakeImpl<T> &&
+            const DeepCollectionEquality()
+                .equals(other.failedValue, failedValue));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(failedValue));
+
+  /// Create a copy of ValueFailure
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$InvalidCarMakeImplCopyWith<T, _$InvalidCarMakeImpl<T>> get copyWith =>
+      __$$InvalidCarMakeImplCopyWithImpl<T, _$InvalidCarMakeImpl<T>>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(T failedValue) empty,
+    required TResult Function(T failedValue) invalidEmail,
+    required TResult Function(T failedValue) invalidFullName,
+    required TResult Function(T failedValue) invalidPhoneNumber,
+    required TResult Function(T failedValue) invalidFinNumber,
+    required TResult Function(T failedValue) invalidCarMake,
+    required TResult Function(T failedValue) invalidCarModel,
+    required TResult Function(T failedValue) invalidPlateNumber,
+    required TResult Function(T failedValue) invalidColor,
+    required TResult Function(T failedValue) invalidVehicleType,
+    required TResult Function(T failedValue) invalidYear,
+    required TResult Function(T failedValue) invalidCapacity,
+  }) {
+    return invalidCarMake(failedValue);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(T failedValue)? empty,
+    TResult? Function(T failedValue)? invalidEmail,
+    TResult? Function(T failedValue)? invalidFullName,
+    TResult? Function(T failedValue)? invalidPhoneNumber,
+    TResult? Function(T failedValue)? invalidFinNumber,
+    TResult? Function(T failedValue)? invalidCarMake,
+    TResult? Function(T failedValue)? invalidCarModel,
+    TResult? Function(T failedValue)? invalidPlateNumber,
+    TResult? Function(T failedValue)? invalidColor,
+    TResult? Function(T failedValue)? invalidVehicleType,
+    TResult? Function(T failedValue)? invalidYear,
+    TResult? Function(T failedValue)? invalidCapacity,
+  }) {
+    return invalidCarMake?.call(failedValue);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(T failedValue)? empty,
+    TResult Function(T failedValue)? invalidEmail,
+    TResult Function(T failedValue)? invalidFullName,
+    TResult Function(T failedValue)? invalidPhoneNumber,
+    TResult Function(T failedValue)? invalidFinNumber,
+    TResult Function(T failedValue)? invalidCarMake,
+    TResult Function(T failedValue)? invalidCarModel,
+    TResult Function(T failedValue)? invalidPlateNumber,
+    TResult Function(T failedValue)? invalidColor,
+    TResult Function(T failedValue)? invalidVehicleType,
+    TResult Function(T failedValue)? invalidYear,
+    TResult Function(T failedValue)? invalidCapacity,
+    required TResult orElse(),
+  }) {
+    if (invalidCarMake != null) {
+      return invalidCarMake(failedValue);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Empty<T> value) empty,
+    required TResult Function(InvalidEmail<T> value) invalidEmail,
+    required TResult Function(InvalidFullName<T> value) invalidFullName,
+    required TResult Function(InvalidPhoneNumber<T> value) invalidPhoneNumber,
+    required TResult Function(InvalidFinNumber<T> value) invalidFinNumber,
+    required TResult Function(InvalidCarMake<T> value) invalidCarMake,
+    required TResult Function(InvalidCarModel<T> value) invalidCarModel,
+    required TResult Function(InvalidPlateNumber<T> value) invalidPlateNumber,
+    required TResult Function(InvalidColor<T> value) invalidColor,
+    required TResult Function(InvalidVehicleType<T> value) invalidVehicleType,
+    required TResult Function(InvalidYear<T> value) invalidYear,
+    required TResult Function(InvalidCapacity<T> value) invalidCapacity,
+  }) {
+    return invalidCarMake(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Empty<T> value)? empty,
+    TResult? Function(InvalidEmail<T> value)? invalidEmail,
+    TResult? Function(InvalidFullName<T> value)? invalidFullName,
+    TResult? Function(InvalidPhoneNumber<T> value)? invalidPhoneNumber,
+    TResult? Function(InvalidFinNumber<T> value)? invalidFinNumber,
+    TResult? Function(InvalidCarMake<T> value)? invalidCarMake,
+    TResult? Function(InvalidCarModel<T> value)? invalidCarModel,
+    TResult? Function(InvalidPlateNumber<T> value)? invalidPlateNumber,
+    TResult? Function(InvalidColor<T> value)? invalidColor,
+    TResult? Function(InvalidVehicleType<T> value)? invalidVehicleType,
+    TResult? Function(InvalidYear<T> value)? invalidYear,
+    TResult? Function(InvalidCapacity<T> value)? invalidCapacity,
+  }) {
+    return invalidCarMake?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Empty<T> value)? empty,
+    TResult Function(InvalidEmail<T> value)? invalidEmail,
+    TResult Function(InvalidFullName<T> value)? invalidFullName,
+    TResult Function(InvalidPhoneNumber<T> value)? invalidPhoneNumber,
+    TResult Function(InvalidFinNumber<T> value)? invalidFinNumber,
+    TResult Function(InvalidCarMake<T> value)? invalidCarMake,
+    TResult Function(InvalidCarModel<T> value)? invalidCarModel,
+    TResult Function(InvalidPlateNumber<T> value)? invalidPlateNumber,
+    TResult Function(InvalidColor<T> value)? invalidColor,
+    TResult Function(InvalidVehicleType<T> value)? invalidVehicleType,
+    TResult Function(InvalidYear<T> value)? invalidYear,
+    TResult Function(InvalidCapacity<T> value)? invalidCapacity,
+    required TResult orElse(),
+  }) {
+    if (invalidCarMake != null) {
+      return invalidCarMake(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class InvalidCarMake<T> implements ValueFailure<T> {
+  const factory InvalidCarMake({required final T failedValue}) =
+      _$InvalidCarMakeImpl<T>;
+
+  @override
+  T get failedValue;
+
+  /// Create a copy of ValueFailure
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$InvalidCarMakeImplCopyWith<T, _$InvalidCarMakeImpl<T>> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$InvalidCarModelImplCopyWith<T, $Res>
+    implements $ValueFailureCopyWith<T, $Res> {
+  factory _$$InvalidCarModelImplCopyWith(_$InvalidCarModelImpl<T> value,
+          $Res Function(_$InvalidCarModelImpl<T>) then) =
+      __$$InvalidCarModelImplCopyWithImpl<T, $Res>;
+  @override
+  @useResult
+  $Res call({T failedValue});
+}
+
+/// @nodoc
+class __$$InvalidCarModelImplCopyWithImpl<T, $Res>
+    extends _$ValueFailureCopyWithImpl<T, $Res, _$InvalidCarModelImpl<T>>
+    implements _$$InvalidCarModelImplCopyWith<T, $Res> {
+  __$$InvalidCarModelImplCopyWithImpl(_$InvalidCarModelImpl<T> _value,
+      $Res Function(_$InvalidCarModelImpl<T>) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ValueFailure
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? failedValue = freezed,
+  }) {
+    return _then(_$InvalidCarModelImpl<T>(
+      failedValue: freezed == failedValue
+          ? _value.failedValue
+          : failedValue // ignore: cast_nullable_to_non_nullable
+              as T,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$InvalidCarModelImpl<T>
+    with DiagnosticableTreeMixin
+    implements InvalidCarModel<T> {
+  const _$InvalidCarModelImpl({required this.failedValue});
+
+  @override
+  final T failedValue;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ValueFailure<$T>.invalidCarModel(failedValue: $failedValue)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'ValueFailure<$T>.invalidCarModel'))
+      ..add(DiagnosticsProperty('failedValue', failedValue));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$InvalidCarModelImpl<T> &&
+            const DeepCollectionEquality()
+                .equals(other.failedValue, failedValue));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(failedValue));
+
+  /// Create a copy of ValueFailure
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$InvalidCarModelImplCopyWith<T, _$InvalidCarModelImpl<T>> get copyWith =>
+      __$$InvalidCarModelImplCopyWithImpl<T, _$InvalidCarModelImpl<T>>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(T failedValue) empty,
+    required TResult Function(T failedValue) invalidEmail,
+    required TResult Function(T failedValue) invalidFullName,
+    required TResult Function(T failedValue) invalidPhoneNumber,
+    required TResult Function(T failedValue) invalidFinNumber,
+    required TResult Function(T failedValue) invalidCarMake,
+    required TResult Function(T failedValue) invalidCarModel,
+    required TResult Function(T failedValue) invalidPlateNumber,
+    required TResult Function(T failedValue) invalidColor,
+    required TResult Function(T failedValue) invalidVehicleType,
+    required TResult Function(T failedValue) invalidYear,
+    required TResult Function(T failedValue) invalidCapacity,
+  }) {
+    return invalidCarModel(failedValue);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(T failedValue)? empty,
+    TResult? Function(T failedValue)? invalidEmail,
+    TResult? Function(T failedValue)? invalidFullName,
+    TResult? Function(T failedValue)? invalidPhoneNumber,
+    TResult? Function(T failedValue)? invalidFinNumber,
+    TResult? Function(T failedValue)? invalidCarMake,
+    TResult? Function(T failedValue)? invalidCarModel,
+    TResult? Function(T failedValue)? invalidPlateNumber,
+    TResult? Function(T failedValue)? invalidColor,
+    TResult? Function(T failedValue)? invalidVehicleType,
+    TResult? Function(T failedValue)? invalidYear,
+    TResult? Function(T failedValue)? invalidCapacity,
+  }) {
+    return invalidCarModel?.call(failedValue);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(T failedValue)? empty,
+    TResult Function(T failedValue)? invalidEmail,
+    TResult Function(T failedValue)? invalidFullName,
+    TResult Function(T failedValue)? invalidPhoneNumber,
+    TResult Function(T failedValue)? invalidFinNumber,
+    TResult Function(T failedValue)? invalidCarMake,
+    TResult Function(T failedValue)? invalidCarModel,
+    TResult Function(T failedValue)? invalidPlateNumber,
+    TResult Function(T failedValue)? invalidColor,
+    TResult Function(T failedValue)? invalidVehicleType,
+    TResult Function(T failedValue)? invalidYear,
+    TResult Function(T failedValue)? invalidCapacity,
+    required TResult orElse(),
+  }) {
+    if (invalidCarModel != null) {
+      return invalidCarModel(failedValue);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Empty<T> value) empty,
+    required TResult Function(InvalidEmail<T> value) invalidEmail,
+    required TResult Function(InvalidFullName<T> value) invalidFullName,
+    required TResult Function(InvalidPhoneNumber<T> value) invalidPhoneNumber,
+    required TResult Function(InvalidFinNumber<T> value) invalidFinNumber,
+    required TResult Function(InvalidCarMake<T> value) invalidCarMake,
+    required TResult Function(InvalidCarModel<T> value) invalidCarModel,
+    required TResult Function(InvalidPlateNumber<T> value) invalidPlateNumber,
+    required TResult Function(InvalidColor<T> value) invalidColor,
+    required TResult Function(InvalidVehicleType<T> value) invalidVehicleType,
+    required TResult Function(InvalidYear<T> value) invalidYear,
+    required TResult Function(InvalidCapacity<T> value) invalidCapacity,
+  }) {
+    return invalidCarModel(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Empty<T> value)? empty,
+    TResult? Function(InvalidEmail<T> value)? invalidEmail,
+    TResult? Function(InvalidFullName<T> value)? invalidFullName,
+    TResult? Function(InvalidPhoneNumber<T> value)? invalidPhoneNumber,
+    TResult? Function(InvalidFinNumber<T> value)? invalidFinNumber,
+    TResult? Function(InvalidCarMake<T> value)? invalidCarMake,
+    TResult? Function(InvalidCarModel<T> value)? invalidCarModel,
+    TResult? Function(InvalidPlateNumber<T> value)? invalidPlateNumber,
+    TResult? Function(InvalidColor<T> value)? invalidColor,
+    TResult? Function(InvalidVehicleType<T> value)? invalidVehicleType,
+    TResult? Function(InvalidYear<T> value)? invalidYear,
+    TResult? Function(InvalidCapacity<T> value)? invalidCapacity,
+  }) {
+    return invalidCarModel?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Empty<T> value)? empty,
+    TResult Function(InvalidEmail<T> value)? invalidEmail,
+    TResult Function(InvalidFullName<T> value)? invalidFullName,
+    TResult Function(InvalidPhoneNumber<T> value)? invalidPhoneNumber,
+    TResult Function(InvalidFinNumber<T> value)? invalidFinNumber,
+    TResult Function(InvalidCarMake<T> value)? invalidCarMake,
+    TResult Function(InvalidCarModel<T> value)? invalidCarModel,
+    TResult Function(InvalidPlateNumber<T> value)? invalidPlateNumber,
+    TResult Function(InvalidColor<T> value)? invalidColor,
+    TResult Function(InvalidVehicleType<T> value)? invalidVehicleType,
+    TResult Function(InvalidYear<T> value)? invalidYear,
+    TResult Function(InvalidCapacity<T> value)? invalidCapacity,
+    required TResult orElse(),
+  }) {
+    if (invalidCarModel != null) {
+      return invalidCarModel(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class InvalidCarModel<T> implements ValueFailure<T> {
+  const factory InvalidCarModel({required final T failedValue}) =
+      _$InvalidCarModelImpl<T>;
+
+  @override
+  T get failedValue;
+
+  /// Create a copy of ValueFailure
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$InvalidCarModelImplCopyWith<T, _$InvalidCarModelImpl<T>> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$InvalidPlateNumberImplCopyWith<T, $Res>
+    implements $ValueFailureCopyWith<T, $Res> {
+  factory _$$InvalidPlateNumberImplCopyWith(_$InvalidPlateNumberImpl<T> value,
+          $Res Function(_$InvalidPlateNumberImpl<T>) then) =
+      __$$InvalidPlateNumberImplCopyWithImpl<T, $Res>;
+  @override
+  @useResult
+  $Res call({T failedValue});
+}
+
+/// @nodoc
+class __$$InvalidPlateNumberImplCopyWithImpl<T, $Res>
+    extends _$ValueFailureCopyWithImpl<T, $Res, _$InvalidPlateNumberImpl<T>>
+    implements _$$InvalidPlateNumberImplCopyWith<T, $Res> {
+  __$$InvalidPlateNumberImplCopyWithImpl(_$InvalidPlateNumberImpl<T> _value,
+      $Res Function(_$InvalidPlateNumberImpl<T>) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ValueFailure
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? failedValue = freezed,
+  }) {
+    return _then(_$InvalidPlateNumberImpl<T>(
+      failedValue: freezed == failedValue
+          ? _value.failedValue
+          : failedValue // ignore: cast_nullable_to_non_nullable
+              as T,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$InvalidPlateNumberImpl<T>
+    with DiagnosticableTreeMixin
+    implements InvalidPlateNumber<T> {
+  const _$InvalidPlateNumberImpl({required this.failedValue});
+
+  @override
+  final T failedValue;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ValueFailure<$T>.invalidPlateNumber(failedValue: $failedValue)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'ValueFailure<$T>.invalidPlateNumber'))
+      ..add(DiagnosticsProperty('failedValue', failedValue));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$InvalidPlateNumberImpl<T> &&
+            const DeepCollectionEquality()
+                .equals(other.failedValue, failedValue));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(failedValue));
+
+  /// Create a copy of ValueFailure
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$InvalidPlateNumberImplCopyWith<T, _$InvalidPlateNumberImpl<T>>
+      get copyWith => __$$InvalidPlateNumberImplCopyWithImpl<T,
+          _$InvalidPlateNumberImpl<T>>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(T failedValue) empty,
+    required TResult Function(T failedValue) invalidEmail,
+    required TResult Function(T failedValue) invalidFullName,
+    required TResult Function(T failedValue) invalidPhoneNumber,
+    required TResult Function(T failedValue) invalidFinNumber,
+    required TResult Function(T failedValue) invalidCarMake,
+    required TResult Function(T failedValue) invalidCarModel,
+    required TResult Function(T failedValue) invalidPlateNumber,
+    required TResult Function(T failedValue) invalidColor,
+    required TResult Function(T failedValue) invalidVehicleType,
+    required TResult Function(T failedValue) invalidYear,
+    required TResult Function(T failedValue) invalidCapacity,
+  }) {
+    return invalidPlateNumber(failedValue);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(T failedValue)? empty,
+    TResult? Function(T failedValue)? invalidEmail,
+    TResult? Function(T failedValue)? invalidFullName,
+    TResult? Function(T failedValue)? invalidPhoneNumber,
+    TResult? Function(T failedValue)? invalidFinNumber,
+    TResult? Function(T failedValue)? invalidCarMake,
+    TResult? Function(T failedValue)? invalidCarModel,
+    TResult? Function(T failedValue)? invalidPlateNumber,
+    TResult? Function(T failedValue)? invalidColor,
+    TResult? Function(T failedValue)? invalidVehicleType,
+    TResult? Function(T failedValue)? invalidYear,
+    TResult? Function(T failedValue)? invalidCapacity,
+  }) {
+    return invalidPlateNumber?.call(failedValue);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(T failedValue)? empty,
+    TResult Function(T failedValue)? invalidEmail,
+    TResult Function(T failedValue)? invalidFullName,
+    TResult Function(T failedValue)? invalidPhoneNumber,
+    TResult Function(T failedValue)? invalidFinNumber,
+    TResult Function(T failedValue)? invalidCarMake,
+    TResult Function(T failedValue)? invalidCarModel,
+    TResult Function(T failedValue)? invalidPlateNumber,
+    TResult Function(T failedValue)? invalidColor,
+    TResult Function(T failedValue)? invalidVehicleType,
+    TResult Function(T failedValue)? invalidYear,
+    TResult Function(T failedValue)? invalidCapacity,
+    required TResult orElse(),
+  }) {
+    if (invalidPlateNumber != null) {
+      return invalidPlateNumber(failedValue);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Empty<T> value) empty,
+    required TResult Function(InvalidEmail<T> value) invalidEmail,
+    required TResult Function(InvalidFullName<T> value) invalidFullName,
+    required TResult Function(InvalidPhoneNumber<T> value) invalidPhoneNumber,
+    required TResult Function(InvalidFinNumber<T> value) invalidFinNumber,
+    required TResult Function(InvalidCarMake<T> value) invalidCarMake,
+    required TResult Function(InvalidCarModel<T> value) invalidCarModel,
+    required TResult Function(InvalidPlateNumber<T> value) invalidPlateNumber,
+    required TResult Function(InvalidColor<T> value) invalidColor,
+    required TResult Function(InvalidVehicleType<T> value) invalidVehicleType,
+    required TResult Function(InvalidYear<T> value) invalidYear,
+    required TResult Function(InvalidCapacity<T> value) invalidCapacity,
+  }) {
+    return invalidPlateNumber(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Empty<T> value)? empty,
+    TResult? Function(InvalidEmail<T> value)? invalidEmail,
+    TResult? Function(InvalidFullName<T> value)? invalidFullName,
+    TResult? Function(InvalidPhoneNumber<T> value)? invalidPhoneNumber,
+    TResult? Function(InvalidFinNumber<T> value)? invalidFinNumber,
+    TResult? Function(InvalidCarMake<T> value)? invalidCarMake,
+    TResult? Function(InvalidCarModel<T> value)? invalidCarModel,
+    TResult? Function(InvalidPlateNumber<T> value)? invalidPlateNumber,
+    TResult? Function(InvalidColor<T> value)? invalidColor,
+    TResult? Function(InvalidVehicleType<T> value)? invalidVehicleType,
+    TResult? Function(InvalidYear<T> value)? invalidYear,
+    TResult? Function(InvalidCapacity<T> value)? invalidCapacity,
+  }) {
+    return invalidPlateNumber?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Empty<T> value)? empty,
+    TResult Function(InvalidEmail<T> value)? invalidEmail,
+    TResult Function(InvalidFullName<T> value)? invalidFullName,
+    TResult Function(InvalidPhoneNumber<T> value)? invalidPhoneNumber,
+    TResult Function(InvalidFinNumber<T> value)? invalidFinNumber,
+    TResult Function(InvalidCarMake<T> value)? invalidCarMake,
+    TResult Function(InvalidCarModel<T> value)? invalidCarModel,
+    TResult Function(InvalidPlateNumber<T> value)? invalidPlateNumber,
+    TResult Function(InvalidColor<T> value)? invalidColor,
+    TResult Function(InvalidVehicleType<T> value)? invalidVehicleType,
+    TResult Function(InvalidYear<T> value)? invalidYear,
+    TResult Function(InvalidCapacity<T> value)? invalidCapacity,
+    required TResult orElse(),
+  }) {
+    if (invalidPlateNumber != null) {
+      return invalidPlateNumber(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class InvalidPlateNumber<T> implements ValueFailure<T> {
+  const factory InvalidPlateNumber({required final T failedValue}) =
+      _$InvalidPlateNumberImpl<T>;
+
+  @override
+  T get failedValue;
+
+  /// Create a copy of ValueFailure
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$InvalidPlateNumberImplCopyWith<T, _$InvalidPlateNumberImpl<T>>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$InvalidColorImplCopyWith<T, $Res>
+    implements $ValueFailureCopyWith<T, $Res> {
+  factory _$$InvalidColorImplCopyWith(_$InvalidColorImpl<T> value,
+          $Res Function(_$InvalidColorImpl<T>) then) =
+      __$$InvalidColorImplCopyWithImpl<T, $Res>;
+  @override
+  @useResult
+  $Res call({T failedValue});
+}
+
+/// @nodoc
+class __$$InvalidColorImplCopyWithImpl<T, $Res>
+    extends _$ValueFailureCopyWithImpl<T, $Res, _$InvalidColorImpl<T>>
+    implements _$$InvalidColorImplCopyWith<T, $Res> {
+  __$$InvalidColorImplCopyWithImpl(
+      _$InvalidColorImpl<T> _value, $Res Function(_$InvalidColorImpl<T>) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ValueFailure
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? failedValue = freezed,
+  }) {
+    return _then(_$InvalidColorImpl<T>(
+      failedValue: freezed == failedValue
+          ? _value.failedValue
+          : failedValue // ignore: cast_nullable_to_non_nullable
+              as T,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$InvalidColorImpl<T>
+    with DiagnosticableTreeMixin
+    implements InvalidColor<T> {
+  const _$InvalidColorImpl({required this.failedValue});
+
+  @override
+  final T failedValue;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ValueFailure<$T>.invalidColor(failedValue: $failedValue)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'ValueFailure<$T>.invalidColor'))
+      ..add(DiagnosticsProperty('failedValue', failedValue));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$InvalidColorImpl<T> &&
+            const DeepCollectionEquality()
+                .equals(other.failedValue, failedValue));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(failedValue));
+
+  /// Create a copy of ValueFailure
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$InvalidColorImplCopyWith<T, _$InvalidColorImpl<T>> get copyWith =>
+      __$$InvalidColorImplCopyWithImpl<T, _$InvalidColorImpl<T>>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(T failedValue) empty,
+    required TResult Function(T failedValue) invalidEmail,
+    required TResult Function(T failedValue) invalidFullName,
+    required TResult Function(T failedValue) invalidPhoneNumber,
+    required TResult Function(T failedValue) invalidFinNumber,
+    required TResult Function(T failedValue) invalidCarMake,
+    required TResult Function(T failedValue) invalidCarModel,
+    required TResult Function(T failedValue) invalidPlateNumber,
+    required TResult Function(T failedValue) invalidColor,
+    required TResult Function(T failedValue) invalidVehicleType,
+    required TResult Function(T failedValue) invalidYear,
+    required TResult Function(T failedValue) invalidCapacity,
+  }) {
+    return invalidColor(failedValue);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(T failedValue)? empty,
+    TResult? Function(T failedValue)? invalidEmail,
+    TResult? Function(T failedValue)? invalidFullName,
+    TResult? Function(T failedValue)? invalidPhoneNumber,
+    TResult? Function(T failedValue)? invalidFinNumber,
+    TResult? Function(T failedValue)? invalidCarMake,
+    TResult? Function(T failedValue)? invalidCarModel,
+    TResult? Function(T failedValue)? invalidPlateNumber,
+    TResult? Function(T failedValue)? invalidColor,
+    TResult? Function(T failedValue)? invalidVehicleType,
+    TResult? Function(T failedValue)? invalidYear,
+    TResult? Function(T failedValue)? invalidCapacity,
+  }) {
+    return invalidColor?.call(failedValue);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(T failedValue)? empty,
+    TResult Function(T failedValue)? invalidEmail,
+    TResult Function(T failedValue)? invalidFullName,
+    TResult Function(T failedValue)? invalidPhoneNumber,
+    TResult Function(T failedValue)? invalidFinNumber,
+    TResult Function(T failedValue)? invalidCarMake,
+    TResult Function(T failedValue)? invalidCarModel,
+    TResult Function(T failedValue)? invalidPlateNumber,
+    TResult Function(T failedValue)? invalidColor,
+    TResult Function(T failedValue)? invalidVehicleType,
+    TResult Function(T failedValue)? invalidYear,
+    TResult Function(T failedValue)? invalidCapacity,
+    required TResult orElse(),
+  }) {
+    if (invalidColor != null) {
+      return invalidColor(failedValue);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Empty<T> value) empty,
+    required TResult Function(InvalidEmail<T> value) invalidEmail,
+    required TResult Function(InvalidFullName<T> value) invalidFullName,
+    required TResult Function(InvalidPhoneNumber<T> value) invalidPhoneNumber,
+    required TResult Function(InvalidFinNumber<T> value) invalidFinNumber,
+    required TResult Function(InvalidCarMake<T> value) invalidCarMake,
+    required TResult Function(InvalidCarModel<T> value) invalidCarModel,
+    required TResult Function(InvalidPlateNumber<T> value) invalidPlateNumber,
+    required TResult Function(InvalidColor<T> value) invalidColor,
+    required TResult Function(InvalidVehicleType<T> value) invalidVehicleType,
+    required TResult Function(InvalidYear<T> value) invalidYear,
+    required TResult Function(InvalidCapacity<T> value) invalidCapacity,
+  }) {
+    return invalidColor(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Empty<T> value)? empty,
+    TResult? Function(InvalidEmail<T> value)? invalidEmail,
+    TResult? Function(InvalidFullName<T> value)? invalidFullName,
+    TResult? Function(InvalidPhoneNumber<T> value)? invalidPhoneNumber,
+    TResult? Function(InvalidFinNumber<T> value)? invalidFinNumber,
+    TResult? Function(InvalidCarMake<T> value)? invalidCarMake,
+    TResult? Function(InvalidCarModel<T> value)? invalidCarModel,
+    TResult? Function(InvalidPlateNumber<T> value)? invalidPlateNumber,
+    TResult? Function(InvalidColor<T> value)? invalidColor,
+    TResult? Function(InvalidVehicleType<T> value)? invalidVehicleType,
+    TResult? Function(InvalidYear<T> value)? invalidYear,
+    TResult? Function(InvalidCapacity<T> value)? invalidCapacity,
+  }) {
+    return invalidColor?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Empty<T> value)? empty,
+    TResult Function(InvalidEmail<T> value)? invalidEmail,
+    TResult Function(InvalidFullName<T> value)? invalidFullName,
+    TResult Function(InvalidPhoneNumber<T> value)? invalidPhoneNumber,
+    TResult Function(InvalidFinNumber<T> value)? invalidFinNumber,
+    TResult Function(InvalidCarMake<T> value)? invalidCarMake,
+    TResult Function(InvalidCarModel<T> value)? invalidCarModel,
+    TResult Function(InvalidPlateNumber<T> value)? invalidPlateNumber,
+    TResult Function(InvalidColor<T> value)? invalidColor,
+    TResult Function(InvalidVehicleType<T> value)? invalidVehicleType,
+    TResult Function(InvalidYear<T> value)? invalidYear,
+    TResult Function(InvalidCapacity<T> value)? invalidCapacity,
+    required TResult orElse(),
+  }) {
+    if (invalidColor != null) {
+      return invalidColor(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class InvalidColor<T> implements ValueFailure<T> {
+  const factory InvalidColor({required final T failedValue}) =
+      _$InvalidColorImpl<T>;
+
+  @override
+  T get failedValue;
+
+  /// Create a copy of ValueFailure
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$InvalidColorImplCopyWith<T, _$InvalidColorImpl<T>> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$InvalidVehicleTypeImplCopyWith<T, $Res>
+    implements $ValueFailureCopyWith<T, $Res> {
+  factory _$$InvalidVehicleTypeImplCopyWith(_$InvalidVehicleTypeImpl<T> value,
+          $Res Function(_$InvalidVehicleTypeImpl<T>) then) =
+      __$$InvalidVehicleTypeImplCopyWithImpl<T, $Res>;
+  @override
+  @useResult
+  $Res call({T failedValue});
+}
+
+/// @nodoc
+class __$$InvalidVehicleTypeImplCopyWithImpl<T, $Res>
+    extends _$ValueFailureCopyWithImpl<T, $Res, _$InvalidVehicleTypeImpl<T>>
+    implements _$$InvalidVehicleTypeImplCopyWith<T, $Res> {
+  __$$InvalidVehicleTypeImplCopyWithImpl(_$InvalidVehicleTypeImpl<T> _value,
+      $Res Function(_$InvalidVehicleTypeImpl<T>) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ValueFailure
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? failedValue = freezed,
+  }) {
+    return _then(_$InvalidVehicleTypeImpl<T>(
+      failedValue: freezed == failedValue
+          ? _value.failedValue
+          : failedValue // ignore: cast_nullable_to_non_nullable
+              as T,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$InvalidVehicleTypeImpl<T>
+    with DiagnosticableTreeMixin
+    implements InvalidVehicleType<T> {
+  const _$InvalidVehicleTypeImpl({required this.failedValue});
+
+  @override
+  final T failedValue;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ValueFailure<$T>.invalidVehicleType(failedValue: $failedValue)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'ValueFailure<$T>.invalidVehicleType'))
+      ..add(DiagnosticsProperty('failedValue', failedValue));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$InvalidVehicleTypeImpl<T> &&
+            const DeepCollectionEquality()
+                .equals(other.failedValue, failedValue));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(failedValue));
+
+  /// Create a copy of ValueFailure
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$InvalidVehicleTypeImplCopyWith<T, _$InvalidVehicleTypeImpl<T>>
+      get copyWith => __$$InvalidVehicleTypeImplCopyWithImpl<T,
+          _$InvalidVehicleTypeImpl<T>>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(T failedValue) empty,
+    required TResult Function(T failedValue) invalidEmail,
+    required TResult Function(T failedValue) invalidFullName,
+    required TResult Function(T failedValue) invalidPhoneNumber,
+    required TResult Function(T failedValue) invalidFinNumber,
+    required TResult Function(T failedValue) invalidCarMake,
+    required TResult Function(T failedValue) invalidCarModel,
+    required TResult Function(T failedValue) invalidPlateNumber,
+    required TResult Function(T failedValue) invalidColor,
+    required TResult Function(T failedValue) invalidVehicleType,
+    required TResult Function(T failedValue) invalidYear,
+    required TResult Function(T failedValue) invalidCapacity,
+  }) {
+    return invalidVehicleType(failedValue);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(T failedValue)? empty,
+    TResult? Function(T failedValue)? invalidEmail,
+    TResult? Function(T failedValue)? invalidFullName,
+    TResult? Function(T failedValue)? invalidPhoneNumber,
+    TResult? Function(T failedValue)? invalidFinNumber,
+    TResult? Function(T failedValue)? invalidCarMake,
+    TResult? Function(T failedValue)? invalidCarModel,
+    TResult? Function(T failedValue)? invalidPlateNumber,
+    TResult? Function(T failedValue)? invalidColor,
+    TResult? Function(T failedValue)? invalidVehicleType,
+    TResult? Function(T failedValue)? invalidYear,
+    TResult? Function(T failedValue)? invalidCapacity,
+  }) {
+    return invalidVehicleType?.call(failedValue);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(T failedValue)? empty,
+    TResult Function(T failedValue)? invalidEmail,
+    TResult Function(T failedValue)? invalidFullName,
+    TResult Function(T failedValue)? invalidPhoneNumber,
+    TResult Function(T failedValue)? invalidFinNumber,
+    TResult Function(T failedValue)? invalidCarMake,
+    TResult Function(T failedValue)? invalidCarModel,
+    TResult Function(T failedValue)? invalidPlateNumber,
+    TResult Function(T failedValue)? invalidColor,
+    TResult Function(T failedValue)? invalidVehicleType,
+    TResult Function(T failedValue)? invalidYear,
+    TResult Function(T failedValue)? invalidCapacity,
+    required TResult orElse(),
+  }) {
+    if (invalidVehicleType != null) {
+      return invalidVehicleType(failedValue);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Empty<T> value) empty,
+    required TResult Function(InvalidEmail<T> value) invalidEmail,
+    required TResult Function(InvalidFullName<T> value) invalidFullName,
+    required TResult Function(InvalidPhoneNumber<T> value) invalidPhoneNumber,
+    required TResult Function(InvalidFinNumber<T> value) invalidFinNumber,
+    required TResult Function(InvalidCarMake<T> value) invalidCarMake,
+    required TResult Function(InvalidCarModel<T> value) invalidCarModel,
+    required TResult Function(InvalidPlateNumber<T> value) invalidPlateNumber,
+    required TResult Function(InvalidColor<T> value) invalidColor,
+    required TResult Function(InvalidVehicleType<T> value) invalidVehicleType,
+    required TResult Function(InvalidYear<T> value) invalidYear,
+    required TResult Function(InvalidCapacity<T> value) invalidCapacity,
+  }) {
+    return invalidVehicleType(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Empty<T> value)? empty,
+    TResult? Function(InvalidEmail<T> value)? invalidEmail,
+    TResult? Function(InvalidFullName<T> value)? invalidFullName,
+    TResult? Function(InvalidPhoneNumber<T> value)? invalidPhoneNumber,
+    TResult? Function(InvalidFinNumber<T> value)? invalidFinNumber,
+    TResult? Function(InvalidCarMake<T> value)? invalidCarMake,
+    TResult? Function(InvalidCarModel<T> value)? invalidCarModel,
+    TResult? Function(InvalidPlateNumber<T> value)? invalidPlateNumber,
+    TResult? Function(InvalidColor<T> value)? invalidColor,
+    TResult? Function(InvalidVehicleType<T> value)? invalidVehicleType,
+    TResult? Function(InvalidYear<T> value)? invalidYear,
+    TResult? Function(InvalidCapacity<T> value)? invalidCapacity,
+  }) {
+    return invalidVehicleType?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Empty<T> value)? empty,
+    TResult Function(InvalidEmail<T> value)? invalidEmail,
+    TResult Function(InvalidFullName<T> value)? invalidFullName,
+    TResult Function(InvalidPhoneNumber<T> value)? invalidPhoneNumber,
+    TResult Function(InvalidFinNumber<T> value)? invalidFinNumber,
+    TResult Function(InvalidCarMake<T> value)? invalidCarMake,
+    TResult Function(InvalidCarModel<T> value)? invalidCarModel,
+    TResult Function(InvalidPlateNumber<T> value)? invalidPlateNumber,
+    TResult Function(InvalidColor<T> value)? invalidColor,
+    TResult Function(InvalidVehicleType<T> value)? invalidVehicleType,
+    TResult Function(InvalidYear<T> value)? invalidYear,
+    TResult Function(InvalidCapacity<T> value)? invalidCapacity,
+    required TResult orElse(),
+  }) {
+    if (invalidVehicleType != null) {
+      return invalidVehicleType(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class InvalidVehicleType<T> implements ValueFailure<T> {
+  const factory InvalidVehicleType({required final T failedValue}) =
+      _$InvalidVehicleTypeImpl<T>;
+
+  @override
+  T get failedValue;
+
+  /// Create a copy of ValueFailure
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$InvalidVehicleTypeImplCopyWith<T, _$InvalidVehicleTypeImpl<T>>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$InvalidYearImplCopyWith<T, $Res>
+    implements $ValueFailureCopyWith<T, $Res> {
+  factory _$$InvalidYearImplCopyWith(_$InvalidYearImpl<T> value,
+          $Res Function(_$InvalidYearImpl<T>) then) =
+      __$$InvalidYearImplCopyWithImpl<T, $Res>;
+  @override
+  @useResult
+  $Res call({T failedValue});
+}
+
+/// @nodoc
+class __$$InvalidYearImplCopyWithImpl<T, $Res>
+    extends _$ValueFailureCopyWithImpl<T, $Res, _$InvalidYearImpl<T>>
+    implements _$$InvalidYearImplCopyWith<T, $Res> {
+  __$$InvalidYearImplCopyWithImpl(
+      _$InvalidYearImpl<T> _value, $Res Function(_$InvalidYearImpl<T>) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ValueFailure
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? failedValue = freezed,
+  }) {
+    return _then(_$InvalidYearImpl<T>(
+      failedValue: freezed == failedValue
+          ? _value.failedValue
+          : failedValue // ignore: cast_nullable_to_non_nullable
+              as T,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$InvalidYearImpl<T>
+    with DiagnosticableTreeMixin
+    implements InvalidYear<T> {
+  const _$InvalidYearImpl({required this.failedValue});
+
+  @override
+  final T failedValue;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ValueFailure<$T>.invalidYear(failedValue: $failedValue)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'ValueFailure<$T>.invalidYear'))
+      ..add(DiagnosticsProperty('failedValue', failedValue));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$InvalidYearImpl<T> &&
+            const DeepCollectionEquality()
+                .equals(other.failedValue, failedValue));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(failedValue));
+
+  /// Create a copy of ValueFailure
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$InvalidYearImplCopyWith<T, _$InvalidYearImpl<T>> get copyWith =>
+      __$$InvalidYearImplCopyWithImpl<T, _$InvalidYearImpl<T>>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(T failedValue) empty,
+    required TResult Function(T failedValue) invalidEmail,
+    required TResult Function(T failedValue) invalidFullName,
+    required TResult Function(T failedValue) invalidPhoneNumber,
+    required TResult Function(T failedValue) invalidFinNumber,
+    required TResult Function(T failedValue) invalidCarMake,
+    required TResult Function(T failedValue) invalidCarModel,
+    required TResult Function(T failedValue) invalidPlateNumber,
+    required TResult Function(T failedValue) invalidColor,
+    required TResult Function(T failedValue) invalidVehicleType,
+    required TResult Function(T failedValue) invalidYear,
+    required TResult Function(T failedValue) invalidCapacity,
+  }) {
+    return invalidYear(failedValue);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(T failedValue)? empty,
+    TResult? Function(T failedValue)? invalidEmail,
+    TResult? Function(T failedValue)? invalidFullName,
+    TResult? Function(T failedValue)? invalidPhoneNumber,
+    TResult? Function(T failedValue)? invalidFinNumber,
+    TResult? Function(T failedValue)? invalidCarMake,
+    TResult? Function(T failedValue)? invalidCarModel,
+    TResult? Function(T failedValue)? invalidPlateNumber,
+    TResult? Function(T failedValue)? invalidColor,
+    TResult? Function(T failedValue)? invalidVehicleType,
+    TResult? Function(T failedValue)? invalidYear,
+    TResult? Function(T failedValue)? invalidCapacity,
+  }) {
+    return invalidYear?.call(failedValue);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(T failedValue)? empty,
+    TResult Function(T failedValue)? invalidEmail,
+    TResult Function(T failedValue)? invalidFullName,
+    TResult Function(T failedValue)? invalidPhoneNumber,
+    TResult Function(T failedValue)? invalidFinNumber,
+    TResult Function(T failedValue)? invalidCarMake,
+    TResult Function(T failedValue)? invalidCarModel,
+    TResult Function(T failedValue)? invalidPlateNumber,
+    TResult Function(T failedValue)? invalidColor,
+    TResult Function(T failedValue)? invalidVehicleType,
+    TResult Function(T failedValue)? invalidYear,
+    TResult Function(T failedValue)? invalidCapacity,
+    required TResult orElse(),
+  }) {
+    if (invalidYear != null) {
+      return invalidYear(failedValue);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Empty<T> value) empty,
+    required TResult Function(InvalidEmail<T> value) invalidEmail,
+    required TResult Function(InvalidFullName<T> value) invalidFullName,
+    required TResult Function(InvalidPhoneNumber<T> value) invalidPhoneNumber,
+    required TResult Function(InvalidFinNumber<T> value) invalidFinNumber,
+    required TResult Function(InvalidCarMake<T> value) invalidCarMake,
+    required TResult Function(InvalidCarModel<T> value) invalidCarModel,
+    required TResult Function(InvalidPlateNumber<T> value) invalidPlateNumber,
+    required TResult Function(InvalidColor<T> value) invalidColor,
+    required TResult Function(InvalidVehicleType<T> value) invalidVehicleType,
+    required TResult Function(InvalidYear<T> value) invalidYear,
+    required TResult Function(InvalidCapacity<T> value) invalidCapacity,
+  }) {
+    return invalidYear(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Empty<T> value)? empty,
+    TResult? Function(InvalidEmail<T> value)? invalidEmail,
+    TResult? Function(InvalidFullName<T> value)? invalidFullName,
+    TResult? Function(InvalidPhoneNumber<T> value)? invalidPhoneNumber,
+    TResult? Function(InvalidFinNumber<T> value)? invalidFinNumber,
+    TResult? Function(InvalidCarMake<T> value)? invalidCarMake,
+    TResult? Function(InvalidCarModel<T> value)? invalidCarModel,
+    TResult? Function(InvalidPlateNumber<T> value)? invalidPlateNumber,
+    TResult? Function(InvalidColor<T> value)? invalidColor,
+    TResult? Function(InvalidVehicleType<T> value)? invalidVehicleType,
+    TResult? Function(InvalidYear<T> value)? invalidYear,
+    TResult? Function(InvalidCapacity<T> value)? invalidCapacity,
+  }) {
+    return invalidYear?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Empty<T> value)? empty,
+    TResult Function(InvalidEmail<T> value)? invalidEmail,
+    TResult Function(InvalidFullName<T> value)? invalidFullName,
+    TResult Function(InvalidPhoneNumber<T> value)? invalidPhoneNumber,
+    TResult Function(InvalidFinNumber<T> value)? invalidFinNumber,
+    TResult Function(InvalidCarMake<T> value)? invalidCarMake,
+    TResult Function(InvalidCarModel<T> value)? invalidCarModel,
+    TResult Function(InvalidPlateNumber<T> value)? invalidPlateNumber,
+    TResult Function(InvalidColor<T> value)? invalidColor,
+    TResult Function(InvalidVehicleType<T> value)? invalidVehicleType,
+    TResult Function(InvalidYear<T> value)? invalidYear,
+    TResult Function(InvalidCapacity<T> value)? invalidCapacity,
+    required TResult orElse(),
+  }) {
+    if (invalidYear != null) {
+      return invalidYear(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class InvalidYear<T> implements ValueFailure<T> {
+  const factory InvalidYear({required final T failedValue}) =
+      _$InvalidYearImpl<T>;
+
+  @override
+  T get failedValue;
+
+  /// Create a copy of ValueFailure
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$InvalidYearImplCopyWith<T, _$InvalidYearImpl<T>> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$InvalidCapacityImplCopyWith<T, $Res>
+    implements $ValueFailureCopyWith<T, $Res> {
+  factory _$$InvalidCapacityImplCopyWith(_$InvalidCapacityImpl<T> value,
+          $Res Function(_$InvalidCapacityImpl<T>) then) =
+      __$$InvalidCapacityImplCopyWithImpl<T, $Res>;
+  @override
+  @useResult
+  $Res call({T failedValue});
+}
+
+/// @nodoc
+class __$$InvalidCapacityImplCopyWithImpl<T, $Res>
+    extends _$ValueFailureCopyWithImpl<T, $Res, _$InvalidCapacityImpl<T>>
+    implements _$$InvalidCapacityImplCopyWith<T, $Res> {
+  __$$InvalidCapacityImplCopyWithImpl(_$InvalidCapacityImpl<T> _value,
+      $Res Function(_$InvalidCapacityImpl<T>) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ValueFailure
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? failedValue = freezed,
+  }) {
+    return _then(_$InvalidCapacityImpl<T>(
+      failedValue: freezed == failedValue
+          ? _value.failedValue
+          : failedValue // ignore: cast_nullable_to_non_nullable
+              as T,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$InvalidCapacityImpl<T>
+    with DiagnosticableTreeMixin
+    implements InvalidCapacity<T> {
+  const _$InvalidCapacityImpl({required this.failedValue});
+
+  @override
+  final T failedValue;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ValueFailure<$T>.invalidCapacity(failedValue: $failedValue)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'ValueFailure<$T>.invalidCapacity'))
+      ..add(DiagnosticsProperty('failedValue', failedValue));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$InvalidCapacityImpl<T> &&
+            const DeepCollectionEquality()
+                .equals(other.failedValue, failedValue));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(failedValue));
+
+  /// Create a copy of ValueFailure
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$InvalidCapacityImplCopyWith<T, _$InvalidCapacityImpl<T>> get copyWith =>
+      __$$InvalidCapacityImplCopyWithImpl<T, _$InvalidCapacityImpl<T>>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(T failedValue) empty,
+    required TResult Function(T failedValue) invalidEmail,
+    required TResult Function(T failedValue) invalidFullName,
+    required TResult Function(T failedValue) invalidPhoneNumber,
+    required TResult Function(T failedValue) invalidFinNumber,
+    required TResult Function(T failedValue) invalidCarMake,
+    required TResult Function(T failedValue) invalidCarModel,
+    required TResult Function(T failedValue) invalidPlateNumber,
+    required TResult Function(T failedValue) invalidColor,
+    required TResult Function(T failedValue) invalidVehicleType,
+    required TResult Function(T failedValue) invalidYear,
+    required TResult Function(T failedValue) invalidCapacity,
+  }) {
+    return invalidCapacity(failedValue);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(T failedValue)? empty,
+    TResult? Function(T failedValue)? invalidEmail,
+    TResult? Function(T failedValue)? invalidFullName,
+    TResult? Function(T failedValue)? invalidPhoneNumber,
+    TResult? Function(T failedValue)? invalidFinNumber,
+    TResult? Function(T failedValue)? invalidCarMake,
+    TResult? Function(T failedValue)? invalidCarModel,
+    TResult? Function(T failedValue)? invalidPlateNumber,
+    TResult? Function(T failedValue)? invalidColor,
+    TResult? Function(T failedValue)? invalidVehicleType,
+    TResult? Function(T failedValue)? invalidYear,
+    TResult? Function(T failedValue)? invalidCapacity,
+  }) {
+    return invalidCapacity?.call(failedValue);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(T failedValue)? empty,
+    TResult Function(T failedValue)? invalidEmail,
+    TResult Function(T failedValue)? invalidFullName,
+    TResult Function(T failedValue)? invalidPhoneNumber,
+    TResult Function(T failedValue)? invalidFinNumber,
+    TResult Function(T failedValue)? invalidCarMake,
+    TResult Function(T failedValue)? invalidCarModel,
+    TResult Function(T failedValue)? invalidPlateNumber,
+    TResult Function(T failedValue)? invalidColor,
+    TResult Function(T failedValue)? invalidVehicleType,
+    TResult Function(T failedValue)? invalidYear,
+    TResult Function(T failedValue)? invalidCapacity,
+    required TResult orElse(),
+  }) {
+    if (invalidCapacity != null) {
+      return invalidCapacity(failedValue);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Empty<T> value) empty,
+    required TResult Function(InvalidEmail<T> value) invalidEmail,
+    required TResult Function(InvalidFullName<T> value) invalidFullName,
+    required TResult Function(InvalidPhoneNumber<T> value) invalidPhoneNumber,
+    required TResult Function(InvalidFinNumber<T> value) invalidFinNumber,
+    required TResult Function(InvalidCarMake<T> value) invalidCarMake,
+    required TResult Function(InvalidCarModel<T> value) invalidCarModel,
+    required TResult Function(InvalidPlateNumber<T> value) invalidPlateNumber,
+    required TResult Function(InvalidColor<T> value) invalidColor,
+    required TResult Function(InvalidVehicleType<T> value) invalidVehicleType,
+    required TResult Function(InvalidYear<T> value) invalidYear,
+    required TResult Function(InvalidCapacity<T> value) invalidCapacity,
+  }) {
+    return invalidCapacity(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Empty<T> value)? empty,
+    TResult? Function(InvalidEmail<T> value)? invalidEmail,
+    TResult? Function(InvalidFullName<T> value)? invalidFullName,
+    TResult? Function(InvalidPhoneNumber<T> value)? invalidPhoneNumber,
+    TResult? Function(InvalidFinNumber<T> value)? invalidFinNumber,
+    TResult? Function(InvalidCarMake<T> value)? invalidCarMake,
+    TResult? Function(InvalidCarModel<T> value)? invalidCarModel,
+    TResult? Function(InvalidPlateNumber<T> value)? invalidPlateNumber,
+    TResult? Function(InvalidColor<T> value)? invalidColor,
+    TResult? Function(InvalidVehicleType<T> value)? invalidVehicleType,
+    TResult? Function(InvalidYear<T> value)? invalidYear,
+    TResult? Function(InvalidCapacity<T> value)? invalidCapacity,
+  }) {
+    return invalidCapacity?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Empty<T> value)? empty,
+    TResult Function(InvalidEmail<T> value)? invalidEmail,
+    TResult Function(InvalidFullName<T> value)? invalidFullName,
+    TResult Function(InvalidPhoneNumber<T> value)? invalidPhoneNumber,
+    TResult Function(InvalidFinNumber<T> value)? invalidFinNumber,
+    TResult Function(InvalidCarMake<T> value)? invalidCarMake,
+    TResult Function(InvalidCarModel<T> value)? invalidCarModel,
+    TResult Function(InvalidPlateNumber<T> value)? invalidPlateNumber,
+    TResult Function(InvalidColor<T> value)? invalidColor,
+    TResult Function(InvalidVehicleType<T> value)? invalidVehicleType,
+    TResult Function(InvalidYear<T> value)? invalidYear,
+    TResult Function(InvalidCapacity<T> value)? invalidCapacity,
+    required TResult orElse(),
+  }) {
+    if (invalidCapacity != null) {
+      return invalidCapacity(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class InvalidCapacity<T> implements ValueFailure<T> {
+  const factory InvalidCapacity({required final T failedValue}) =
+      _$InvalidCapacityImpl<T>;
+
+  @override
+  T get failedValue;
+
+  /// Create a copy of ValueFailure
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$InvalidCapacityImplCopyWith<T, _$InvalidCapacityImpl<T>> get copyWith =>
+      throw _privateConstructorUsedError;
 }

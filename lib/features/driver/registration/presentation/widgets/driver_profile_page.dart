@@ -1,29 +1,25 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nest_driver/core/presentation/widgets/app_back_button.dart';
 import 'package:nest_driver/core/services/image_picker_service.dart';
-import 'package:nest_driver/features/driver/registration/presentation/models/driver_registration_form_data.dart';
+import 'package:nest_driver/core/utils/input_validation_message.dart';
+import 'package:nest_driver/features/driver/registration/application/bloc/driver_registration_bloc.dart';
 import 'package:nest_driver/features/driver/registration/presentation/widgets/driver_registration_progress_indicator.dart';
 import 'package:nest_driver/features/driver/registration/presentation/widgets/driver_registration_button.dart';
 
 class DriverProfilePage extends StatefulWidget {
-  final VoidCallback? onBackPressed;
-  final VoidCallback? onNextPressed;
   final int currentPage;
   final int totalPages;
   final String title;
-  final DriverRegistrationFormData formData;
 
   const DriverProfilePage({
     super.key,
-    required this.onBackPressed,
-    required this.onNextPressed,
     required this.currentPage,
     required this.totalPages,
     required this.title,
-    required this.formData,
   });
 
   @override
@@ -40,49 +36,56 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
   @override
   void initState() {
     super.initState();
-    _fullNameController = TextEditingController(text: widget.formData.fullName);
-    _emailController = TextEditingController(text: widget.formData.email);
-    _finNumberController = TextEditingController(text: widget.formData.finNumber);
-    
-    // Add listeners to update formData
+    final state = context.read<DriverRegistrationBloc>().state;
+    _fullNameController = TextEditingController(
+      text: state.fullName.getOrElse(''),
+    );
+    _emailController = TextEditingController(
+      text: state.email.getOrElse(''),
+    );
+    _finNumberController = TextEditingController(
+      text: state.finNumber.getOrElse(''),
+    );
+
     _fullNameController.addListener(() {
-      widget.formData.fullName = _fullNameController.text;
+      context.read<DriverRegistrationBloc>().add(
+            DriverRegistrationEvent.fullNameChanged(_fullNameController.text),
+          );
     });
     _emailController.addListener(() {
-      widget.formData.email = _emailController.text;
+      context.read<DriverRegistrationBloc>().add(
+            DriverRegistrationEvent.emailChanged(_emailController.text),
+          );
     });
     _finNumberController.addListener(() {
-      widget.formData.finNumber = _finNumberController.text.isEmpty ? null : _finNumberController.text;
+      context.read<DriverRegistrationBloc>().add(
+            DriverRegistrationEvent.finNumberChanged(_finNumberController.text),
+          );
     });
   }
 
   Future<void> _pickImage(BuildContext context, bool isProfile) async {
+    final state = context.read<DriverRegistrationBloc>().state;
+    final currentImagePath = isProfile
+        ? state.profileImagePath
+        : state.licenseImagePath;
+
     final imagePath = await _imagePickerService.showImageSourceSelectionDialog(
       context,
-      currentImagePath: isProfile 
-          ? (widget.formData.profileImage?.path) 
-          : (widget.formData.licenseImage?.path),
+      currentImagePath: currentImagePath,
     );
 
-    if (imagePath != null && imagePath.isNotEmpty) {
-      setState(() {
+    if (imagePath != null) {
         if (isProfile) {
-          widget.formData.profileImage = File(imagePath);
+        context.read<DriverRegistrationBloc>().add(
+              DriverRegistrationEvent.profileImageChanged(imagePath),
+            );
         } else {
-          widget.formData.licenseImage = File(imagePath);
-        }
-      });
-    } else if (imagePath != null && imagePath.isEmpty) {
-      // User selected remove photo option (empty string indicates remove)
-      setState(() {
-        if (isProfile) {
-          widget.formData.profileImage = null;
-        } else {
-          widget.formData.licenseImage = null;
-        }
-      });
+        context.read<DriverRegistrationBloc>().add(
+              DriverRegistrationEvent.licenseImageChanged(imagePath),
+            );
     }
-    // If imagePath is null, user cancelled - do nothing
+    }
   }
 
   @override
@@ -97,6 +100,8 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
+    return BlocBuilder<DriverRegistrationBloc, DriverRegistrationState>(
+      builder: (context, state) {
     return SingleChildScrollView(
       child: Form(
         key: _formKey,
@@ -105,7 +110,7 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Header with back button and progress
+                  // Header
               Padding(
                 padding: EdgeInsets.only(top: 16.h),
                 child: Column(
@@ -113,7 +118,13 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                     Row(
                       children: [
                         AppBackButton(
-                          onPressed: widget.onBackPressed ?? () => context.pop(),
+                              onPressed: widget.currentPage == 0
+                                  ? () => context.pop()
+                                  : () {
+                                      context.read<DriverRegistrationBloc>().add(
+                                            const DriverRegistrationEvent.previousPage(),
+                                          );
+                                    },
                         ),
                         const Spacer(),
                         Text(
@@ -125,7 +136,6 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                       ],
                     ),
                     SizedBox(height: 16.h),
-                    // Progress indicator
                     DriverRegistrationProgressIndicator(
                       currentPage: widget.currentPage,
                       totalPages: widget.totalPages,
@@ -158,14 +168,14 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: theme.colorScheme.surfaceContainerHighest,
-                            image: widget.formData.profileImage != null
+                            image: state.profileImagePath.isNotEmpty
                                 ? DecorationImage(
-                                    image: FileImage(widget.formData.profileImage!),
+                                    image: FileImage(File(state.profileImagePath)),
                                     fit: BoxFit.cover,
                                   )
                                 : null,
                           ),
-                          child: widget.formData.profileImage == null
+                          child: state.profileImagePath.isEmpty
                               ? Center(
                                   child: Icon(
                                     Icons.person_outline,
@@ -195,7 +205,9 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                                 ],
                               ),
                               child: Icon(
-                                Icons.camera_alt,
+                                state.profileImagePath.isNotEmpty
+                                    ? Icons.camera_alt_outlined
+                                    : Icons.camera_alt,
                                 size: 20.sp,
                                 color: theme.colorScheme.onSurfaceVariant,
                               ),
@@ -203,6 +215,14 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                           ),
                         ),
                       ],
+                    ),
+                  ),
+                  if (state.showErrorMessages &&
+                      state.firstInvalidField == 'profileImage')
+                    Padding(
+                      padding: EdgeInsets.only(top: 8.h),
+                      child: InputValidationMessage(
+                        message: 'Please upload your profile picture',
                     ),
                   ),
 
@@ -253,12 +273,14 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                         vertical: 14.h,
                       ),
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your full name';
-                      }
-                      return null;
-                    },
+                  ),
+                  if (state.showErrorMessages &&
+                      state.firstInvalidField == 'fullName')
+                    state.fullName.value.fold(
+                      (failure) => InputValidationMessage(
+                        message: failure.failedValue.toString(),
+                      ),
+                      (_) => const SizedBox.shrink(),
                   ),
 
                   SizedBox(height: 20.h),
@@ -300,6 +322,14 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                       ),
                     ),
                   ),
+                  if (state.showErrorMessages &&
+                      state.firstInvalidField == 'email')
+                    state.email.value.fold(
+                      (failure) => InputValidationMessage(
+                        message: failure.failedValue.toString(),
+                      ),
+                      (_) => const SizedBox.shrink(),
+                  ),
 
                   SizedBox(height: 20.h),
 
@@ -319,15 +349,46 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                       decoration: BoxDecoration(
                         color: theme.colorScheme.surfaceContainerHighest,
                         borderRadius: BorderRadius.circular(8.r),
+                        border: Border.all(
+                          color: state.showErrorMessages &&
+                                  state.firstInvalidField == 'licenseImage'
+                              ? theme.colorScheme.error
+                              : Colors.transparent,
+                          width: state.showErrorMessages &&
+                                  state.firstInvalidField == 'licenseImage'
+                              ? 2
+                              : 0,
+                        ),
                       ),
-                      child: widget.formData.licenseImage != null
-                          ? ClipRRect(
-                              borderRadius: BorderRadius.circular(8.r),
-                              child: Image.file(
-                                widget.formData.licenseImage!,
-                                height: 120.h,
-                                fit: BoxFit.cover,
-                              ),
+                      child: state.licenseImagePath.isNotEmpty
+                          ? Stack(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(8.r),
+                                  child: Image.file(
+                                    File(state.licenseImagePath),
+                                    height: 120.h,
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                Positioned(
+                                  top: 8.h,
+                                  right: 8.w,
+                                  child: Container(
+                                    padding: EdgeInsets.all(4.w),
+                                    decoration: BoxDecoration(
+                                      color: theme.colorScheme.scrim.withOpacity(0.54),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Icon(
+                                      Icons.edit,
+                                      color: theme.colorScheme.onPrimary,
+                                      size: 16.sp,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             )
                           : Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -360,6 +421,11 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                               ],
                             ),
                     ),
+                  ),
+                  if (state.showErrorMessages &&
+                      state.firstInvalidField == 'licenseImage')
+                    InputValidationMessage(
+                      message: 'Please upload your driver\'s license photo',
                   ),
 
                   SizedBox(height: 20.h),
@@ -409,20 +475,26 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                         vertical: 14.h,
                       ),
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your FIN number';
-                      }
-                      return null;
-                    },
                   ),
+                  if (state.showErrorMessages &&
+                      state.firstInvalidField == 'finNumber')
+                    state.finNumber.value.fold(
+                      (failure) => InputValidationMessage(
+                        message: failure.failedValue.toString(),
+                      ),
+                      (_) => const SizedBox.shrink(),
+                    ),
 
               SizedBox(height: 24.h),
 
               // Navigation Button
-              DriverRegistrationButton(
-                onPressed: widget.onNextPressed,
-                isLastPage: widget.currentPage == widget.totalPages - 1,
+                  DriverRegistrationButton(
+                    onPressed: () {
+                      context.read<DriverRegistrationBloc>().add(
+                            const DriverRegistrationEvent.nextPage(),
+                          );
+                    },
+                    isLastPage: widget.currentPage == widget.totalPages - 1,
               ),
 
               SizedBox(height: 24.h),
@@ -430,6 +502,8 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
           ),
         ),
       ),
+        );
+      },
     );
   }
 }

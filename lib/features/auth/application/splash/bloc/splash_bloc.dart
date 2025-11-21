@@ -45,12 +45,12 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
         
         if (hasDriverRole) {
           // User is a driver, check onboarding status
-          final isDoneOnboarding = LocalStorage.instance.getIsDoneOnboarding();
+        final isDoneOnboarding = LocalStorage.instance.getIsDoneOnboarding();
           log('SplashBloc: Onboarding done: $isDoneOnboarding');
-          if (!isDoneOnboarding) {
-            emit(state.copyWith(isLoading: false, isError: false, routeName: RouteName.onboarding));
-          } else {
-            emit(state.copyWith(isLoading: false, isError: false, routeName: RouteName.driverHome));
+        if (!isDoneOnboarding) {
+          emit(state.copyWith(isLoading: false, isError: false, routeName: RouteName.onboarding));
+        } else {
+          emit(state.copyWith(isLoading: false, isError: false, routeName: RouteName.driverHome));
           }
         } else {
           // User is not a driver, route to login (they need to register as driver)

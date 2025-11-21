@@ -17,5 +17,28 @@ class ValueFailure<T> with _$ValueFailure<T> {
   const factory ValueFailure.invalidPhoneNumber({
     required T failedValue,
   }) = InvalidPhoneNumber<T>;
-  
+  const factory ValueFailure.invalidFinNumber({
+    required T failedValue,
+  }) = InvalidFinNumber<T>;
+  const factory ValueFailure.invalidCarMake({
+    required T failedValue,
+  }) = InvalidCarMake<T>;
+  const factory ValueFailure.invalidCarModel({
+    required T failedValue,
+  }) = InvalidCarModel<T>;
+  const factory ValueFailure.invalidPlateNumber({
+    required T failedValue,
+  }) = InvalidPlateNumber<T>;
+  const factory ValueFailure.invalidColor({
+    required T failedValue,
+  }) = InvalidColor<T>;
+  const factory ValueFailure.invalidVehicleType({
+    required T failedValue,
+  }) = InvalidVehicleType<T>;
+  const factory ValueFailure.invalidYear({
+    required T failedValue,
+  }) = InvalidYear<T>;
+  const factory ValueFailure.invalidCapacity({
+    required T failedValue,
+  }) = InvalidCapacity<T>;
 }

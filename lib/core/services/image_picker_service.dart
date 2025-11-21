@@ -223,7 +223,7 @@ class ImagePickerService {
                 },
               ),
               // Remove photo option (only if there's a current image)
-              if (currentImagePath != null)
+              if (currentImagePath != null && currentImagePath.isNotEmpty)
                 ListTile(
                   leading: const Icon(Icons.delete_outline_rounded, color: Colors.red),
                   title: Text('Remove Photo', style: GoogleFonts.outfit(color: Colors.red)),
