@@ -15,7 +15,7 @@ class DriverRegistrationState with _$DriverRegistrationState {
     required YearOfManufacture yearOfManufacture,
     required PlateNumber plateNumber,
     required VehicleColor color,
-    VehicleCapacity? capacity,
+    required VehicleCapacity capacity,
     required VehicleType vehicleType,
     
     // Image paths (stored as strings, converted to File when needed)

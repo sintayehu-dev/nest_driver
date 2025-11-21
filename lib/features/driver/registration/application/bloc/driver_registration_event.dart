@@ -43,6 +43,7 @@ class DriverRegistrationEvent with _$DriverRegistrationEvent {
   const factory DriverRegistrationEvent.nextPage() = NextPage;
   const factory DriverRegistrationEvent.previousPage() = PreviousPage;
   const factory DriverRegistrationEvent.pageChanged(int pageIndex) = PageChanged;
+  const factory DriverRegistrationEvent.clearError() = ClearError;
 
   // Submit
   const factory DriverRegistrationEvent.submitForm() = SubmitForm;

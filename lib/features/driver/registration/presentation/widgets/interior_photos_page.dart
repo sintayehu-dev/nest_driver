@@ -143,11 +143,21 @@ class InteriorPhotosPage extends StatelessWidget {
                 SizedBox(height: 24.h),
 
                 // Dashboard Photo
-                Text(
-                  'Dashboard',
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: theme.colorScheme.onSurfaceVariant,
-                    fontWeight: FontWeight.w500,
+                RichText(
+                  text: TextSpan(
+                    text: 'Dashboard',
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: ' *',
+                        style: TextStyle(
+                          color: theme.colorScheme.error,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 SizedBox(height: 8.h),
@@ -157,7 +167,7 @@ class InteriorPhotosPage extends StatelessWidget {
                     width: double.infinity,
                     height: 140.h,
                     decoration: BoxDecoration(
-                      color: theme.colorScheme.surfaceContainerHighest,
+                      color: theme.inputDecorationTheme.fillColor,
                       borderRadius: BorderRadius.circular(12.r),
                       border: Border.all(
                         color: state.showErrorMessages &&
@@ -170,7 +180,8 @@ class InteriorPhotosPage extends StatelessWidget {
                             : 1,
                       ),
                     ),
-                    child: state.dashboardPhotoPath != null
+                    child: state.dashboardPhotoPath != null &&
+                            state.dashboardPhotoPath!.isNotEmpty
                         ? ClipRRect(
                             borderRadius: BorderRadius.circular(12.r),
                             child: Stack(
@@ -218,11 +229,21 @@ class InteriorPhotosPage extends StatelessWidget {
                 SizedBox(height: 16.h),
 
                 // Front Seats Photo
-                Text(
-                  'Front seat(Driver and Passenger)',
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: theme.colorScheme.onSurfaceVariant,
-                    fontWeight: FontWeight.w500,
+                RichText(
+                  text: TextSpan(
+                    text: 'Front seat(Driver and Passenger)',
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: ' *',
+                        style: TextStyle(
+                          color: theme.colorScheme.error,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 SizedBox(height: 8.h),
@@ -232,7 +253,7 @@ class InteriorPhotosPage extends StatelessWidget {
                     width: double.infinity,
                     height: 140.h,
                     decoration: BoxDecoration(
-                      color: theme.colorScheme.surfaceContainerHighest,
+                      color: theme.inputDecorationTheme.fillColor,
                       borderRadius: BorderRadius.circular(12.r),
                       border: Border.all(
                         color: state.showErrorMessages &&
@@ -245,7 +266,8 @@ class InteriorPhotosPage extends StatelessWidget {
                             : 1,
                       ),
                     ),
-                    child: state.frontSeatsPhotoPath != null
+                    child: state.frontSeatsPhotoPath != null &&
+                            state.frontSeatsPhotoPath!.isNotEmpty
                         ? ClipRRect(
                             borderRadius: BorderRadius.circular(12.r),
                             child: Stack(
@@ -293,11 +315,21 @@ class InteriorPhotosPage extends StatelessWidget {
                 SizedBox(height: 16.h),
 
                 // Back Seats Photo
-                Text(
-                  'Back seats',
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: theme.colorScheme.onSurfaceVariant,
-                    fontWeight: FontWeight.w500,
+                RichText(
+                  text: TextSpan(
+                    text: 'Back seats',
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: ' *',
+                        style: TextStyle(
+                          color: theme.colorScheme.error,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 SizedBox(height: 8.h),
@@ -307,7 +339,7 @@ class InteriorPhotosPage extends StatelessWidget {
                     width: double.infinity,
                     height: 140.h,
                     decoration: BoxDecoration(
-                      color: theme.colorScheme.surfaceContainerHighest,
+                      color: theme.inputDecorationTheme.fillColor,
                       borderRadius: BorderRadius.circular(12.r),
                       border: Border.all(
                         color: state.showErrorMessages &&
@@ -320,7 +352,8 @@ class InteriorPhotosPage extends StatelessWidget {
                             : 1,
                       ),
                     ),
-                    child: state.backSeatsPhotoPath != null
+                    child: state.backSeatsPhotoPath != null &&
+                            state.backSeatsPhotoPath!.isNotEmpty
                         ? ClipRRect(
                             borderRadius: BorderRadius.circular(12.r),
                             child: Stack(
@@ -390,7 +423,7 @@ class InteriorPhotosPage extends StatelessWidget {
                             child: Container(
                               height: 100.h,
                               decoration: BoxDecoration(
-                                color: theme.colorScheme.surfaceContainerHighest,
+                                color: theme.inputDecorationTheme.fillColor,
                                 borderRadius: BorderRadius.circular(12.r),
                                 border: Border.all(
                                   color: theme.colorScheme.outlineVariant,
@@ -445,51 +478,76 @@ class InteriorPhotosPage extends StatelessWidget {
                 SizedBox(height: 24.h),
 
                 // Terms and Conditions
-                Row(
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Checkbox(
-                      value: state.termsAccepted,
-                      onChanged: (value) {
-                        context.read<DriverRegistrationBloc>().add(
-                              DriverRegistrationEvent.termsAcceptedChanged(value ?? false),
-                            );
-                      },
-                      activeColor: AppColors.primary,
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 12.h),
-                        child: GestureDetector(
-                          onTap: () {
-                            context.read<DriverRegistrationBloc>().add(
-                                  DriverRegistrationEvent.termsAcceptedChanged(
-                                    !state.termsAccepted,
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.r),
+                        border: state.showErrorMessages &&
+                                state.firstInvalidField == 'terms'
+                            ? Border.all(
+                                color: theme.colorScheme.error,
+                                width: 2,
+                              )
+                            : null,
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Checkbox(
+                            value: state.termsAccepted,
+                            onChanged: (value) {
+                              context.read<DriverRegistrationBloc>().add(
+                                    DriverRegistrationEvent.termsAcceptedChanged(value ?? false),
+                                  );
+                            },
+                            activeColor: AppColors.primary,
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding: EdgeInsets.only(top: 12.h),
+                              child: GestureDetector(
+                                onTap: () {
+                                  context.read<DriverRegistrationBloc>().add(
+                                        DriverRegistrationEvent.termsAcceptedChanged(
+                                          !state.termsAccepted,
+                                        ),
+                                      );
+                                },
+                                child: Text(
+                                  'I agree to the Driver Terms & Conditions.',
+                                  style: theme.textTheme.bodyMedium?.copyWith(
+                                    color: theme.colorScheme.onSurface,
                                   ),
-                                );
-                          },
-                          child: Text(
-                            'I agree to the Driver Terms & Conditions.',
-                            style: theme.textTheme.bodyMedium?.copyWith(
-                              color: theme.colorScheme.onSurface,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
                     ),
+                    if (state.showErrorMessages &&
+                        state.firstInvalidField == 'terms')
+                      Padding(
+                        padding: EdgeInsets.only(top: 8.h),
+                        child: InputValidationMessage(
+                          message: 'You must agree to the terms and conditions',
+                        ),
+                      ),
                   ],
                 ),
 
                 SizedBox(height: 24.h),
 
-                // Navigation Button
+                // Submit Button (only on last page)
                 DriverRegistrationButton(
                   onPressed: () {
                     context.read<DriverRegistrationBloc>().add(
-                          const DriverRegistrationEvent.nextPage(),
+                          const DriverRegistrationEvent.submitForm(),
                         );
                   },
-                  isLastPage: currentPage == totalPages - 1,
+                  isLastPage: true,
                   isLoading: state.isLoading,
                 ),
 

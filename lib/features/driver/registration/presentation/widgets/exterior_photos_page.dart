@@ -144,100 +144,127 @@ class ExteriorPhotosPage extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.all(16.w),
                   decoration: BoxDecoration(
-                    color: AppColors.primary.withOpacity(0.1),
+                    color: AppColors.infoBoxBackground,
                     borderRadius: BorderRadius.circular(12.r),
                     border: Border.all(
-                      color: AppColors.primary.withOpacity(0.3),
+                      color: AppColors.infoBoxBorder,
                       width: 1,
                     ),
                   ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.info_outline,
-                        color: AppColors.primary,
-                        size: 20.sp,
-                      ),
-                      SizedBox(width: 12.w),
-                      Expanded(
-                        child: Text(
-                          'Make sure to include the tires when taking the photos',
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: AppColors.primary,
-                          ),
-                        ),
-                      ),
-                    ],
+                  child: Text(
+                    'Make sure to include the tires when taking the photos',
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: AppColors.infoBoxForeground,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
 
                 SizedBox(height: 24.h),
 
                 // Photo Grid
-                Row(
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: _buildPhotoCard(
-                        context,
-                        'Front side of the vehicle',
-                        state.frontPhotoPath,
-                        () => _pickImage(context, 'front'),
-                        'frontPhoto',
-                        state,
-                      ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _buildPhotoCard(
+                            context,
+                            'Front side of the vehicle',
+                            state.frontPhotoPath,
+                            () => _pickImage(context, 'front'),
+                            'frontPhoto',
+                            state,
+                            showError: false, // Don't show error inside card
+                          ),
+                        ),
+                        SizedBox(width: 16.w),
+                        Expanded(
+                          child: _buildPhotoCard(
+                            context,
+                            'Back side of the vehicle',
+                            state.backPhotoPath,
+                            () => _pickImage(context, 'back'),
+                            'backPhoto',
+                            state,
+                            showError: false, // Don't show error inside card
+                          ),
+                        ),
+                      ],
                     ),
-                    SizedBox(width: 16.w),
-                    Expanded(
-                      child: _buildPhotoCard(
-                        context,
-                        'Back side of the vehicle',
-                        state.backPhotoPath,
-                        () => _pickImage(context, 'back'),
-                        'backPhoto',
-                        state,
+                    // Show validation message below the row for full width
+                    if (state.showErrorMessages &&
+                        (state.firstInvalidField == 'frontPhoto' ||
+                            state.firstInvalidField == 'backPhoto'))
+                      Padding(
+                        padding: EdgeInsets.only(top: 8.h),
+                        child: InputValidationMessage(
+                          message: state.firstInvalidField == 'frontPhoto'
+                              ? 'Please upload Front side of the vehicle photo'
+                              : 'Please upload Back side of the vehicle photo',
+                        ),
                       ),
-                    ),
                   ],
                 ),
 
                 SizedBox(height: 16.h),
 
-                Row(
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: _buildPhotoCard(
-                        context,
-                        'Left side of the vehicle',
-                        state.leftPhotoPath,
-                        () => _pickImage(context, 'left'),
-                        'leftPhoto',
-                        state,
-                      ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _buildPhotoCard(
+                            context,
+                            'Left side of the vehicle',
+                            state.leftPhotoPath,
+                            () => _pickImage(context, 'left'),
+                            'leftPhoto',
+                            state,
+                            showError: false, // Don't show error inside card
+                          ),
+                        ),
+                        SizedBox(width: 16.w),
+                        Expanded(
+                          child: _buildPhotoCard(
+                            context,
+                            'Right side of the vehicle',
+                            state.rightPhotoPath,
+                            () => _pickImage(context, 'right'),
+                            'rightPhoto',
+                            state,
+                            showError: false, // Don't show error inside card
+                          ),
+                        ),
+                      ],
                     ),
-                    SizedBox(width: 16.w),
-                    Expanded(
-                      child: _buildPhotoCard(
-                        context,
-                        'Right side of the vehicle',
-                        state.rightPhotoPath,
-                        () => _pickImage(context, 'right'),
-                        'rightPhoto',
-                        state,
+                    // Show validation message below the row for full width
+                    if (state.showErrorMessages &&
+                        (state.firstInvalidField == 'leftPhoto' ||
+                            state.firstInvalidField == 'rightPhoto'))
+                      Padding(
+                        padding: EdgeInsets.only(top: 8.h),
+                        child: InputValidationMessage(
+                          message: state.firstInvalidField == 'leftPhoto'
+                              ? 'Please upload Left side of the vehicle photo'
+                              : 'Please upload Right side of the vehicle photo',
+                        ),
                       ),
-                    ),
                   ],
                 ),
 
                 SizedBox(height: 24.h),
 
-                // Navigation Button
+                // Next Button
                 DriverRegistrationButton(
                   onPressed: () {
                     context.read<DriverRegistrationBloc>().add(
                           const DriverRegistrationEvent.nextPage(),
                         );
                   },
-                  isLastPage: currentPage == totalPages - 1,
+                  isLastPage: false,
                 ),
 
                 SizedBox(height: 24.h),
@@ -255,8 +282,9 @@ class ExteriorPhotosPage extends StatelessWidget {
     String? imagePath,
     VoidCallback onTap,
     String fieldName,
-    DriverRegistrationState state,
-  ) {
+    DriverRegistrationState state, {
+    bool showError = true, // Default to true for backward compatibility
+  }) {
     final theme = Theme.of(context);
     final hasError = state.showErrorMessages &&
         state.firstInvalidField == fieldName;
@@ -264,11 +292,21 @@ class ExteriorPhotosPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label,
-          style: theme.textTheme.bodySmall?.copyWith(
-            color: theme.colorScheme.onSurfaceVariant,
-            fontWeight: FontWeight.w500,
+        RichText(
+          text: TextSpan(
+            text: label,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+              fontWeight: FontWeight.w500,
+            ),
+            children: [
+              TextSpan(
+                text: ' *',
+                style: TextStyle(
+                  color: theme.colorScheme.error,
+                ),
+              ),
+            ],
           ),
         ),
         SizedBox(height: 8.h),
@@ -277,7 +315,7 @@ class ExteriorPhotosPage extends StatelessWidget {
           child: Container(
             height: 140.h,
             decoration: BoxDecoration(
-              color: theme.colorScheme.surfaceContainerHighest,
+              color: theme.inputDecorationTheme.fillColor,
               borderRadius: BorderRadius.circular(12.r),
               border: Border.all(
                 color: hasError
@@ -286,7 +324,7 @@ class ExteriorPhotosPage extends StatelessWidget {
                 width: hasError ? 2 : 1,
               ),
             ),
-            child: imagePath != null
+            child: imagePath != null && imagePath.isNotEmpty
                 ? ClipRRect(
                     borderRadius: BorderRadius.circular(12.r),
                     child: Stack(
@@ -325,9 +363,13 @@ class ExteriorPhotosPage extends StatelessWidget {
                   ),
           ),
         ),
-        if (hasError)
-          InputValidationMessage(
-            message: 'Please upload $label photo',
+        // Only show error inside card if showError is true
+        if (hasError && showError)
+          Padding(
+            padding: EdgeInsets.only(top: 8.h),
+            child: InputValidationMessage(
+              message: 'Please upload $label photo',
+            ),
           ),
       ],
     );

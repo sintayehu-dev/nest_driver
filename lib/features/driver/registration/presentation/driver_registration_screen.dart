@@ -76,7 +76,7 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
       child: BlocConsumer<DriverRegistrationBloc, DriverRegistrationState>(
         listenWhen: (previous, current) =>
             previous.isLoading != current.isLoading ||
-            previous.isError != current.isError ||
+            (previous.isError != current.isError && current.isError) || // Only when error becomes true
             previous.isSuccess != current.isSuccess ||
             previous.shouldNavigateNext != current.shouldNavigateNext ||
             previous.shouldNavigatePrevious != current.shouldNavigatePrevious ||
@@ -121,6 +121,10 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
               state.isError &&
               state.errorMessage.isNotEmpty) {
             AppHelpers.showErrorFlash(context, state.errorMessage);
+            // Clear error state after showing toast to prevent re-showing
+            context.read<DriverRegistrationBloc>().add(
+                  const DriverRegistrationEvent.clearError(),
+                );
           }
         },
         builder: (context, state) {
@@ -135,6 +139,7 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
                   Expanded(
                     child: PageView.builder(
                       controller: _pageController,
+                      physics: const NeverScrollableScrollPhysics(), // Disable swipe gesture
                       onPageChanged: (index) {
                         context.read<DriverRegistrationBloc>().add(
                               DriverRegistrationEvent.pageChanged(index),

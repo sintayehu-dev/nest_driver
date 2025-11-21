@@ -48,6 +48,7 @@ mixin _$DriverRegistrationEvent {
     required TResult Function() nextPage,
     required TResult Function() previousPage,
     required TResult Function(int pageIndex) pageChanged,
+    required TResult Function() clearError,
     required TResult Function() submitForm,
     required TResult Function(
             String? phoneNumber,
@@ -90,6 +91,7 @@ mixin _$DriverRegistrationEvent {
     TResult? Function()? nextPage,
     TResult? Function()? previousPage,
     TResult? Function(int pageIndex)? pageChanged,
+    TResult? Function()? clearError,
     TResult? Function()? submitForm,
     TResult? Function(
             String? phoneNumber,
@@ -132,6 +134,7 @@ mixin _$DriverRegistrationEvent {
     TResult Function()? nextPage,
     TResult Function()? previousPage,
     TResult Function(int pageIndex)? pageChanged,
+    TResult Function()? clearError,
     TResult Function()? submitForm,
     TResult Function(
             String? phoneNumber,
@@ -185,6 +188,7 @@ mixin _$DriverRegistrationEvent {
     required TResult Function(NextPage value) nextPage,
     required TResult Function(PreviousPage value) previousPage,
     required TResult Function(PageChanged value) pageChanged,
+    required TResult Function(ClearError value) clearError,
     required TResult Function(SubmitForm value) submitForm,
     required TResult Function(DriverRegistrationSubmitted value) submitted,
   }) =>
@@ -222,6 +226,7 @@ mixin _$DriverRegistrationEvent {
     TResult? Function(NextPage value)? nextPage,
     TResult? Function(PreviousPage value)? previousPage,
     TResult? Function(PageChanged value)? pageChanged,
+    TResult? Function(ClearError value)? clearError,
     TResult? Function(SubmitForm value)? submitForm,
     TResult? Function(DriverRegistrationSubmitted value)? submitted,
   }) =>
@@ -259,6 +264,7 @@ mixin _$DriverRegistrationEvent {
     TResult Function(NextPage value)? nextPage,
     TResult Function(PreviousPage value)? previousPage,
     TResult Function(PageChanged value)? pageChanged,
+    TResult Function(ClearError value)? clearError,
     TResult Function(SubmitForm value)? submitForm,
     TResult Function(DriverRegistrationSubmitted value)? submitted,
     required TResult orElse(),
@@ -393,6 +399,7 @@ class _$DriverRegistrationInitializedImpl
     required TResult Function() nextPage,
     required TResult Function() previousPage,
     required TResult Function(int pageIndex) pageChanged,
+    required TResult Function() clearError,
     required TResult Function() submitForm,
     required TResult Function(
             String? phoneNumber,
@@ -438,6 +445,7 @@ class _$DriverRegistrationInitializedImpl
     TResult? Function()? nextPage,
     TResult? Function()? previousPage,
     TResult? Function(int pageIndex)? pageChanged,
+    TResult? Function()? clearError,
     TResult? Function()? submitForm,
     TResult? Function(
             String? phoneNumber,
@@ -483,6 +491,7 @@ class _$DriverRegistrationInitializedImpl
     TResult Function()? nextPage,
     TResult Function()? previousPage,
     TResult Function(int pageIndex)? pageChanged,
+    TResult Function()? clearError,
     TResult Function()? submitForm,
     TResult Function(
             String? phoneNumber,
@@ -542,6 +551,7 @@ class _$DriverRegistrationInitializedImpl
     required TResult Function(NextPage value) nextPage,
     required TResult Function(PreviousPage value) previousPage,
     required TResult Function(PageChanged value) pageChanged,
+    required TResult Function(ClearError value) clearError,
     required TResult Function(SubmitForm value) submitForm,
     required TResult Function(DriverRegistrationSubmitted value) submitted,
   }) {
@@ -582,6 +592,7 @@ class _$DriverRegistrationInitializedImpl
     TResult? Function(NextPage value)? nextPage,
     TResult? Function(PreviousPage value)? previousPage,
     TResult? Function(PageChanged value)? pageChanged,
+    TResult? Function(ClearError value)? clearError,
     TResult? Function(SubmitForm value)? submitForm,
     TResult? Function(DriverRegistrationSubmitted value)? submitted,
   }) {
@@ -622,6 +633,7 @@ class _$DriverRegistrationInitializedImpl
     TResult Function(NextPage value)? nextPage,
     TResult Function(PreviousPage value)? previousPage,
     TResult Function(PageChanged value)? pageChanged,
+    TResult Function(ClearError value)? clearError,
     TResult Function(SubmitForm value)? submitForm,
     TResult Function(DriverRegistrationSubmitted value)? submitted,
     required TResult orElse(),
@@ -748,6 +760,7 @@ class _$FullNameChangedImpl implements FullNameChanged {
     required TResult Function() nextPage,
     required TResult Function() previousPage,
     required TResult Function(int pageIndex) pageChanged,
+    required TResult Function() clearError,
     required TResult Function() submitForm,
     required TResult Function(
             String? phoneNumber,
@@ -793,6 +806,7 @@ class _$FullNameChangedImpl implements FullNameChanged {
     TResult? Function()? nextPage,
     TResult? Function()? previousPage,
     TResult? Function(int pageIndex)? pageChanged,
+    TResult? Function()? clearError,
     TResult? Function()? submitForm,
     TResult? Function(
             String? phoneNumber,
@@ -838,6 +852,7 @@ class _$FullNameChangedImpl implements FullNameChanged {
     TResult Function()? nextPage,
     TResult Function()? previousPage,
     TResult Function(int pageIndex)? pageChanged,
+    TResult Function()? clearError,
     TResult Function()? submitForm,
     TResult Function(
             String? phoneNumber,
@@ -897,6 +912,7 @@ class _$FullNameChangedImpl implements FullNameChanged {
     required TResult Function(NextPage value) nextPage,
     required TResult Function(PreviousPage value) previousPage,
     required TResult Function(PageChanged value) pageChanged,
+    required TResult Function(ClearError value) clearError,
     required TResult Function(SubmitForm value) submitForm,
     required TResult Function(DriverRegistrationSubmitted value) submitted,
   }) {
@@ -937,6 +953,7 @@ class _$FullNameChangedImpl implements FullNameChanged {
     TResult? Function(NextPage value)? nextPage,
     TResult? Function(PreviousPage value)? previousPage,
     TResult? Function(PageChanged value)? pageChanged,
+    TResult? Function(ClearError value)? clearError,
     TResult? Function(SubmitForm value)? submitForm,
     TResult? Function(DriverRegistrationSubmitted value)? submitted,
   }) {
@@ -977,6 +994,7 @@ class _$FullNameChangedImpl implements FullNameChanged {
     TResult Function(NextPage value)? nextPage,
     TResult Function(PreviousPage value)? previousPage,
     TResult Function(PageChanged value)? pageChanged,
+    TResult Function(ClearError value)? clearError,
     TResult Function(SubmitForm value)? submitForm,
     TResult Function(DriverRegistrationSubmitted value)? submitted,
     required TResult orElse(),
@@ -1098,6 +1116,7 @@ class _$EmailChangedImpl implements EmailChanged {
     required TResult Function() nextPage,
     required TResult Function() previousPage,
     required TResult Function(int pageIndex) pageChanged,
+    required TResult Function() clearError,
     required TResult Function() submitForm,
     required TResult Function(
             String? phoneNumber,
@@ -1143,6 +1162,7 @@ class _$EmailChangedImpl implements EmailChanged {
     TResult? Function()? nextPage,
     TResult? Function()? previousPage,
     TResult? Function(int pageIndex)? pageChanged,
+    TResult? Function()? clearError,
     TResult? Function()? submitForm,
     TResult? Function(
             String? phoneNumber,
@@ -1188,6 +1208,7 @@ class _$EmailChangedImpl implements EmailChanged {
     TResult Function()? nextPage,
     TResult Function()? previousPage,
     TResult Function(int pageIndex)? pageChanged,
+    TResult Function()? clearError,
     TResult Function()? submitForm,
     TResult Function(
             String? phoneNumber,
@@ -1247,6 +1268,7 @@ class _$EmailChangedImpl implements EmailChanged {
     required TResult Function(NextPage value) nextPage,
     required TResult Function(PreviousPage value) previousPage,
     required TResult Function(PageChanged value) pageChanged,
+    required TResult Function(ClearError value) clearError,
     required TResult Function(SubmitForm value) submitForm,
     required TResult Function(DriverRegistrationSubmitted value) submitted,
   }) {
@@ -1287,6 +1309,7 @@ class _$EmailChangedImpl implements EmailChanged {
     TResult? Function(NextPage value)? nextPage,
     TResult? Function(PreviousPage value)? previousPage,
     TResult? Function(PageChanged value)? pageChanged,
+    TResult? Function(ClearError value)? clearError,
     TResult? Function(SubmitForm value)? submitForm,
     TResult? Function(DriverRegistrationSubmitted value)? submitted,
   }) {
@@ -1327,6 +1350,7 @@ class _$EmailChangedImpl implements EmailChanged {
     TResult Function(NextPage value)? nextPage,
     TResult Function(PreviousPage value)? previousPage,
     TResult Function(PageChanged value)? pageChanged,
+    TResult Function(ClearError value)? clearError,
     TResult Function(SubmitForm value)? submitForm,
     TResult Function(DriverRegistrationSubmitted value)? submitted,
     required TResult orElse(),
@@ -1450,6 +1474,7 @@ class _$FinNumberChangedImpl implements FinNumberChanged {
     required TResult Function() nextPage,
     required TResult Function() previousPage,
     required TResult Function(int pageIndex) pageChanged,
+    required TResult Function() clearError,
     required TResult Function() submitForm,
     required TResult Function(
             String? phoneNumber,
@@ -1495,6 +1520,7 @@ class _$FinNumberChangedImpl implements FinNumberChanged {
     TResult? Function()? nextPage,
     TResult? Function()? previousPage,
     TResult? Function(int pageIndex)? pageChanged,
+    TResult? Function()? clearError,
     TResult? Function()? submitForm,
     TResult? Function(
             String? phoneNumber,
@@ -1540,6 +1566,7 @@ class _$FinNumberChangedImpl implements FinNumberChanged {
     TResult Function()? nextPage,
     TResult Function()? previousPage,
     TResult Function(int pageIndex)? pageChanged,
+    TResult Function()? clearError,
     TResult Function()? submitForm,
     TResult Function(
             String? phoneNumber,
@@ -1599,6 +1626,7 @@ class _$FinNumberChangedImpl implements FinNumberChanged {
     required TResult Function(NextPage value) nextPage,
     required TResult Function(PreviousPage value) previousPage,
     required TResult Function(PageChanged value) pageChanged,
+    required TResult Function(ClearError value) clearError,
     required TResult Function(SubmitForm value) submitForm,
     required TResult Function(DriverRegistrationSubmitted value) submitted,
   }) {
@@ -1639,6 +1667,7 @@ class _$FinNumberChangedImpl implements FinNumberChanged {
     TResult? Function(NextPage value)? nextPage,
     TResult? Function(PreviousPage value)? previousPage,
     TResult? Function(PageChanged value)? pageChanged,
+    TResult? Function(ClearError value)? clearError,
     TResult? Function(SubmitForm value)? submitForm,
     TResult? Function(DriverRegistrationSubmitted value)? submitted,
   }) {
@@ -1679,6 +1708,7 @@ class _$FinNumberChangedImpl implements FinNumberChanged {
     TResult Function(NextPage value)? nextPage,
     TResult Function(PreviousPage value)? previousPage,
     TResult Function(PageChanged value)? pageChanged,
+    TResult Function(ClearError value)? clearError,
     TResult Function(SubmitForm value)? submitForm,
     TResult Function(DriverRegistrationSubmitted value)? submitted,
     required TResult orElse(),
@@ -1804,6 +1834,7 @@ class _$ProfileImageChangedImpl implements ProfileImageChanged {
     required TResult Function() nextPage,
     required TResult Function() previousPage,
     required TResult Function(int pageIndex) pageChanged,
+    required TResult Function() clearError,
     required TResult Function() submitForm,
     required TResult Function(
             String? phoneNumber,
@@ -1849,6 +1880,7 @@ class _$ProfileImageChangedImpl implements ProfileImageChanged {
     TResult? Function()? nextPage,
     TResult? Function()? previousPage,
     TResult? Function(int pageIndex)? pageChanged,
+    TResult? Function()? clearError,
     TResult? Function()? submitForm,
     TResult? Function(
             String? phoneNumber,
@@ -1894,6 +1926,7 @@ class _$ProfileImageChangedImpl implements ProfileImageChanged {
     TResult Function()? nextPage,
     TResult Function()? previousPage,
     TResult Function(int pageIndex)? pageChanged,
+    TResult Function()? clearError,
     TResult Function()? submitForm,
     TResult Function(
             String? phoneNumber,
@@ -1953,6 +1986,7 @@ class _$ProfileImageChangedImpl implements ProfileImageChanged {
     required TResult Function(NextPage value) nextPage,
     required TResult Function(PreviousPage value) previousPage,
     required TResult Function(PageChanged value) pageChanged,
+    required TResult Function(ClearError value) clearError,
     required TResult Function(SubmitForm value) submitForm,
     required TResult Function(DriverRegistrationSubmitted value) submitted,
   }) {
@@ -1993,6 +2027,7 @@ class _$ProfileImageChangedImpl implements ProfileImageChanged {
     TResult? Function(NextPage value)? nextPage,
     TResult? Function(PreviousPage value)? previousPage,
     TResult? Function(PageChanged value)? pageChanged,
+    TResult? Function(ClearError value)? clearError,
     TResult? Function(SubmitForm value)? submitForm,
     TResult? Function(DriverRegistrationSubmitted value)? submitted,
   }) {
@@ -2033,6 +2068,7 @@ class _$ProfileImageChangedImpl implements ProfileImageChanged {
     TResult Function(NextPage value)? nextPage,
     TResult Function(PreviousPage value)? previousPage,
     TResult Function(PageChanged value)? pageChanged,
+    TResult Function(ClearError value)? clearError,
     TResult Function(SubmitForm value)? submitForm,
     TResult Function(DriverRegistrationSubmitted value)? submitted,
     required TResult orElse(),
@@ -2158,6 +2194,7 @@ class _$LicenseImageChangedImpl implements LicenseImageChanged {
     required TResult Function() nextPage,
     required TResult Function() previousPage,
     required TResult Function(int pageIndex) pageChanged,
+    required TResult Function() clearError,
     required TResult Function() submitForm,
     required TResult Function(
             String? phoneNumber,
@@ -2203,6 +2240,7 @@ class _$LicenseImageChangedImpl implements LicenseImageChanged {
     TResult? Function()? nextPage,
     TResult? Function()? previousPage,
     TResult? Function(int pageIndex)? pageChanged,
+    TResult? Function()? clearError,
     TResult? Function()? submitForm,
     TResult? Function(
             String? phoneNumber,
@@ -2248,6 +2286,7 @@ class _$LicenseImageChangedImpl implements LicenseImageChanged {
     TResult Function()? nextPage,
     TResult Function()? previousPage,
     TResult Function(int pageIndex)? pageChanged,
+    TResult Function()? clearError,
     TResult Function()? submitForm,
     TResult Function(
             String? phoneNumber,
@@ -2307,6 +2346,7 @@ class _$LicenseImageChangedImpl implements LicenseImageChanged {
     required TResult Function(NextPage value) nextPage,
     required TResult Function(PreviousPage value) previousPage,
     required TResult Function(PageChanged value) pageChanged,
+    required TResult Function(ClearError value) clearError,
     required TResult Function(SubmitForm value) submitForm,
     required TResult Function(DriverRegistrationSubmitted value) submitted,
   }) {
@@ -2347,6 +2387,7 @@ class _$LicenseImageChangedImpl implements LicenseImageChanged {
     TResult? Function(NextPage value)? nextPage,
     TResult? Function(PreviousPage value)? previousPage,
     TResult? Function(PageChanged value)? pageChanged,
+    TResult? Function(ClearError value)? clearError,
     TResult? Function(SubmitForm value)? submitForm,
     TResult? Function(DriverRegistrationSubmitted value)? submitted,
   }) {
@@ -2387,6 +2428,7 @@ class _$LicenseImageChangedImpl implements LicenseImageChanged {
     TResult Function(NextPage value)? nextPage,
     TResult Function(PreviousPage value)? previousPage,
     TResult Function(PageChanged value)? pageChanged,
+    TResult Function(ClearError value)? clearError,
     TResult Function(SubmitForm value)? submitForm,
     TResult Function(DriverRegistrationSubmitted value)? submitted,
     required TResult orElse(),
@@ -2510,6 +2552,7 @@ class _$CarMakeChangedImpl implements CarMakeChanged {
     required TResult Function() nextPage,
     required TResult Function() previousPage,
     required TResult Function(int pageIndex) pageChanged,
+    required TResult Function() clearError,
     required TResult Function() submitForm,
     required TResult Function(
             String? phoneNumber,
@@ -2555,6 +2598,7 @@ class _$CarMakeChangedImpl implements CarMakeChanged {
     TResult? Function()? nextPage,
     TResult? Function()? previousPage,
     TResult? Function(int pageIndex)? pageChanged,
+    TResult? Function()? clearError,
     TResult? Function()? submitForm,
     TResult? Function(
             String? phoneNumber,
@@ -2600,6 +2644,7 @@ class _$CarMakeChangedImpl implements CarMakeChanged {
     TResult Function()? nextPage,
     TResult Function()? previousPage,
     TResult Function(int pageIndex)? pageChanged,
+    TResult Function()? clearError,
     TResult Function()? submitForm,
     TResult Function(
             String? phoneNumber,
@@ -2659,6 +2704,7 @@ class _$CarMakeChangedImpl implements CarMakeChanged {
     required TResult Function(NextPage value) nextPage,
     required TResult Function(PreviousPage value) previousPage,
     required TResult Function(PageChanged value) pageChanged,
+    required TResult Function(ClearError value) clearError,
     required TResult Function(SubmitForm value) submitForm,
     required TResult Function(DriverRegistrationSubmitted value) submitted,
   }) {
@@ -2699,6 +2745,7 @@ class _$CarMakeChangedImpl implements CarMakeChanged {
     TResult? Function(NextPage value)? nextPage,
     TResult? Function(PreviousPage value)? previousPage,
     TResult? Function(PageChanged value)? pageChanged,
+    TResult? Function(ClearError value)? clearError,
     TResult? Function(SubmitForm value)? submitForm,
     TResult? Function(DriverRegistrationSubmitted value)? submitted,
   }) {
@@ -2739,6 +2786,7 @@ class _$CarMakeChangedImpl implements CarMakeChanged {
     TResult Function(NextPage value)? nextPage,
     TResult Function(PreviousPage value)? previousPage,
     TResult Function(PageChanged value)? pageChanged,
+    TResult Function(ClearError value)? clearError,
     TResult Function(SubmitForm value)? submitForm,
     TResult Function(DriverRegistrationSubmitted value)? submitted,
     required TResult orElse(),
@@ -2862,6 +2910,7 @@ class _$CarModelChangedImpl implements CarModelChanged {
     required TResult Function() nextPage,
     required TResult Function() previousPage,
     required TResult Function(int pageIndex) pageChanged,
+    required TResult Function() clearError,
     required TResult Function() submitForm,
     required TResult Function(
             String? phoneNumber,
@@ -2907,6 +2956,7 @@ class _$CarModelChangedImpl implements CarModelChanged {
     TResult? Function()? nextPage,
     TResult? Function()? previousPage,
     TResult? Function(int pageIndex)? pageChanged,
+    TResult? Function()? clearError,
     TResult? Function()? submitForm,
     TResult? Function(
             String? phoneNumber,
@@ -2952,6 +3002,7 @@ class _$CarModelChangedImpl implements CarModelChanged {
     TResult Function()? nextPage,
     TResult Function()? previousPage,
     TResult Function(int pageIndex)? pageChanged,
+    TResult Function()? clearError,
     TResult Function()? submitForm,
     TResult Function(
             String? phoneNumber,
@@ -3011,6 +3062,7 @@ class _$CarModelChangedImpl implements CarModelChanged {
     required TResult Function(NextPage value) nextPage,
     required TResult Function(PreviousPage value) previousPage,
     required TResult Function(PageChanged value) pageChanged,
+    required TResult Function(ClearError value) clearError,
     required TResult Function(SubmitForm value) submitForm,
     required TResult Function(DriverRegistrationSubmitted value) submitted,
   }) {
@@ -3051,6 +3103,7 @@ class _$CarModelChangedImpl implements CarModelChanged {
     TResult? Function(NextPage value)? nextPage,
     TResult? Function(PreviousPage value)? previousPage,
     TResult? Function(PageChanged value)? pageChanged,
+    TResult? Function(ClearError value)? clearError,
     TResult? Function(SubmitForm value)? submitForm,
     TResult? Function(DriverRegistrationSubmitted value)? submitted,
   }) {
@@ -3091,6 +3144,7 @@ class _$CarModelChangedImpl implements CarModelChanged {
     TResult Function(NextPage value)? nextPage,
     TResult Function(PreviousPage value)? previousPage,
     TResult Function(PageChanged value)? pageChanged,
+    TResult Function(ClearError value)? clearError,
     TResult Function(SubmitForm value)? submitForm,
     TResult Function(DriverRegistrationSubmitted value)? submitted,
     required TResult orElse(),
@@ -3216,6 +3270,7 @@ class _$YearOfManufactureChangedImpl implements YearOfManufactureChanged {
     required TResult Function() nextPage,
     required TResult Function() previousPage,
     required TResult Function(int pageIndex) pageChanged,
+    required TResult Function() clearError,
     required TResult Function() submitForm,
     required TResult Function(
             String? phoneNumber,
@@ -3261,6 +3316,7 @@ class _$YearOfManufactureChangedImpl implements YearOfManufactureChanged {
     TResult? Function()? nextPage,
     TResult? Function()? previousPage,
     TResult? Function(int pageIndex)? pageChanged,
+    TResult? Function()? clearError,
     TResult? Function()? submitForm,
     TResult? Function(
             String? phoneNumber,
@@ -3306,6 +3362,7 @@ class _$YearOfManufactureChangedImpl implements YearOfManufactureChanged {
     TResult Function()? nextPage,
     TResult Function()? previousPage,
     TResult Function(int pageIndex)? pageChanged,
+    TResult Function()? clearError,
     TResult Function()? submitForm,
     TResult Function(
             String? phoneNumber,
@@ -3365,6 +3422,7 @@ class _$YearOfManufactureChangedImpl implements YearOfManufactureChanged {
     required TResult Function(NextPage value) nextPage,
     required TResult Function(PreviousPage value) previousPage,
     required TResult Function(PageChanged value) pageChanged,
+    required TResult Function(ClearError value) clearError,
     required TResult Function(SubmitForm value) submitForm,
     required TResult Function(DriverRegistrationSubmitted value) submitted,
   }) {
@@ -3405,6 +3463,7 @@ class _$YearOfManufactureChangedImpl implements YearOfManufactureChanged {
     TResult? Function(NextPage value)? nextPage,
     TResult? Function(PreviousPage value)? previousPage,
     TResult? Function(PageChanged value)? pageChanged,
+    TResult? Function(ClearError value)? clearError,
     TResult? Function(SubmitForm value)? submitForm,
     TResult? Function(DriverRegistrationSubmitted value)? submitted,
   }) {
@@ -3445,6 +3504,7 @@ class _$YearOfManufactureChangedImpl implements YearOfManufactureChanged {
     TResult Function(NextPage value)? nextPage,
     TResult Function(PreviousPage value)? previousPage,
     TResult Function(PageChanged value)? pageChanged,
+    TResult Function(ClearError value)? clearError,
     TResult Function(SubmitForm value)? submitForm,
     TResult Function(DriverRegistrationSubmitted value)? submitted,
     required TResult orElse(),
@@ -3570,6 +3630,7 @@ class _$PlateNumberChangedImpl implements PlateNumberChanged {
     required TResult Function() nextPage,
     required TResult Function() previousPage,
     required TResult Function(int pageIndex) pageChanged,
+    required TResult Function() clearError,
     required TResult Function() submitForm,
     required TResult Function(
             String? phoneNumber,
@@ -3615,6 +3676,7 @@ class _$PlateNumberChangedImpl implements PlateNumberChanged {
     TResult? Function()? nextPage,
     TResult? Function()? previousPage,
     TResult? Function(int pageIndex)? pageChanged,
+    TResult? Function()? clearError,
     TResult? Function()? submitForm,
     TResult? Function(
             String? phoneNumber,
@@ -3660,6 +3722,7 @@ class _$PlateNumberChangedImpl implements PlateNumberChanged {
     TResult Function()? nextPage,
     TResult Function()? previousPage,
     TResult Function(int pageIndex)? pageChanged,
+    TResult Function()? clearError,
     TResult Function()? submitForm,
     TResult Function(
             String? phoneNumber,
@@ -3719,6 +3782,7 @@ class _$PlateNumberChangedImpl implements PlateNumberChanged {
     required TResult Function(NextPage value) nextPage,
     required TResult Function(PreviousPage value) previousPage,
     required TResult Function(PageChanged value) pageChanged,
+    required TResult Function(ClearError value) clearError,
     required TResult Function(SubmitForm value) submitForm,
     required TResult Function(DriverRegistrationSubmitted value) submitted,
   }) {
@@ -3759,6 +3823,7 @@ class _$PlateNumberChangedImpl implements PlateNumberChanged {
     TResult? Function(NextPage value)? nextPage,
     TResult? Function(PreviousPage value)? previousPage,
     TResult? Function(PageChanged value)? pageChanged,
+    TResult? Function(ClearError value)? clearError,
     TResult? Function(SubmitForm value)? submitForm,
     TResult? Function(DriverRegistrationSubmitted value)? submitted,
   }) {
@@ -3799,6 +3864,7 @@ class _$PlateNumberChangedImpl implements PlateNumberChanged {
     TResult Function(NextPage value)? nextPage,
     TResult Function(PreviousPage value)? previousPage,
     TResult Function(PageChanged value)? pageChanged,
+    TResult Function(ClearError value)? clearError,
     TResult Function(SubmitForm value)? submitForm,
     TResult Function(DriverRegistrationSubmitted value)? submitted,
     required TResult orElse(),
@@ -3921,6 +3987,7 @@ class _$ColorChangedImpl implements ColorChanged {
     required TResult Function() nextPage,
     required TResult Function() previousPage,
     required TResult Function(int pageIndex) pageChanged,
+    required TResult Function() clearError,
     required TResult Function() submitForm,
     required TResult Function(
             String? phoneNumber,
@@ -3966,6 +4033,7 @@ class _$ColorChangedImpl implements ColorChanged {
     TResult? Function()? nextPage,
     TResult? Function()? previousPage,
     TResult? Function(int pageIndex)? pageChanged,
+    TResult? Function()? clearError,
     TResult? Function()? submitForm,
     TResult? Function(
             String? phoneNumber,
@@ -4011,6 +4079,7 @@ class _$ColorChangedImpl implements ColorChanged {
     TResult Function()? nextPage,
     TResult Function()? previousPage,
     TResult Function(int pageIndex)? pageChanged,
+    TResult Function()? clearError,
     TResult Function()? submitForm,
     TResult Function(
             String? phoneNumber,
@@ -4070,6 +4139,7 @@ class _$ColorChangedImpl implements ColorChanged {
     required TResult Function(NextPage value) nextPage,
     required TResult Function(PreviousPage value) previousPage,
     required TResult Function(PageChanged value) pageChanged,
+    required TResult Function(ClearError value) clearError,
     required TResult Function(SubmitForm value) submitForm,
     required TResult Function(DriverRegistrationSubmitted value) submitted,
   }) {
@@ -4110,6 +4180,7 @@ class _$ColorChangedImpl implements ColorChanged {
     TResult? Function(NextPage value)? nextPage,
     TResult? Function(PreviousPage value)? previousPage,
     TResult? Function(PageChanged value)? pageChanged,
+    TResult? Function(ClearError value)? clearError,
     TResult? Function(SubmitForm value)? submitForm,
     TResult? Function(DriverRegistrationSubmitted value)? submitted,
   }) {
@@ -4150,6 +4221,7 @@ class _$ColorChangedImpl implements ColorChanged {
     TResult Function(NextPage value)? nextPage,
     TResult Function(PreviousPage value)? previousPage,
     TResult Function(PageChanged value)? pageChanged,
+    TResult Function(ClearError value)? clearError,
     TResult Function(SubmitForm value)? submitForm,
     TResult Function(DriverRegistrationSubmitted value)? submitted,
     required TResult orElse(),
@@ -4273,6 +4345,7 @@ class _$CapacityChangedImpl implements CapacityChanged {
     required TResult Function() nextPage,
     required TResult Function() previousPage,
     required TResult Function(int pageIndex) pageChanged,
+    required TResult Function() clearError,
     required TResult Function() submitForm,
     required TResult Function(
             String? phoneNumber,
@@ -4318,6 +4391,7 @@ class _$CapacityChangedImpl implements CapacityChanged {
     TResult? Function()? nextPage,
     TResult? Function()? previousPage,
     TResult? Function(int pageIndex)? pageChanged,
+    TResult? Function()? clearError,
     TResult? Function()? submitForm,
     TResult? Function(
             String? phoneNumber,
@@ -4363,6 +4437,7 @@ class _$CapacityChangedImpl implements CapacityChanged {
     TResult Function()? nextPage,
     TResult Function()? previousPage,
     TResult Function(int pageIndex)? pageChanged,
+    TResult Function()? clearError,
     TResult Function()? submitForm,
     TResult Function(
             String? phoneNumber,
@@ -4422,6 +4497,7 @@ class _$CapacityChangedImpl implements CapacityChanged {
     required TResult Function(NextPage value) nextPage,
     required TResult Function(PreviousPage value) previousPage,
     required TResult Function(PageChanged value) pageChanged,
+    required TResult Function(ClearError value) clearError,
     required TResult Function(SubmitForm value) submitForm,
     required TResult Function(DriverRegistrationSubmitted value) submitted,
   }) {
@@ -4462,6 +4538,7 @@ class _$CapacityChangedImpl implements CapacityChanged {
     TResult? Function(NextPage value)? nextPage,
     TResult? Function(PreviousPage value)? previousPage,
     TResult? Function(PageChanged value)? pageChanged,
+    TResult? Function(ClearError value)? clearError,
     TResult? Function(SubmitForm value)? submitForm,
     TResult? Function(DriverRegistrationSubmitted value)? submitted,
   }) {
@@ -4502,6 +4579,7 @@ class _$CapacityChangedImpl implements CapacityChanged {
     TResult Function(NextPage value)? nextPage,
     TResult Function(PreviousPage value)? previousPage,
     TResult Function(PageChanged value)? pageChanged,
+    TResult Function(ClearError value)? clearError,
     TResult Function(SubmitForm value)? submitForm,
     TResult Function(DriverRegistrationSubmitted value)? submitted,
     required TResult orElse(),
@@ -4626,6 +4704,7 @@ class _$VehicleTypeChangedImpl implements VehicleTypeChanged {
     required TResult Function() nextPage,
     required TResult Function() previousPage,
     required TResult Function(int pageIndex) pageChanged,
+    required TResult Function() clearError,
     required TResult Function() submitForm,
     required TResult Function(
             String? phoneNumber,
@@ -4671,6 +4750,7 @@ class _$VehicleTypeChangedImpl implements VehicleTypeChanged {
     TResult? Function()? nextPage,
     TResult? Function()? previousPage,
     TResult? Function(int pageIndex)? pageChanged,
+    TResult? Function()? clearError,
     TResult? Function()? submitForm,
     TResult? Function(
             String? phoneNumber,
@@ -4716,6 +4796,7 @@ class _$VehicleTypeChangedImpl implements VehicleTypeChanged {
     TResult Function()? nextPage,
     TResult Function()? previousPage,
     TResult Function(int pageIndex)? pageChanged,
+    TResult Function()? clearError,
     TResult Function()? submitForm,
     TResult Function(
             String? phoneNumber,
@@ -4775,6 +4856,7 @@ class _$VehicleTypeChangedImpl implements VehicleTypeChanged {
     required TResult Function(NextPage value) nextPage,
     required TResult Function(PreviousPage value) previousPage,
     required TResult Function(PageChanged value) pageChanged,
+    required TResult Function(ClearError value) clearError,
     required TResult Function(SubmitForm value) submitForm,
     required TResult Function(DriverRegistrationSubmitted value) submitted,
   }) {
@@ -4815,6 +4897,7 @@ class _$VehicleTypeChangedImpl implements VehicleTypeChanged {
     TResult? Function(NextPage value)? nextPage,
     TResult? Function(PreviousPage value)? previousPage,
     TResult? Function(PageChanged value)? pageChanged,
+    TResult? Function(ClearError value)? clearError,
     TResult? Function(SubmitForm value)? submitForm,
     TResult? Function(DriverRegistrationSubmitted value)? submitted,
   }) {
@@ -4855,6 +4938,7 @@ class _$VehicleTypeChangedImpl implements VehicleTypeChanged {
     TResult Function(NextPage value)? nextPage,
     TResult Function(PreviousPage value)? previousPage,
     TResult Function(PageChanged value)? pageChanged,
+    TResult Function(ClearError value)? clearError,
     TResult Function(SubmitForm value)? submitForm,
     TResult Function(DriverRegistrationSubmitted value)? submitted,
     required TResult orElse(),
@@ -4982,6 +5066,7 @@ class _$FrontWiperPhotoChangedImpl implements FrontWiperPhotoChanged {
     required TResult Function() nextPage,
     required TResult Function() previousPage,
     required TResult Function(int pageIndex) pageChanged,
+    required TResult Function() clearError,
     required TResult Function() submitForm,
     required TResult Function(
             String? phoneNumber,
@@ -5027,6 +5112,7 @@ class _$FrontWiperPhotoChangedImpl implements FrontWiperPhotoChanged {
     TResult? Function()? nextPage,
     TResult? Function()? previousPage,
     TResult? Function(int pageIndex)? pageChanged,
+    TResult? Function()? clearError,
     TResult? Function()? submitForm,
     TResult? Function(
             String? phoneNumber,
@@ -5072,6 +5158,7 @@ class _$FrontWiperPhotoChangedImpl implements FrontWiperPhotoChanged {
     TResult Function()? nextPage,
     TResult Function()? previousPage,
     TResult Function(int pageIndex)? pageChanged,
+    TResult Function()? clearError,
     TResult Function()? submitForm,
     TResult Function(
             String? phoneNumber,
@@ -5131,6 +5218,7 @@ class _$FrontWiperPhotoChangedImpl implements FrontWiperPhotoChanged {
     required TResult Function(NextPage value) nextPage,
     required TResult Function(PreviousPage value) previousPage,
     required TResult Function(PageChanged value) pageChanged,
+    required TResult Function(ClearError value) clearError,
     required TResult Function(SubmitForm value) submitForm,
     required TResult Function(DriverRegistrationSubmitted value) submitted,
   }) {
@@ -5171,6 +5259,7 @@ class _$FrontWiperPhotoChangedImpl implements FrontWiperPhotoChanged {
     TResult? Function(NextPage value)? nextPage,
     TResult? Function(PreviousPage value)? previousPage,
     TResult? Function(PageChanged value)? pageChanged,
+    TResult? Function(ClearError value)? clearError,
     TResult? Function(SubmitForm value)? submitForm,
     TResult? Function(DriverRegistrationSubmitted value)? submitted,
   }) {
@@ -5211,6 +5300,7 @@ class _$FrontWiperPhotoChangedImpl implements FrontWiperPhotoChanged {
     TResult Function(NextPage value)? nextPage,
     TResult Function(PreviousPage value)? previousPage,
     TResult Function(PageChanged value)? pageChanged,
+    TResult Function(ClearError value)? clearError,
     TResult Function(SubmitForm value)? submitForm,
     TResult Function(DriverRegistrationSubmitted value)? submitted,
     required TResult orElse(),
@@ -5337,6 +5427,7 @@ class _$RearWiperPhotoChangedImpl implements RearWiperPhotoChanged {
     required TResult Function() nextPage,
     required TResult Function() previousPage,
     required TResult Function(int pageIndex) pageChanged,
+    required TResult Function() clearError,
     required TResult Function() submitForm,
     required TResult Function(
             String? phoneNumber,
@@ -5382,6 +5473,7 @@ class _$RearWiperPhotoChangedImpl implements RearWiperPhotoChanged {
     TResult? Function()? nextPage,
     TResult? Function()? previousPage,
     TResult? Function(int pageIndex)? pageChanged,
+    TResult? Function()? clearError,
     TResult? Function()? submitForm,
     TResult? Function(
             String? phoneNumber,
@@ -5427,6 +5519,7 @@ class _$RearWiperPhotoChangedImpl implements RearWiperPhotoChanged {
     TResult Function()? nextPage,
     TResult Function()? previousPage,
     TResult Function(int pageIndex)? pageChanged,
+    TResult Function()? clearError,
     TResult Function()? submitForm,
     TResult Function(
             String? phoneNumber,
@@ -5486,6 +5579,7 @@ class _$RearWiperPhotoChangedImpl implements RearWiperPhotoChanged {
     required TResult Function(NextPage value) nextPage,
     required TResult Function(PreviousPage value) previousPage,
     required TResult Function(PageChanged value) pageChanged,
+    required TResult Function(ClearError value) clearError,
     required TResult Function(SubmitForm value) submitForm,
     required TResult Function(DriverRegistrationSubmitted value) submitted,
   }) {
@@ -5526,6 +5620,7 @@ class _$RearWiperPhotoChangedImpl implements RearWiperPhotoChanged {
     TResult? Function(NextPage value)? nextPage,
     TResult? Function(PreviousPage value)? previousPage,
     TResult? Function(PageChanged value)? pageChanged,
+    TResult? Function(ClearError value)? clearError,
     TResult? Function(SubmitForm value)? submitForm,
     TResult? Function(DriverRegistrationSubmitted value)? submitted,
   }) {
@@ -5566,6 +5661,7 @@ class _$RearWiperPhotoChangedImpl implements RearWiperPhotoChanged {
     TResult Function(NextPage value)? nextPage,
     TResult Function(PreviousPage value)? previousPage,
     TResult Function(PageChanged value)? pageChanged,
+    TResult Function(ClearError value)? clearError,
     TResult Function(SubmitForm value)? submitForm,
     TResult Function(DriverRegistrationSubmitted value)? submitted,
     required TResult orElse(),
@@ -5693,6 +5789,7 @@ class _$SideMirror1PhotoChangedImpl implements SideMirror1PhotoChanged {
     required TResult Function() nextPage,
     required TResult Function() previousPage,
     required TResult Function(int pageIndex) pageChanged,
+    required TResult Function() clearError,
     required TResult Function() submitForm,
     required TResult Function(
             String? phoneNumber,
@@ -5738,6 +5835,7 @@ class _$SideMirror1PhotoChangedImpl implements SideMirror1PhotoChanged {
     TResult? Function()? nextPage,
     TResult? Function()? previousPage,
     TResult? Function(int pageIndex)? pageChanged,
+    TResult? Function()? clearError,
     TResult? Function()? submitForm,
     TResult? Function(
             String? phoneNumber,
@@ -5783,6 +5881,7 @@ class _$SideMirror1PhotoChangedImpl implements SideMirror1PhotoChanged {
     TResult Function()? nextPage,
     TResult Function()? previousPage,
     TResult Function(int pageIndex)? pageChanged,
+    TResult Function()? clearError,
     TResult Function()? submitForm,
     TResult Function(
             String? phoneNumber,
@@ -5842,6 +5941,7 @@ class _$SideMirror1PhotoChangedImpl implements SideMirror1PhotoChanged {
     required TResult Function(NextPage value) nextPage,
     required TResult Function(PreviousPage value) previousPage,
     required TResult Function(PageChanged value) pageChanged,
+    required TResult Function(ClearError value) clearError,
     required TResult Function(SubmitForm value) submitForm,
     required TResult Function(DriverRegistrationSubmitted value) submitted,
   }) {
@@ -5882,6 +5982,7 @@ class _$SideMirror1PhotoChangedImpl implements SideMirror1PhotoChanged {
     TResult? Function(NextPage value)? nextPage,
     TResult? Function(PreviousPage value)? previousPage,
     TResult? Function(PageChanged value)? pageChanged,
+    TResult? Function(ClearError value)? clearError,
     TResult? Function(SubmitForm value)? submitForm,
     TResult? Function(DriverRegistrationSubmitted value)? submitted,
   }) {
@@ -5922,6 +6023,7 @@ class _$SideMirror1PhotoChangedImpl implements SideMirror1PhotoChanged {
     TResult Function(NextPage value)? nextPage,
     TResult Function(PreviousPage value)? previousPage,
     TResult Function(PageChanged value)? pageChanged,
+    TResult Function(ClearError value)? clearError,
     TResult Function(SubmitForm value)? submitForm,
     TResult Function(DriverRegistrationSubmitted value)? submitted,
     required TResult orElse(),
@@ -6049,6 +6151,7 @@ class _$SideMirror2PhotoChangedImpl implements SideMirror2PhotoChanged {
     required TResult Function() nextPage,
     required TResult Function() previousPage,
     required TResult Function(int pageIndex) pageChanged,
+    required TResult Function() clearError,
     required TResult Function() submitForm,
     required TResult Function(
             String? phoneNumber,
@@ -6094,6 +6197,7 @@ class _$SideMirror2PhotoChangedImpl implements SideMirror2PhotoChanged {
     TResult? Function()? nextPage,
     TResult? Function()? previousPage,
     TResult? Function(int pageIndex)? pageChanged,
+    TResult? Function()? clearError,
     TResult? Function()? submitForm,
     TResult? Function(
             String? phoneNumber,
@@ -6139,6 +6243,7 @@ class _$SideMirror2PhotoChangedImpl implements SideMirror2PhotoChanged {
     TResult Function()? nextPage,
     TResult Function()? previousPage,
     TResult Function(int pageIndex)? pageChanged,
+    TResult Function()? clearError,
     TResult Function()? submitForm,
     TResult Function(
             String? phoneNumber,
@@ -6198,6 +6303,7 @@ class _$SideMirror2PhotoChangedImpl implements SideMirror2PhotoChanged {
     required TResult Function(NextPage value) nextPage,
     required TResult Function(PreviousPage value) previousPage,
     required TResult Function(PageChanged value) pageChanged,
+    required TResult Function(ClearError value) clearError,
     required TResult Function(SubmitForm value) submitForm,
     required TResult Function(DriverRegistrationSubmitted value) submitted,
   }) {
@@ -6238,6 +6344,7 @@ class _$SideMirror2PhotoChangedImpl implements SideMirror2PhotoChanged {
     TResult? Function(NextPage value)? nextPage,
     TResult? Function(PreviousPage value)? previousPage,
     TResult? Function(PageChanged value)? pageChanged,
+    TResult? Function(ClearError value)? clearError,
     TResult? Function(SubmitForm value)? submitForm,
     TResult? Function(DriverRegistrationSubmitted value)? submitted,
   }) {
@@ -6278,6 +6385,7 @@ class _$SideMirror2PhotoChangedImpl implements SideMirror2PhotoChanged {
     TResult Function(NextPage value)? nextPage,
     TResult Function(PreviousPage value)? previousPage,
     TResult Function(PageChanged value)? pageChanged,
+    TResult Function(ClearError value)? clearError,
     TResult Function(SubmitForm value)? submitForm,
     TResult Function(DriverRegistrationSubmitted value)? submitted,
     required TResult orElse(),
@@ -6405,6 +6513,7 @@ class _$RearViewMirrorPhotoChangedImpl implements RearViewMirrorPhotoChanged {
     required TResult Function() nextPage,
     required TResult Function() previousPage,
     required TResult Function(int pageIndex) pageChanged,
+    required TResult Function() clearError,
     required TResult Function() submitForm,
     required TResult Function(
             String? phoneNumber,
@@ -6450,6 +6559,7 @@ class _$RearViewMirrorPhotoChangedImpl implements RearViewMirrorPhotoChanged {
     TResult? Function()? nextPage,
     TResult? Function()? previousPage,
     TResult? Function(int pageIndex)? pageChanged,
+    TResult? Function()? clearError,
     TResult? Function()? submitForm,
     TResult? Function(
             String? phoneNumber,
@@ -6495,6 +6605,7 @@ class _$RearViewMirrorPhotoChangedImpl implements RearViewMirrorPhotoChanged {
     TResult Function()? nextPage,
     TResult Function()? previousPage,
     TResult Function(int pageIndex)? pageChanged,
+    TResult Function()? clearError,
     TResult Function()? submitForm,
     TResult Function(
             String? phoneNumber,
@@ -6554,6 +6665,7 @@ class _$RearViewMirrorPhotoChangedImpl implements RearViewMirrorPhotoChanged {
     required TResult Function(NextPage value) nextPage,
     required TResult Function(PreviousPage value) previousPage,
     required TResult Function(PageChanged value) pageChanged,
+    required TResult Function(ClearError value) clearError,
     required TResult Function(SubmitForm value) submitForm,
     required TResult Function(DriverRegistrationSubmitted value) submitted,
   }) {
@@ -6594,6 +6706,7 @@ class _$RearViewMirrorPhotoChangedImpl implements RearViewMirrorPhotoChanged {
     TResult? Function(NextPage value)? nextPage,
     TResult? Function(PreviousPage value)? previousPage,
     TResult? Function(PageChanged value)? pageChanged,
+    TResult? Function(ClearError value)? clearError,
     TResult? Function(SubmitForm value)? submitForm,
     TResult? Function(DriverRegistrationSubmitted value)? submitted,
   }) {
@@ -6634,6 +6747,7 @@ class _$RearViewMirrorPhotoChangedImpl implements RearViewMirrorPhotoChanged {
     TResult Function(NextPage value)? nextPage,
     TResult Function(PreviousPage value)? previousPage,
     TResult Function(PageChanged value)? pageChanged,
+    TResult Function(ClearError value)? clearError,
     TResult Function(SubmitForm value)? submitForm,
     TResult Function(DriverRegistrationSubmitted value)? submitted,
     required TResult orElse(),
@@ -6758,6 +6872,7 @@ class _$FrontPhotoChangedImpl implements FrontPhotoChanged {
     required TResult Function() nextPage,
     required TResult Function() previousPage,
     required TResult Function(int pageIndex) pageChanged,
+    required TResult Function() clearError,
     required TResult Function() submitForm,
     required TResult Function(
             String? phoneNumber,
@@ -6803,6 +6918,7 @@ class _$FrontPhotoChangedImpl implements FrontPhotoChanged {
     TResult? Function()? nextPage,
     TResult? Function()? previousPage,
     TResult? Function(int pageIndex)? pageChanged,
+    TResult? Function()? clearError,
     TResult? Function()? submitForm,
     TResult? Function(
             String? phoneNumber,
@@ -6848,6 +6964,7 @@ class _$FrontPhotoChangedImpl implements FrontPhotoChanged {
     TResult Function()? nextPage,
     TResult Function()? previousPage,
     TResult Function(int pageIndex)? pageChanged,
+    TResult Function()? clearError,
     TResult Function()? submitForm,
     TResult Function(
             String? phoneNumber,
@@ -6907,6 +7024,7 @@ class _$FrontPhotoChangedImpl implements FrontPhotoChanged {
     required TResult Function(NextPage value) nextPage,
     required TResult Function(PreviousPage value) previousPage,
     required TResult Function(PageChanged value) pageChanged,
+    required TResult Function(ClearError value) clearError,
     required TResult Function(SubmitForm value) submitForm,
     required TResult Function(DriverRegistrationSubmitted value) submitted,
   }) {
@@ -6947,6 +7065,7 @@ class _$FrontPhotoChangedImpl implements FrontPhotoChanged {
     TResult? Function(NextPage value)? nextPage,
     TResult? Function(PreviousPage value)? previousPage,
     TResult? Function(PageChanged value)? pageChanged,
+    TResult? Function(ClearError value)? clearError,
     TResult? Function(SubmitForm value)? submitForm,
     TResult? Function(DriverRegistrationSubmitted value)? submitted,
   }) {
@@ -6987,6 +7106,7 @@ class _$FrontPhotoChangedImpl implements FrontPhotoChanged {
     TResult Function(NextPage value)? nextPage,
     TResult Function(PreviousPage value)? previousPage,
     TResult Function(PageChanged value)? pageChanged,
+    TResult Function(ClearError value)? clearError,
     TResult Function(SubmitForm value)? submitForm,
     TResult Function(DriverRegistrationSubmitted value)? submitted,
     required TResult orElse(),
@@ -7111,6 +7231,7 @@ class _$BackPhotoChangedImpl implements BackPhotoChanged {
     required TResult Function() nextPage,
     required TResult Function() previousPage,
     required TResult Function(int pageIndex) pageChanged,
+    required TResult Function() clearError,
     required TResult Function() submitForm,
     required TResult Function(
             String? phoneNumber,
@@ -7156,6 +7277,7 @@ class _$BackPhotoChangedImpl implements BackPhotoChanged {
     TResult? Function()? nextPage,
     TResult? Function()? previousPage,
     TResult? Function(int pageIndex)? pageChanged,
+    TResult? Function()? clearError,
     TResult? Function()? submitForm,
     TResult? Function(
             String? phoneNumber,
@@ -7201,6 +7323,7 @@ class _$BackPhotoChangedImpl implements BackPhotoChanged {
     TResult Function()? nextPage,
     TResult Function()? previousPage,
     TResult Function(int pageIndex)? pageChanged,
+    TResult Function()? clearError,
     TResult Function()? submitForm,
     TResult Function(
             String? phoneNumber,
@@ -7260,6 +7383,7 @@ class _$BackPhotoChangedImpl implements BackPhotoChanged {
     required TResult Function(NextPage value) nextPage,
     required TResult Function(PreviousPage value) previousPage,
     required TResult Function(PageChanged value) pageChanged,
+    required TResult Function(ClearError value) clearError,
     required TResult Function(SubmitForm value) submitForm,
     required TResult Function(DriverRegistrationSubmitted value) submitted,
   }) {
@@ -7300,6 +7424,7 @@ class _$BackPhotoChangedImpl implements BackPhotoChanged {
     TResult? Function(NextPage value)? nextPage,
     TResult? Function(PreviousPage value)? previousPage,
     TResult? Function(PageChanged value)? pageChanged,
+    TResult? Function(ClearError value)? clearError,
     TResult? Function(SubmitForm value)? submitForm,
     TResult? Function(DriverRegistrationSubmitted value)? submitted,
   }) {
@@ -7340,6 +7465,7 @@ class _$BackPhotoChangedImpl implements BackPhotoChanged {
     TResult Function(NextPage value)? nextPage,
     TResult Function(PreviousPage value)? previousPage,
     TResult Function(PageChanged value)? pageChanged,
+    TResult Function(ClearError value)? clearError,
     TResult Function(SubmitForm value)? submitForm,
     TResult Function(DriverRegistrationSubmitted value)? submitted,
     required TResult orElse(),
@@ -7464,6 +7590,7 @@ class _$LeftPhotoChangedImpl implements LeftPhotoChanged {
     required TResult Function() nextPage,
     required TResult Function() previousPage,
     required TResult Function(int pageIndex) pageChanged,
+    required TResult Function() clearError,
     required TResult Function() submitForm,
     required TResult Function(
             String? phoneNumber,
@@ -7509,6 +7636,7 @@ class _$LeftPhotoChangedImpl implements LeftPhotoChanged {
     TResult? Function()? nextPage,
     TResult? Function()? previousPage,
     TResult? Function(int pageIndex)? pageChanged,
+    TResult? Function()? clearError,
     TResult? Function()? submitForm,
     TResult? Function(
             String? phoneNumber,
@@ -7554,6 +7682,7 @@ class _$LeftPhotoChangedImpl implements LeftPhotoChanged {
     TResult Function()? nextPage,
     TResult Function()? previousPage,
     TResult Function(int pageIndex)? pageChanged,
+    TResult Function()? clearError,
     TResult Function()? submitForm,
     TResult Function(
             String? phoneNumber,
@@ -7613,6 +7742,7 @@ class _$LeftPhotoChangedImpl implements LeftPhotoChanged {
     required TResult Function(NextPage value) nextPage,
     required TResult Function(PreviousPage value) previousPage,
     required TResult Function(PageChanged value) pageChanged,
+    required TResult Function(ClearError value) clearError,
     required TResult Function(SubmitForm value) submitForm,
     required TResult Function(DriverRegistrationSubmitted value) submitted,
   }) {
@@ -7653,6 +7783,7 @@ class _$LeftPhotoChangedImpl implements LeftPhotoChanged {
     TResult? Function(NextPage value)? nextPage,
     TResult? Function(PreviousPage value)? previousPage,
     TResult? Function(PageChanged value)? pageChanged,
+    TResult? Function(ClearError value)? clearError,
     TResult? Function(SubmitForm value)? submitForm,
     TResult? Function(DriverRegistrationSubmitted value)? submitted,
   }) {
@@ -7693,6 +7824,7 @@ class _$LeftPhotoChangedImpl implements LeftPhotoChanged {
     TResult Function(NextPage value)? nextPage,
     TResult Function(PreviousPage value)? previousPage,
     TResult Function(PageChanged value)? pageChanged,
+    TResult Function(ClearError value)? clearError,
     TResult Function(SubmitForm value)? submitForm,
     TResult Function(DriverRegistrationSubmitted value)? submitted,
     required TResult orElse(),
@@ -7817,6 +7949,7 @@ class _$RightPhotoChangedImpl implements RightPhotoChanged {
     required TResult Function() nextPage,
     required TResult Function() previousPage,
     required TResult Function(int pageIndex) pageChanged,
+    required TResult Function() clearError,
     required TResult Function() submitForm,
     required TResult Function(
             String? phoneNumber,
@@ -7862,6 +7995,7 @@ class _$RightPhotoChangedImpl implements RightPhotoChanged {
     TResult? Function()? nextPage,
     TResult? Function()? previousPage,
     TResult? Function(int pageIndex)? pageChanged,
+    TResult? Function()? clearError,
     TResult? Function()? submitForm,
     TResult? Function(
             String? phoneNumber,
@@ -7907,6 +8041,7 @@ class _$RightPhotoChangedImpl implements RightPhotoChanged {
     TResult Function()? nextPage,
     TResult Function()? previousPage,
     TResult Function(int pageIndex)? pageChanged,
+    TResult Function()? clearError,
     TResult Function()? submitForm,
     TResult Function(
             String? phoneNumber,
@@ -7966,6 +8101,7 @@ class _$RightPhotoChangedImpl implements RightPhotoChanged {
     required TResult Function(NextPage value) nextPage,
     required TResult Function(PreviousPage value) previousPage,
     required TResult Function(PageChanged value) pageChanged,
+    required TResult Function(ClearError value) clearError,
     required TResult Function(SubmitForm value) submitForm,
     required TResult Function(DriverRegistrationSubmitted value) submitted,
   }) {
@@ -8006,6 +8142,7 @@ class _$RightPhotoChangedImpl implements RightPhotoChanged {
     TResult? Function(NextPage value)? nextPage,
     TResult? Function(PreviousPage value)? previousPage,
     TResult? Function(PageChanged value)? pageChanged,
+    TResult? Function(ClearError value)? clearError,
     TResult? Function(SubmitForm value)? submitForm,
     TResult? Function(DriverRegistrationSubmitted value)? submitted,
   }) {
@@ -8046,6 +8183,7 @@ class _$RightPhotoChangedImpl implements RightPhotoChanged {
     TResult Function(NextPage value)? nextPage,
     TResult Function(PreviousPage value)? previousPage,
     TResult Function(PageChanged value)? pageChanged,
+    TResult Function(ClearError value)? clearError,
     TResult Function(SubmitForm value)? submitForm,
     TResult Function(DriverRegistrationSubmitted value)? submitted,
     required TResult orElse(),
@@ -8172,6 +8310,7 @@ class _$DashboardPhotoChangedImpl implements DashboardPhotoChanged {
     required TResult Function() nextPage,
     required TResult Function() previousPage,
     required TResult Function(int pageIndex) pageChanged,
+    required TResult Function() clearError,
     required TResult Function() submitForm,
     required TResult Function(
             String? phoneNumber,
@@ -8217,6 +8356,7 @@ class _$DashboardPhotoChangedImpl implements DashboardPhotoChanged {
     TResult? Function()? nextPage,
     TResult? Function()? previousPage,
     TResult? Function(int pageIndex)? pageChanged,
+    TResult? Function()? clearError,
     TResult? Function()? submitForm,
     TResult? Function(
             String? phoneNumber,
@@ -8262,6 +8402,7 @@ class _$DashboardPhotoChangedImpl implements DashboardPhotoChanged {
     TResult Function()? nextPage,
     TResult Function()? previousPage,
     TResult Function(int pageIndex)? pageChanged,
+    TResult Function()? clearError,
     TResult Function()? submitForm,
     TResult Function(
             String? phoneNumber,
@@ -8321,6 +8462,7 @@ class _$DashboardPhotoChangedImpl implements DashboardPhotoChanged {
     required TResult Function(NextPage value) nextPage,
     required TResult Function(PreviousPage value) previousPage,
     required TResult Function(PageChanged value) pageChanged,
+    required TResult Function(ClearError value) clearError,
     required TResult Function(SubmitForm value) submitForm,
     required TResult Function(DriverRegistrationSubmitted value) submitted,
   }) {
@@ -8361,6 +8503,7 @@ class _$DashboardPhotoChangedImpl implements DashboardPhotoChanged {
     TResult? Function(NextPage value)? nextPage,
     TResult? Function(PreviousPage value)? previousPage,
     TResult? Function(PageChanged value)? pageChanged,
+    TResult? Function(ClearError value)? clearError,
     TResult? Function(SubmitForm value)? submitForm,
     TResult? Function(DriverRegistrationSubmitted value)? submitted,
   }) {
@@ -8401,6 +8544,7 @@ class _$DashboardPhotoChangedImpl implements DashboardPhotoChanged {
     TResult Function(NextPage value)? nextPage,
     TResult Function(PreviousPage value)? previousPage,
     TResult Function(PageChanged value)? pageChanged,
+    TResult Function(ClearError value)? clearError,
     TResult Function(SubmitForm value)? submitForm,
     TResult Function(DriverRegistrationSubmitted value)? submitted,
     required TResult orElse(),
@@ -8528,6 +8672,7 @@ class _$FrontSeatsPhotoChangedImpl implements FrontSeatsPhotoChanged {
     required TResult Function() nextPage,
     required TResult Function() previousPage,
     required TResult Function(int pageIndex) pageChanged,
+    required TResult Function() clearError,
     required TResult Function() submitForm,
     required TResult Function(
             String? phoneNumber,
@@ -8573,6 +8718,7 @@ class _$FrontSeatsPhotoChangedImpl implements FrontSeatsPhotoChanged {
     TResult? Function()? nextPage,
     TResult? Function()? previousPage,
     TResult? Function(int pageIndex)? pageChanged,
+    TResult? Function()? clearError,
     TResult? Function()? submitForm,
     TResult? Function(
             String? phoneNumber,
@@ -8618,6 +8764,7 @@ class _$FrontSeatsPhotoChangedImpl implements FrontSeatsPhotoChanged {
     TResult Function()? nextPage,
     TResult Function()? previousPage,
     TResult Function(int pageIndex)? pageChanged,
+    TResult Function()? clearError,
     TResult Function()? submitForm,
     TResult Function(
             String? phoneNumber,
@@ -8677,6 +8824,7 @@ class _$FrontSeatsPhotoChangedImpl implements FrontSeatsPhotoChanged {
     required TResult Function(NextPage value) nextPage,
     required TResult Function(PreviousPage value) previousPage,
     required TResult Function(PageChanged value) pageChanged,
+    required TResult Function(ClearError value) clearError,
     required TResult Function(SubmitForm value) submitForm,
     required TResult Function(DriverRegistrationSubmitted value) submitted,
   }) {
@@ -8717,6 +8865,7 @@ class _$FrontSeatsPhotoChangedImpl implements FrontSeatsPhotoChanged {
     TResult? Function(NextPage value)? nextPage,
     TResult? Function(PreviousPage value)? previousPage,
     TResult? Function(PageChanged value)? pageChanged,
+    TResult? Function(ClearError value)? clearError,
     TResult? Function(SubmitForm value)? submitForm,
     TResult? Function(DriverRegistrationSubmitted value)? submitted,
   }) {
@@ -8757,6 +8906,7 @@ class _$FrontSeatsPhotoChangedImpl implements FrontSeatsPhotoChanged {
     TResult Function(NextPage value)? nextPage,
     TResult Function(PreviousPage value)? previousPage,
     TResult Function(PageChanged value)? pageChanged,
+    TResult Function(ClearError value)? clearError,
     TResult Function(SubmitForm value)? submitForm,
     TResult Function(DriverRegistrationSubmitted value)? submitted,
     required TResult orElse(),
@@ -8883,6 +9033,7 @@ class _$BackSeatsPhotoChangedImpl implements BackSeatsPhotoChanged {
     required TResult Function() nextPage,
     required TResult Function() previousPage,
     required TResult Function(int pageIndex) pageChanged,
+    required TResult Function() clearError,
     required TResult Function() submitForm,
     required TResult Function(
             String? phoneNumber,
@@ -8928,6 +9079,7 @@ class _$BackSeatsPhotoChangedImpl implements BackSeatsPhotoChanged {
     TResult? Function()? nextPage,
     TResult? Function()? previousPage,
     TResult? Function(int pageIndex)? pageChanged,
+    TResult? Function()? clearError,
     TResult? Function()? submitForm,
     TResult? Function(
             String? phoneNumber,
@@ -8973,6 +9125,7 @@ class _$BackSeatsPhotoChangedImpl implements BackSeatsPhotoChanged {
     TResult Function()? nextPage,
     TResult Function()? previousPage,
     TResult Function(int pageIndex)? pageChanged,
+    TResult Function()? clearError,
     TResult Function()? submitForm,
     TResult Function(
             String? phoneNumber,
@@ -9032,6 +9185,7 @@ class _$BackSeatsPhotoChangedImpl implements BackSeatsPhotoChanged {
     required TResult Function(NextPage value) nextPage,
     required TResult Function(PreviousPage value) previousPage,
     required TResult Function(PageChanged value) pageChanged,
+    required TResult Function(ClearError value) clearError,
     required TResult Function(SubmitForm value) submitForm,
     required TResult Function(DriverRegistrationSubmitted value) submitted,
   }) {
@@ -9072,6 +9226,7 @@ class _$BackSeatsPhotoChangedImpl implements BackSeatsPhotoChanged {
     TResult? Function(NextPage value)? nextPage,
     TResult? Function(PreviousPage value)? previousPage,
     TResult? Function(PageChanged value)? pageChanged,
+    TResult? Function(ClearError value)? clearError,
     TResult? Function(SubmitForm value)? submitForm,
     TResult? Function(DriverRegistrationSubmitted value)? submitted,
   }) {
@@ -9112,6 +9267,7 @@ class _$BackSeatsPhotoChangedImpl implements BackSeatsPhotoChanged {
     TResult Function(NextPage value)? nextPage,
     TResult Function(PreviousPage value)? previousPage,
     TResult Function(PageChanged value)? pageChanged,
+    TResult Function(ClearError value)? clearError,
     TResult Function(SubmitForm value)? submitForm,
     TResult Function(DriverRegistrationSubmitted value)? submitted,
     required TResult orElse(),
@@ -9246,6 +9402,7 @@ class _$AdditionalPhotosChangedImpl implements AdditionalPhotosChanged {
     required TResult Function() nextPage,
     required TResult Function() previousPage,
     required TResult Function(int pageIndex) pageChanged,
+    required TResult Function() clearError,
     required TResult Function() submitForm,
     required TResult Function(
             String? phoneNumber,
@@ -9291,6 +9448,7 @@ class _$AdditionalPhotosChangedImpl implements AdditionalPhotosChanged {
     TResult? Function()? nextPage,
     TResult? Function()? previousPage,
     TResult? Function(int pageIndex)? pageChanged,
+    TResult? Function()? clearError,
     TResult? Function()? submitForm,
     TResult? Function(
             String? phoneNumber,
@@ -9336,6 +9494,7 @@ class _$AdditionalPhotosChangedImpl implements AdditionalPhotosChanged {
     TResult Function()? nextPage,
     TResult Function()? previousPage,
     TResult Function(int pageIndex)? pageChanged,
+    TResult Function()? clearError,
     TResult Function()? submitForm,
     TResult Function(
             String? phoneNumber,
@@ -9395,6 +9554,7 @@ class _$AdditionalPhotosChangedImpl implements AdditionalPhotosChanged {
     required TResult Function(NextPage value) nextPage,
     required TResult Function(PreviousPage value) previousPage,
     required TResult Function(PageChanged value) pageChanged,
+    required TResult Function(ClearError value) clearError,
     required TResult Function(SubmitForm value) submitForm,
     required TResult Function(DriverRegistrationSubmitted value) submitted,
   }) {
@@ -9435,6 +9595,7 @@ class _$AdditionalPhotosChangedImpl implements AdditionalPhotosChanged {
     TResult? Function(NextPage value)? nextPage,
     TResult? Function(PreviousPage value)? previousPage,
     TResult? Function(PageChanged value)? pageChanged,
+    TResult? Function(ClearError value)? clearError,
     TResult? Function(SubmitForm value)? submitForm,
     TResult? Function(DriverRegistrationSubmitted value)? submitted,
   }) {
@@ -9475,6 +9636,7 @@ class _$AdditionalPhotosChangedImpl implements AdditionalPhotosChanged {
     TResult Function(NextPage value)? nextPage,
     TResult Function(PreviousPage value)? previousPage,
     TResult Function(PageChanged value)? pageChanged,
+    TResult Function(ClearError value)? clearError,
     TResult Function(SubmitForm value)? submitForm,
     TResult Function(DriverRegistrationSubmitted value)? submitted,
     required TResult orElse(),
@@ -9601,6 +9763,7 @@ class _$TermsAcceptedChangedImpl implements TermsAcceptedChanged {
     required TResult Function() nextPage,
     required TResult Function() previousPage,
     required TResult Function(int pageIndex) pageChanged,
+    required TResult Function() clearError,
     required TResult Function() submitForm,
     required TResult Function(
             String? phoneNumber,
@@ -9646,6 +9809,7 @@ class _$TermsAcceptedChangedImpl implements TermsAcceptedChanged {
     TResult? Function()? nextPage,
     TResult? Function()? previousPage,
     TResult? Function(int pageIndex)? pageChanged,
+    TResult? Function()? clearError,
     TResult? Function()? submitForm,
     TResult? Function(
             String? phoneNumber,
@@ -9691,6 +9855,7 @@ class _$TermsAcceptedChangedImpl implements TermsAcceptedChanged {
     TResult Function()? nextPage,
     TResult Function()? previousPage,
     TResult Function(int pageIndex)? pageChanged,
+    TResult Function()? clearError,
     TResult Function()? submitForm,
     TResult Function(
             String? phoneNumber,
@@ -9750,6 +9915,7 @@ class _$TermsAcceptedChangedImpl implements TermsAcceptedChanged {
     required TResult Function(NextPage value) nextPage,
     required TResult Function(PreviousPage value) previousPage,
     required TResult Function(PageChanged value) pageChanged,
+    required TResult Function(ClearError value) clearError,
     required TResult Function(SubmitForm value) submitForm,
     required TResult Function(DriverRegistrationSubmitted value) submitted,
   }) {
@@ -9790,6 +9956,7 @@ class _$TermsAcceptedChangedImpl implements TermsAcceptedChanged {
     TResult? Function(NextPage value)? nextPage,
     TResult? Function(PreviousPage value)? previousPage,
     TResult? Function(PageChanged value)? pageChanged,
+    TResult? Function(ClearError value)? clearError,
     TResult? Function(SubmitForm value)? submitForm,
     TResult? Function(DriverRegistrationSubmitted value)? submitted,
   }) {
@@ -9830,6 +9997,7 @@ class _$TermsAcceptedChangedImpl implements TermsAcceptedChanged {
     TResult Function(NextPage value)? nextPage,
     TResult Function(PreviousPage value)? previousPage,
     TResult Function(PageChanged value)? pageChanged,
+    TResult Function(ClearError value)? clearError,
     TResult Function(SubmitForm value)? submitForm,
     TResult Function(DriverRegistrationSubmitted value)? submitted,
     required TResult orElse(),
@@ -9925,6 +10093,7 @@ class _$NextPageImpl implements NextPage {
     required TResult Function() nextPage,
     required TResult Function() previousPage,
     required TResult Function(int pageIndex) pageChanged,
+    required TResult Function() clearError,
     required TResult Function() submitForm,
     required TResult Function(
             String? phoneNumber,
@@ -9970,6 +10139,7 @@ class _$NextPageImpl implements NextPage {
     TResult? Function()? nextPage,
     TResult? Function()? previousPage,
     TResult? Function(int pageIndex)? pageChanged,
+    TResult? Function()? clearError,
     TResult? Function()? submitForm,
     TResult? Function(
             String? phoneNumber,
@@ -10015,6 +10185,7 @@ class _$NextPageImpl implements NextPage {
     TResult Function()? nextPage,
     TResult Function()? previousPage,
     TResult Function(int pageIndex)? pageChanged,
+    TResult Function()? clearError,
     TResult Function()? submitForm,
     TResult Function(
             String? phoneNumber,
@@ -10074,6 +10245,7 @@ class _$NextPageImpl implements NextPage {
     required TResult Function(NextPage value) nextPage,
     required TResult Function(PreviousPage value) previousPage,
     required TResult Function(PageChanged value) pageChanged,
+    required TResult Function(ClearError value) clearError,
     required TResult Function(SubmitForm value) submitForm,
     required TResult Function(DriverRegistrationSubmitted value) submitted,
   }) {
@@ -10114,6 +10286,7 @@ class _$NextPageImpl implements NextPage {
     TResult? Function(NextPage value)? nextPage,
     TResult? Function(PreviousPage value)? previousPage,
     TResult? Function(PageChanged value)? pageChanged,
+    TResult? Function(ClearError value)? clearError,
     TResult? Function(SubmitForm value)? submitForm,
     TResult? Function(DriverRegistrationSubmitted value)? submitted,
   }) {
@@ -10154,6 +10327,7 @@ class _$NextPageImpl implements NextPage {
     TResult Function(NextPage value)? nextPage,
     TResult Function(PreviousPage value)? previousPage,
     TResult Function(PageChanged value)? pageChanged,
+    TResult Function(ClearError value)? clearError,
     TResult Function(SubmitForm value)? submitForm,
     TResult Function(DriverRegistrationSubmitted value)? submitted,
     required TResult orElse(),
@@ -10240,6 +10414,7 @@ class _$PreviousPageImpl implements PreviousPage {
     required TResult Function() nextPage,
     required TResult Function() previousPage,
     required TResult Function(int pageIndex) pageChanged,
+    required TResult Function() clearError,
     required TResult Function() submitForm,
     required TResult Function(
             String? phoneNumber,
@@ -10285,6 +10460,7 @@ class _$PreviousPageImpl implements PreviousPage {
     TResult? Function()? nextPage,
     TResult? Function()? previousPage,
     TResult? Function(int pageIndex)? pageChanged,
+    TResult? Function()? clearError,
     TResult? Function()? submitForm,
     TResult? Function(
             String? phoneNumber,
@@ -10330,6 +10506,7 @@ class _$PreviousPageImpl implements PreviousPage {
     TResult Function()? nextPage,
     TResult Function()? previousPage,
     TResult Function(int pageIndex)? pageChanged,
+    TResult Function()? clearError,
     TResult Function()? submitForm,
     TResult Function(
             String? phoneNumber,
@@ -10389,6 +10566,7 @@ class _$PreviousPageImpl implements PreviousPage {
     required TResult Function(NextPage value) nextPage,
     required TResult Function(PreviousPage value) previousPage,
     required TResult Function(PageChanged value) pageChanged,
+    required TResult Function(ClearError value) clearError,
     required TResult Function(SubmitForm value) submitForm,
     required TResult Function(DriverRegistrationSubmitted value) submitted,
   }) {
@@ -10429,6 +10607,7 @@ class _$PreviousPageImpl implements PreviousPage {
     TResult? Function(NextPage value)? nextPage,
     TResult? Function(PreviousPage value)? previousPage,
     TResult? Function(PageChanged value)? pageChanged,
+    TResult? Function(ClearError value)? clearError,
     TResult? Function(SubmitForm value)? submitForm,
     TResult? Function(DriverRegistrationSubmitted value)? submitted,
   }) {
@@ -10469,6 +10648,7 @@ class _$PreviousPageImpl implements PreviousPage {
     TResult Function(NextPage value)? nextPage,
     TResult Function(PreviousPage value)? previousPage,
     TResult Function(PageChanged value)? pageChanged,
+    TResult Function(ClearError value)? clearError,
     TResult Function(SubmitForm value)? submitForm,
     TResult Function(DriverRegistrationSubmitted value)? submitted,
     required TResult orElse(),
@@ -10583,6 +10763,7 @@ class _$PageChangedImpl implements PageChanged {
     required TResult Function() nextPage,
     required TResult Function() previousPage,
     required TResult Function(int pageIndex) pageChanged,
+    required TResult Function() clearError,
     required TResult Function() submitForm,
     required TResult Function(
             String? phoneNumber,
@@ -10628,6 +10809,7 @@ class _$PageChangedImpl implements PageChanged {
     TResult? Function()? nextPage,
     TResult? Function()? previousPage,
     TResult? Function(int pageIndex)? pageChanged,
+    TResult? Function()? clearError,
     TResult? Function()? submitForm,
     TResult? Function(
             String? phoneNumber,
@@ -10673,6 +10855,7 @@ class _$PageChangedImpl implements PageChanged {
     TResult Function()? nextPage,
     TResult Function()? previousPage,
     TResult Function(int pageIndex)? pageChanged,
+    TResult Function()? clearError,
     TResult Function()? submitForm,
     TResult Function(
             String? phoneNumber,
@@ -10732,6 +10915,7 @@ class _$PageChangedImpl implements PageChanged {
     required TResult Function(NextPage value) nextPage,
     required TResult Function(PreviousPage value) previousPage,
     required TResult Function(PageChanged value) pageChanged,
+    required TResult Function(ClearError value) clearError,
     required TResult Function(SubmitForm value) submitForm,
     required TResult Function(DriverRegistrationSubmitted value) submitted,
   }) {
@@ -10772,6 +10956,7 @@ class _$PageChangedImpl implements PageChanged {
     TResult? Function(NextPage value)? nextPage,
     TResult? Function(PreviousPage value)? previousPage,
     TResult? Function(PageChanged value)? pageChanged,
+    TResult? Function(ClearError value)? clearError,
     TResult? Function(SubmitForm value)? submitForm,
     TResult? Function(DriverRegistrationSubmitted value)? submitted,
   }) {
@@ -10812,6 +10997,7 @@ class _$PageChangedImpl implements PageChanged {
     TResult Function(NextPage value)? nextPage,
     TResult Function(PreviousPage value)? previousPage,
     TResult Function(PageChanged value)? pageChanged,
+    TResult Function(ClearError value)? clearError,
     TResult Function(SubmitForm value)? submitForm,
     TResult Function(DriverRegistrationSubmitted value)? submitted,
     required TResult orElse(),
@@ -10833,6 +11019,327 @@ abstract class PageChanged implements DriverRegistrationEvent {
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PageChangedImplCopyWith<_$PageChangedImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ClearErrorImplCopyWith<$Res> {
+  factory _$$ClearErrorImplCopyWith(
+          _$ClearErrorImpl value, $Res Function(_$ClearErrorImpl) then) =
+      __$$ClearErrorImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$ClearErrorImplCopyWithImpl<$Res>
+    extends _$DriverRegistrationEventCopyWithImpl<$Res, _$ClearErrorImpl>
+    implements _$$ClearErrorImplCopyWith<$Res> {
+  __$$ClearErrorImplCopyWithImpl(
+      _$ClearErrorImpl _value, $Res Function(_$ClearErrorImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of DriverRegistrationEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$ClearErrorImpl implements ClearError {
+  const _$ClearErrorImpl();
+
+  @override
+  String toString() {
+    return 'DriverRegistrationEvent.clearError()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$ClearErrorImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String? phoneNumber) initialized,
+    required TResult Function(String fullName) fullNameChanged,
+    required TResult Function(String email) emailChanged,
+    required TResult Function(String finNumber) finNumberChanged,
+    required TResult Function(String? imagePath) profileImageChanged,
+    required TResult Function(String? imagePath) licenseImageChanged,
+    required TResult Function(String carMake) carMakeChanged,
+    required TResult Function(String carModel) carModelChanged,
+    required TResult Function(int year) yearOfManufactureChanged,
+    required TResult Function(String plateNumber) plateNumberChanged,
+    required TResult Function(String color) colorChanged,
+    required TResult Function(int capacity) capacityChanged,
+    required TResult Function(String vehicleType) vehicleTypeChanged,
+    required TResult Function(String? imagePath) frontWiperPhotoChanged,
+    required TResult Function(String? imagePath) rearWiperPhotoChanged,
+    required TResult Function(String? imagePath) sideMirror1PhotoChanged,
+    required TResult Function(String? imagePath) sideMirror2PhotoChanged,
+    required TResult Function(String? imagePath) rearViewMirrorPhotoChanged,
+    required TResult Function(String? imagePath) frontPhotoChanged,
+    required TResult Function(String? imagePath) backPhotoChanged,
+    required TResult Function(String? imagePath) leftPhotoChanged,
+    required TResult Function(String? imagePath) rightPhotoChanged,
+    required TResult Function(String? imagePath) dashboardPhotoChanged,
+    required TResult Function(String? imagePath) frontSeatsPhotoChanged,
+    required TResult Function(String? imagePath) backSeatsPhotoChanged,
+    required TResult Function(List<String> imagePaths) additionalPhotosChanged,
+    required TResult Function(bool accepted) termsAcceptedChanged,
+    required TResult Function() nextPage,
+    required TResult Function() previousPage,
+    required TResult Function(int pageIndex) pageChanged,
+    required TResult Function() clearError,
+    required TResult Function() submitForm,
+    required TResult Function(
+            String? phoneNumber,
+            DriverRequestData driverData,
+            VehicleRequestData vehicleData,
+            List<DriverDocumentRequestData> driverDocuments,
+            List<VehicleDocumentRequestData> vehicleDocuments)
+        submitted,
+  }) {
+    return clearError();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String? phoneNumber)? initialized,
+    TResult? Function(String fullName)? fullNameChanged,
+    TResult? Function(String email)? emailChanged,
+    TResult? Function(String finNumber)? finNumberChanged,
+    TResult? Function(String? imagePath)? profileImageChanged,
+    TResult? Function(String? imagePath)? licenseImageChanged,
+    TResult? Function(String carMake)? carMakeChanged,
+    TResult? Function(String carModel)? carModelChanged,
+    TResult? Function(int year)? yearOfManufactureChanged,
+    TResult? Function(String plateNumber)? plateNumberChanged,
+    TResult? Function(String color)? colorChanged,
+    TResult? Function(int capacity)? capacityChanged,
+    TResult? Function(String vehicleType)? vehicleTypeChanged,
+    TResult? Function(String? imagePath)? frontWiperPhotoChanged,
+    TResult? Function(String? imagePath)? rearWiperPhotoChanged,
+    TResult? Function(String? imagePath)? sideMirror1PhotoChanged,
+    TResult? Function(String? imagePath)? sideMirror2PhotoChanged,
+    TResult? Function(String? imagePath)? rearViewMirrorPhotoChanged,
+    TResult? Function(String? imagePath)? frontPhotoChanged,
+    TResult? Function(String? imagePath)? backPhotoChanged,
+    TResult? Function(String? imagePath)? leftPhotoChanged,
+    TResult? Function(String? imagePath)? rightPhotoChanged,
+    TResult? Function(String? imagePath)? dashboardPhotoChanged,
+    TResult? Function(String? imagePath)? frontSeatsPhotoChanged,
+    TResult? Function(String? imagePath)? backSeatsPhotoChanged,
+    TResult? Function(List<String> imagePaths)? additionalPhotosChanged,
+    TResult? Function(bool accepted)? termsAcceptedChanged,
+    TResult? Function()? nextPage,
+    TResult? Function()? previousPage,
+    TResult? Function(int pageIndex)? pageChanged,
+    TResult? Function()? clearError,
+    TResult? Function()? submitForm,
+    TResult? Function(
+            String? phoneNumber,
+            DriverRequestData driverData,
+            VehicleRequestData vehicleData,
+            List<DriverDocumentRequestData> driverDocuments,
+            List<VehicleDocumentRequestData> vehicleDocuments)?
+        submitted,
+  }) {
+    return clearError?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String? phoneNumber)? initialized,
+    TResult Function(String fullName)? fullNameChanged,
+    TResult Function(String email)? emailChanged,
+    TResult Function(String finNumber)? finNumberChanged,
+    TResult Function(String? imagePath)? profileImageChanged,
+    TResult Function(String? imagePath)? licenseImageChanged,
+    TResult Function(String carMake)? carMakeChanged,
+    TResult Function(String carModel)? carModelChanged,
+    TResult Function(int year)? yearOfManufactureChanged,
+    TResult Function(String plateNumber)? plateNumberChanged,
+    TResult Function(String color)? colorChanged,
+    TResult Function(int capacity)? capacityChanged,
+    TResult Function(String vehicleType)? vehicleTypeChanged,
+    TResult Function(String? imagePath)? frontWiperPhotoChanged,
+    TResult Function(String? imagePath)? rearWiperPhotoChanged,
+    TResult Function(String? imagePath)? sideMirror1PhotoChanged,
+    TResult Function(String? imagePath)? sideMirror2PhotoChanged,
+    TResult Function(String? imagePath)? rearViewMirrorPhotoChanged,
+    TResult Function(String? imagePath)? frontPhotoChanged,
+    TResult Function(String? imagePath)? backPhotoChanged,
+    TResult Function(String? imagePath)? leftPhotoChanged,
+    TResult Function(String? imagePath)? rightPhotoChanged,
+    TResult Function(String? imagePath)? dashboardPhotoChanged,
+    TResult Function(String? imagePath)? frontSeatsPhotoChanged,
+    TResult Function(String? imagePath)? backSeatsPhotoChanged,
+    TResult Function(List<String> imagePaths)? additionalPhotosChanged,
+    TResult Function(bool accepted)? termsAcceptedChanged,
+    TResult Function()? nextPage,
+    TResult Function()? previousPage,
+    TResult Function(int pageIndex)? pageChanged,
+    TResult Function()? clearError,
+    TResult Function()? submitForm,
+    TResult Function(
+            String? phoneNumber,
+            DriverRequestData driverData,
+            VehicleRequestData vehicleData,
+            List<DriverDocumentRequestData> driverDocuments,
+            List<VehicleDocumentRequestData> vehicleDocuments)?
+        submitted,
+    required TResult orElse(),
+  }) {
+    if (clearError != null) {
+      return clearError();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(DriverRegistrationInitialized value) initialized,
+    required TResult Function(FullNameChanged value) fullNameChanged,
+    required TResult Function(EmailChanged value) emailChanged,
+    required TResult Function(FinNumberChanged value) finNumberChanged,
+    required TResult Function(ProfileImageChanged value) profileImageChanged,
+    required TResult Function(LicenseImageChanged value) licenseImageChanged,
+    required TResult Function(CarMakeChanged value) carMakeChanged,
+    required TResult Function(CarModelChanged value) carModelChanged,
+    required TResult Function(YearOfManufactureChanged value)
+        yearOfManufactureChanged,
+    required TResult Function(PlateNumberChanged value) plateNumberChanged,
+    required TResult Function(ColorChanged value) colorChanged,
+    required TResult Function(CapacityChanged value) capacityChanged,
+    required TResult Function(VehicleTypeChanged value) vehicleTypeChanged,
+    required TResult Function(FrontWiperPhotoChanged value)
+        frontWiperPhotoChanged,
+    required TResult Function(RearWiperPhotoChanged value)
+        rearWiperPhotoChanged,
+    required TResult Function(SideMirror1PhotoChanged value)
+        sideMirror1PhotoChanged,
+    required TResult Function(SideMirror2PhotoChanged value)
+        sideMirror2PhotoChanged,
+    required TResult Function(RearViewMirrorPhotoChanged value)
+        rearViewMirrorPhotoChanged,
+    required TResult Function(FrontPhotoChanged value) frontPhotoChanged,
+    required TResult Function(BackPhotoChanged value) backPhotoChanged,
+    required TResult Function(LeftPhotoChanged value) leftPhotoChanged,
+    required TResult Function(RightPhotoChanged value) rightPhotoChanged,
+    required TResult Function(DashboardPhotoChanged value)
+        dashboardPhotoChanged,
+    required TResult Function(FrontSeatsPhotoChanged value)
+        frontSeatsPhotoChanged,
+    required TResult Function(BackSeatsPhotoChanged value)
+        backSeatsPhotoChanged,
+    required TResult Function(AdditionalPhotosChanged value)
+        additionalPhotosChanged,
+    required TResult Function(TermsAcceptedChanged value) termsAcceptedChanged,
+    required TResult Function(NextPage value) nextPage,
+    required TResult Function(PreviousPage value) previousPage,
+    required TResult Function(PageChanged value) pageChanged,
+    required TResult Function(ClearError value) clearError,
+    required TResult Function(SubmitForm value) submitForm,
+    required TResult Function(DriverRegistrationSubmitted value) submitted,
+  }) {
+    return clearError(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(DriverRegistrationInitialized value)? initialized,
+    TResult? Function(FullNameChanged value)? fullNameChanged,
+    TResult? Function(EmailChanged value)? emailChanged,
+    TResult? Function(FinNumberChanged value)? finNumberChanged,
+    TResult? Function(ProfileImageChanged value)? profileImageChanged,
+    TResult? Function(LicenseImageChanged value)? licenseImageChanged,
+    TResult? Function(CarMakeChanged value)? carMakeChanged,
+    TResult? Function(CarModelChanged value)? carModelChanged,
+    TResult? Function(YearOfManufactureChanged value)? yearOfManufactureChanged,
+    TResult? Function(PlateNumberChanged value)? plateNumberChanged,
+    TResult? Function(ColorChanged value)? colorChanged,
+    TResult? Function(CapacityChanged value)? capacityChanged,
+    TResult? Function(VehicleTypeChanged value)? vehicleTypeChanged,
+    TResult? Function(FrontWiperPhotoChanged value)? frontWiperPhotoChanged,
+    TResult? Function(RearWiperPhotoChanged value)? rearWiperPhotoChanged,
+    TResult? Function(SideMirror1PhotoChanged value)? sideMirror1PhotoChanged,
+    TResult? Function(SideMirror2PhotoChanged value)? sideMirror2PhotoChanged,
+    TResult? Function(RearViewMirrorPhotoChanged value)?
+        rearViewMirrorPhotoChanged,
+    TResult? Function(FrontPhotoChanged value)? frontPhotoChanged,
+    TResult? Function(BackPhotoChanged value)? backPhotoChanged,
+    TResult? Function(LeftPhotoChanged value)? leftPhotoChanged,
+    TResult? Function(RightPhotoChanged value)? rightPhotoChanged,
+    TResult? Function(DashboardPhotoChanged value)? dashboardPhotoChanged,
+    TResult? Function(FrontSeatsPhotoChanged value)? frontSeatsPhotoChanged,
+    TResult? Function(BackSeatsPhotoChanged value)? backSeatsPhotoChanged,
+    TResult? Function(AdditionalPhotosChanged value)? additionalPhotosChanged,
+    TResult? Function(TermsAcceptedChanged value)? termsAcceptedChanged,
+    TResult? Function(NextPage value)? nextPage,
+    TResult? Function(PreviousPage value)? previousPage,
+    TResult? Function(PageChanged value)? pageChanged,
+    TResult? Function(ClearError value)? clearError,
+    TResult? Function(SubmitForm value)? submitForm,
+    TResult? Function(DriverRegistrationSubmitted value)? submitted,
+  }) {
+    return clearError?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(DriverRegistrationInitialized value)? initialized,
+    TResult Function(FullNameChanged value)? fullNameChanged,
+    TResult Function(EmailChanged value)? emailChanged,
+    TResult Function(FinNumberChanged value)? finNumberChanged,
+    TResult Function(ProfileImageChanged value)? profileImageChanged,
+    TResult Function(LicenseImageChanged value)? licenseImageChanged,
+    TResult Function(CarMakeChanged value)? carMakeChanged,
+    TResult Function(CarModelChanged value)? carModelChanged,
+    TResult Function(YearOfManufactureChanged value)? yearOfManufactureChanged,
+    TResult Function(PlateNumberChanged value)? plateNumberChanged,
+    TResult Function(ColorChanged value)? colorChanged,
+    TResult Function(CapacityChanged value)? capacityChanged,
+    TResult Function(VehicleTypeChanged value)? vehicleTypeChanged,
+    TResult Function(FrontWiperPhotoChanged value)? frontWiperPhotoChanged,
+    TResult Function(RearWiperPhotoChanged value)? rearWiperPhotoChanged,
+    TResult Function(SideMirror1PhotoChanged value)? sideMirror1PhotoChanged,
+    TResult Function(SideMirror2PhotoChanged value)? sideMirror2PhotoChanged,
+    TResult Function(RearViewMirrorPhotoChanged value)?
+        rearViewMirrorPhotoChanged,
+    TResult Function(FrontPhotoChanged value)? frontPhotoChanged,
+    TResult Function(BackPhotoChanged value)? backPhotoChanged,
+    TResult Function(LeftPhotoChanged value)? leftPhotoChanged,
+    TResult Function(RightPhotoChanged value)? rightPhotoChanged,
+    TResult Function(DashboardPhotoChanged value)? dashboardPhotoChanged,
+    TResult Function(FrontSeatsPhotoChanged value)? frontSeatsPhotoChanged,
+    TResult Function(BackSeatsPhotoChanged value)? backSeatsPhotoChanged,
+    TResult Function(AdditionalPhotosChanged value)? additionalPhotosChanged,
+    TResult Function(TermsAcceptedChanged value)? termsAcceptedChanged,
+    TResult Function(NextPage value)? nextPage,
+    TResult Function(PreviousPage value)? previousPage,
+    TResult Function(PageChanged value)? pageChanged,
+    TResult Function(ClearError value)? clearError,
+    TResult Function(SubmitForm value)? submitForm,
+    TResult Function(DriverRegistrationSubmitted value)? submitted,
+    required TResult orElse(),
+  }) {
+    if (clearError != null) {
+      return clearError(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class ClearError implements DriverRegistrationEvent {
+  const factory ClearError() = _$ClearErrorImpl;
 }
 
 /// @nodoc
@@ -10906,6 +11413,7 @@ class _$SubmitFormImpl implements SubmitForm {
     required TResult Function() nextPage,
     required TResult Function() previousPage,
     required TResult Function(int pageIndex) pageChanged,
+    required TResult Function() clearError,
     required TResult Function() submitForm,
     required TResult Function(
             String? phoneNumber,
@@ -10951,6 +11459,7 @@ class _$SubmitFormImpl implements SubmitForm {
     TResult? Function()? nextPage,
     TResult? Function()? previousPage,
     TResult? Function(int pageIndex)? pageChanged,
+    TResult? Function()? clearError,
     TResult? Function()? submitForm,
     TResult? Function(
             String? phoneNumber,
@@ -10996,6 +11505,7 @@ class _$SubmitFormImpl implements SubmitForm {
     TResult Function()? nextPage,
     TResult Function()? previousPage,
     TResult Function(int pageIndex)? pageChanged,
+    TResult Function()? clearError,
     TResult Function()? submitForm,
     TResult Function(
             String? phoneNumber,
@@ -11055,6 +11565,7 @@ class _$SubmitFormImpl implements SubmitForm {
     required TResult Function(NextPage value) nextPage,
     required TResult Function(PreviousPage value) previousPage,
     required TResult Function(PageChanged value) pageChanged,
+    required TResult Function(ClearError value) clearError,
     required TResult Function(SubmitForm value) submitForm,
     required TResult Function(DriverRegistrationSubmitted value) submitted,
   }) {
@@ -11095,6 +11606,7 @@ class _$SubmitFormImpl implements SubmitForm {
     TResult? Function(NextPage value)? nextPage,
     TResult? Function(PreviousPage value)? previousPage,
     TResult? Function(PageChanged value)? pageChanged,
+    TResult? Function(ClearError value)? clearError,
     TResult? Function(SubmitForm value)? submitForm,
     TResult? Function(DriverRegistrationSubmitted value)? submitted,
   }) {
@@ -11135,6 +11647,7 @@ class _$SubmitFormImpl implements SubmitForm {
     TResult Function(NextPage value)? nextPage,
     TResult Function(PreviousPage value)? previousPage,
     TResult Function(PageChanged value)? pageChanged,
+    TResult Function(ClearError value)? clearError,
     TResult Function(SubmitForm value)? submitForm,
     TResult Function(DriverRegistrationSubmitted value)? submitted,
     required TResult orElse(),
@@ -11342,6 +11855,7 @@ class _$DriverRegistrationSubmittedImpl implements DriverRegistrationSubmitted {
     required TResult Function() nextPage,
     required TResult Function() previousPage,
     required TResult Function(int pageIndex) pageChanged,
+    required TResult Function() clearError,
     required TResult Function() submitForm,
     required TResult Function(
             String? phoneNumber,
@@ -11388,6 +11902,7 @@ class _$DriverRegistrationSubmittedImpl implements DriverRegistrationSubmitted {
     TResult? Function()? nextPage,
     TResult? Function()? previousPage,
     TResult? Function(int pageIndex)? pageChanged,
+    TResult? Function()? clearError,
     TResult? Function()? submitForm,
     TResult? Function(
             String? phoneNumber,
@@ -11434,6 +11949,7 @@ class _$DriverRegistrationSubmittedImpl implements DriverRegistrationSubmitted {
     TResult Function()? nextPage,
     TResult Function()? previousPage,
     TResult Function(int pageIndex)? pageChanged,
+    TResult Function()? clearError,
     TResult Function()? submitForm,
     TResult Function(
             String? phoneNumber,
@@ -11494,6 +12010,7 @@ class _$DriverRegistrationSubmittedImpl implements DriverRegistrationSubmitted {
     required TResult Function(NextPage value) nextPage,
     required TResult Function(PreviousPage value) previousPage,
     required TResult Function(PageChanged value) pageChanged,
+    required TResult Function(ClearError value) clearError,
     required TResult Function(SubmitForm value) submitForm,
     required TResult Function(DriverRegistrationSubmitted value) submitted,
   }) {
@@ -11534,6 +12051,7 @@ class _$DriverRegistrationSubmittedImpl implements DriverRegistrationSubmitted {
     TResult? Function(NextPage value)? nextPage,
     TResult? Function(PreviousPage value)? previousPage,
     TResult? Function(PageChanged value)? pageChanged,
+    TResult? Function(ClearError value)? clearError,
     TResult? Function(SubmitForm value)? submitForm,
     TResult? Function(DriverRegistrationSubmitted value)? submitted,
   }) {
@@ -11574,6 +12092,7 @@ class _$DriverRegistrationSubmittedImpl implements DriverRegistrationSubmitted {
     TResult Function(NextPage value)? nextPage,
     TResult Function(PreviousPage value)? previousPage,
     TResult Function(PageChanged value)? pageChanged,
+    TResult Function(ClearError value)? clearError,
     TResult Function(SubmitForm value)? submitForm,
     TResult Function(DriverRegistrationSubmitted value)? submitted,
     required TResult orElse(),
@@ -11620,7 +12139,7 @@ mixin _$DriverRegistrationState {
   YearOfManufacture get yearOfManufacture => throw _privateConstructorUsedError;
   PlateNumber get plateNumber => throw _privateConstructorUsedError;
   VehicleColor get color => throw _privateConstructorUsedError;
-  VehicleCapacity? get capacity => throw _privateConstructorUsedError;
+  VehicleCapacity get capacity => throw _privateConstructorUsedError;
   VehicleType get vehicleType =>
       throw _privateConstructorUsedError; // Image paths (stored as strings, converted to File when needed)
   String get profileImagePath => throw _privateConstructorUsedError;
@@ -11679,7 +12198,7 @@ abstract class $DriverRegistrationStateCopyWith<$Res> {
       YearOfManufacture yearOfManufacture,
       PlateNumber plateNumber,
       VehicleColor color,
-      VehicleCapacity? capacity,
+      VehicleCapacity capacity,
       VehicleType vehicleType,
       String profileImagePath,
       String licenseImagePath,
@@ -11738,7 +12257,7 @@ class _$DriverRegistrationStateCopyWithImpl<$Res,
     Object? yearOfManufacture = null,
     Object? plateNumber = null,
     Object? color = null,
-    Object? capacity = freezed,
+    Object? capacity = null,
     Object? vehicleType = null,
     Object? profileImagePath = null,
     Object? licenseImagePath = null,
@@ -11806,10 +12325,10 @@ class _$DriverRegistrationStateCopyWithImpl<$Res,
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
               as VehicleColor,
-      capacity: freezed == capacity
+      capacity: null == capacity
           ? _value.capacity
           : capacity // ignore: cast_nullable_to_non_nullable
-              as VehicleCapacity?,
+              as VehicleCapacity,
       vehicleType: null == vehicleType
           ? _value.vehicleType
           : vehicleType // ignore: cast_nullable_to_non_nullable
@@ -11963,7 +12482,7 @@ abstract class _$$DriverRegistrationStateImplCopyWith<$Res>
       YearOfManufacture yearOfManufacture,
       PlateNumber plateNumber,
       VehicleColor color,
-      VehicleCapacity? capacity,
+      VehicleCapacity capacity,
       VehicleType vehicleType,
       String profileImagePath,
       String licenseImagePath,
@@ -12022,7 +12541,7 @@ class __$$DriverRegistrationStateImplCopyWithImpl<$Res>
     Object? yearOfManufacture = null,
     Object? plateNumber = null,
     Object? color = null,
-    Object? capacity = freezed,
+    Object? capacity = null,
     Object? vehicleType = null,
     Object? profileImagePath = null,
     Object? licenseImagePath = null,
@@ -12090,10 +12609,10 @@ class __$$DriverRegistrationStateImplCopyWithImpl<$Res>
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
               as VehicleColor,
-      capacity: freezed == capacity
+      capacity: null == capacity
           ? _value.capacity
           : capacity // ignore: cast_nullable_to_non_nullable
-              as VehicleCapacity?,
+              as VehicleCapacity,
       vehicleType: null == vehicleType
           ? _value.vehicleType
           : vehicleType // ignore: cast_nullable_to_non_nullable
@@ -12227,7 +12746,7 @@ class _$DriverRegistrationStateImpl extends _DriverRegistrationState {
       required this.yearOfManufacture,
       required this.plateNumber,
       required this.color,
-      this.capacity,
+      required this.capacity,
       required this.vehicleType,
       this.profileImagePath = '',
       this.licenseImagePath = '',
@@ -12282,7 +12801,7 @@ class _$DriverRegistrationStateImpl extends _DriverRegistrationState {
   @override
   final VehicleColor color;
   @override
-  final VehicleCapacity? capacity;
+  final VehicleCapacity capacity;
   @override
   final VehicleType vehicleType;
 // Image paths (stored as strings, converted to File when needed)
@@ -12524,7 +13043,7 @@ abstract class _DriverRegistrationState extends DriverRegistrationState {
       required final YearOfManufacture yearOfManufacture,
       required final PlateNumber plateNumber,
       required final VehicleColor color,
-      final VehicleCapacity? capacity,
+      required final VehicleCapacity capacity,
       required final VehicleType vehicleType,
       final String profileImagePath,
       final String licenseImagePath,
@@ -12576,7 +13095,7 @@ abstract class _DriverRegistrationState extends DriverRegistrationState {
   @override
   VehicleColor get color;
   @override
-  VehicleCapacity? get capacity;
+  VehicleCapacity get capacity;
   @override
   VehicleType
       get vehicleType; // Image paths (stored as strings, converted to File when needed)

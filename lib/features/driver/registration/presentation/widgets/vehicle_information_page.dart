@@ -64,7 +64,7 @@ class _VehicleInformationPageState extends State<VehicleInformationPage> {
       text: state.color.getOrElse(''),
     );
     _capacityController = TextEditingController(
-      text: state.capacity?.getOrElse(0).toString() ?? '',
+      text: state.capacity.getOrElse(0).toString(),
     );
 
     // Add listeners to dispatch BLoC events
@@ -74,11 +74,18 @@ class _VehicleInformationPageState extends State<VehicleInformationPage> {
           );
     });
     _yearOfManufactureController.addListener(() {
-      final year = int.tryParse(_yearOfManufactureController.text);
-      if (year != null) {
+      final text = _yearOfManufactureController.text.trim();
+      if (text.isEmpty) {
         context.read<DriverRegistrationBloc>().add(
-              DriverRegistrationEvent.yearOfManufactureChanged(year),
+              const DriverRegistrationEvent.yearOfManufactureChanged(0),
             );
+      } else {
+        final year = int.tryParse(text);
+        if (year != null) {
+          context.read<DriverRegistrationBloc>().add(
+                DriverRegistrationEvent.yearOfManufactureChanged(year),
+              );
+        }
       }
     });
     _carModelController.addListener(() {
@@ -97,11 +104,18 @@ class _VehicleInformationPageState extends State<VehicleInformationPage> {
           );
     });
     _capacityController.addListener(() {
-      final capacity = int.tryParse(_capacityController.text);
-      if (capacity != null) {
+      final text = _capacityController.text.trim();
+      if (text.isEmpty) {
         context.read<DriverRegistrationBloc>().add(
-              DriverRegistrationEvent.capacityChanged(capacity),
+              const DriverRegistrationEvent.capacityChanged(0),
             );
+      } else {
+        final capacity = int.tryParse(text);
+        if (capacity != null) {
+          context.read<DriverRegistrationBloc>().add(
+                DriverRegistrationEvent.capacityChanged(capacity),
+              );
+        }
       }
     });
   }
@@ -177,9 +191,24 @@ class _VehicleInformationPageState extends State<VehicleInformationPage> {
         );
       case 'yearOfManufacture':
         return state.yearOfManufacture.value.fold(
-          (failure) => InputValidationMessage(
-            message: failure.failedValue.toString(),
-          ),
+          (failure) {
+            final failedValue = failure.failedValue;
+            // Show meaningful message for invalid year
+            if (failedValue == 0 || failedValue < 1900) {
+              return const InputValidationMessage(
+                message: 'Please enter a valid year (1900 or later)',
+              );
+            }
+            final currentYear = DateTime.now().year;
+            if (failedValue > currentYear + 1) {
+              return InputValidationMessage(
+                message: 'Year cannot be greater than ${currentYear + 1}',
+              );
+            }
+            return InputValidationMessage(
+              message: 'Please enter a valid year',
+            );
+          },
           (_) => const SizedBox.shrink(),
         );
       case 'plateNumber':
@@ -197,15 +226,26 @@ class _VehicleInformationPageState extends State<VehicleInformationPage> {
           (_) => const SizedBox.shrink(),
         );
       case 'capacity':
-        if (state.capacity != null) {
-          return state.capacity!.value.fold(
-            (failure) => InputValidationMessage(
-              message: failure.failedValue.toString(),
-            ),
-            (_) => const SizedBox.shrink(),
-          );
-        }
-        return const SizedBox.shrink();
+        return state.capacity.value.fold(
+          (failure) {
+            final failedValue = failure.failedValue;
+            // Show meaningful message for invalid capacity
+            if (failedValue == 0 || failedValue < 1) {
+              return const InputValidationMessage(
+                message: 'Please enter a valid capacity (1 or more)',
+              );
+            }
+            if (failedValue > 50) {
+              return const InputValidationMessage(
+                message: 'Capacity cannot be greater than 50',
+              );
+            }
+            return const InputValidationMessage(
+              message: 'Please enter a valid capacity',
+            );
+          },
+          (_) => const SizedBox.shrink(),
+        );
       case 'vehicleType':
         return state.vehicleType.value.fold(
           (failure) => InputValidationMessage(
@@ -234,7 +274,7 @@ class _VehicleInformationPageState extends State<VehicleInformationPage> {
           color: theme.colorScheme.onSurfaceVariant,
         ),
         filled: true,
-        fillColor: theme.colorScheme.surfaceContainerHighest,
+        fillColor: theme.inputDecorationTheme.fillColor,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.r),
           borderSide: BorderSide.none,
@@ -403,7 +443,7 @@ class _VehicleInformationPageState extends State<VehicleInformationPage> {
                           color: theme.colorScheme.onSurfaceVariant,
                         ),
                         filled: true,
-                        fillColor: theme.colorScheme.surfaceContainerHighest,
+                        fillColor: theme.inputDecorationTheme.fillColor,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.r),
                           borderSide: BorderSide.none,
@@ -447,14 +487,14 @@ class _VehicleInformationPageState extends State<VehicleInformationPage> {
 
                   SizedBox(height: 24.h),
 
-                  // Navigation Button
+                  // Next Button
                   DriverRegistrationButton(
                     onPressed: () {
                       context.read<DriverRegistrationBloc>().add(
                             const DriverRegistrationEvent.nextPage(),
                           );
                     },
-                    isLastPage: widget.currentPage == widget.totalPages - 1,
+                    isLastPage: false,
                   ),
 
                   SizedBox(height: 24.h),

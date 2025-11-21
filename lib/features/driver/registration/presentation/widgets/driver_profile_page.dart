@@ -5,6 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nest_driver/core/presentation/widgets/app_back_button.dart';
 import 'package:nest_driver/core/services/image_picker_service.dart';
+import 'package:nest_driver/core/services/file_picker_service.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:nest_driver/core/utils/input_validation_message.dart';
 import 'package:nest_driver/features/driver/registration/application/bloc/driver_registration_bloc.dart';
 import 'package:nest_driver/features/driver/registration/presentation/widgets/driver_registration_progress_indicator.dart';
@@ -32,6 +34,7 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
   late final TextEditingController _emailController;
   late final TextEditingController _finNumberController;
   final _imagePickerService = ImagePickerService();
+  final _filePickerService = FilePickerService();
 
   @override
   void initState() {
@@ -86,6 +89,154 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
             );
     }
     }
+  }
+
+  /// Show bottom sheet to pick license as image or document
+  Future<void> _pickLicense(BuildContext context) async {
+    final state = context.read<DriverRegistrationBloc>().state;
+    final currentLicensePath = state.licenseImagePath;
+
+    // Show bottom sheet with options: Pick Image or Pick Document
+    final selectedOption = await showModalBottomSheet<String>(
+      context: context,
+      isDismissible: true,
+      enableDrag: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
+      ),
+      builder: (BuildContext context) {
+        final theme = Theme.of(context);
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Handle bar
+              Container(
+                margin: EdgeInsets.only(top: 12.h, bottom: 8.h),
+                width: 40.w,
+                height: 4.h,
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(2.r),
+                ),
+              ),
+              // Title
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 8.h),
+                child: Text(
+                  'Select License Source',
+                  style: GoogleFonts.outfit(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18.sp,
+                  ),
+                ),
+              ),
+              SizedBox(height: 8.h),
+              // Pick Image option
+              ListTile(
+                leading: Icon(
+                  Icons.image_rounded,
+                  color: theme.colorScheme.primary,
+                ),
+                title: Text(
+                  'Pick Image',
+                  style: GoogleFonts.outfit(),
+                ),
+                subtitle: Text(
+                  'Camera or Gallery',
+                  style: GoogleFonts.outfit(fontSize: 12.sp),
+                ),
+                onTap: () {
+                  Navigator.pop(context, 'image');
+                },
+              ),
+              // Pick Document option
+              ListTile(
+                leading: Icon(
+                  Icons.description_rounded,
+                  color: theme.colorScheme.primary,
+                ),
+                title: Text(
+                  'Pick Document',
+                  style: GoogleFonts.outfit(),
+                ),
+                subtitle: Text(
+                  'PDF, DOC, DOCX',
+                  style: GoogleFonts.outfit(fontSize: 12.sp),
+                ),
+                onTap: () {
+                  Navigator.pop(context, 'document');
+                },
+              ),
+              // Remove option (only if there's a current license)
+              if (currentLicensePath.isNotEmpty)
+                ListTile(
+                  leading: const Icon(
+                    Icons.delete_outline_rounded,
+                    color: Colors.red,
+                  ),
+                  title: Text(
+                    'Remove License',
+                    style: GoogleFonts.outfit(color: Colors.red),
+                  ),
+                  onTap: () {
+                    Navigator.pop(context, 'remove');
+                  },
+                ),
+              SizedBox(height: 8.h),
+            ],
+          ),
+        );
+      },
+    );
+
+    if (selectedOption == null || !context.mounted) {
+      return;
+    }
+
+    if (selectedOption == 'remove') {
+      // Remove license
+      context.read<DriverRegistrationBloc>().add(
+            const DriverRegistrationEvent.licenseImageChanged(''),
+          );
+      return;
+    }
+
+    String? filePath;
+
+    if (selectedOption == 'image') {
+      // Option A: Pick Image
+      // Request Camera/Gallery permission and open Image Picker
+      filePath = await _imagePickerService.showImageSourceSelectionDialog(
+        context,
+        currentImagePath: currentLicensePath.isNotEmpty ? currentLicensePath : null,
+      );
+    } else if (selectedOption == 'document') {
+      // Option B: Pick Document
+      // Request Storage permission and open File Picker
+      filePath = await _filePickerService.pickDocument(
+        context,
+        allowedExtensions: ['pdf', 'doc', 'docx'],
+      );
+    }
+
+    // Update BLoC state with selected file
+    if (filePath != null && context.mounted) {
+      context.read<DriverRegistrationBloc>().add(
+            DriverRegistrationEvent.licenseImageChanged(filePath),
+          );
+    }
+  }
+
+  /// Check if file is an image based on extension
+  bool _isImageFile(String filePath) {
+    final extension = filePath.toLowerCase().split('.').last;
+    return ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'].contains(extension);
+  }
+
+  /// Get file name from path
+  String _getFileName(String filePath) {
+    return filePath.split('/').last;
   }
 
   @override
@@ -159,6 +310,23 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
               SizedBox(height: 32.h),
 
               // Profile Photo
+                  RichText(
+                    text: TextSpan(
+                      text: 'Profile Photo',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w500,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: ' *',
+                          style: TextStyle(
+                            color: theme.colorScheme.error,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 8.h),
                   Center(
                     child: Stack(
                       children: [
@@ -167,7 +335,7 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                           height: 140.w,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: theme.colorScheme.surfaceContainerHighest,
+                            color: theme.inputDecorationTheme.fillColor,
                             image: state.profileImagePath.isNotEmpty
                                 ? DecorationImage(
                                     image: FileImage(File(state.profileImagePath)),
@@ -255,7 +423,7 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                         color: theme.colorScheme.onSurfaceVariant,
                       ),
                       filled: true,
-                      fillColor: theme.colorScheme.surfaceContainerHighest,
+                      fillColor: theme.inputDecorationTheme.fillColor,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.r),
                         borderSide: BorderSide.none,
@@ -286,10 +454,20 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                   SizedBox(height: 20.h),
 
                   // Email Address
-                  Text(
-                    'Email Address',
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.w500,
+                  RichText(
+                    text: TextSpan(
+                      text: 'Email Address',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w500,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: ' *',
+                          style: TextStyle(
+                            color: theme.colorScheme.error,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   SizedBox(height: 8.h),
@@ -303,7 +481,7 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                         color: theme.colorScheme.onSurfaceVariant,
                       ),
                       filled: true,
-                      fillColor: theme.colorScheme.surfaceContainerHighest,
+                      fillColor: theme.inputDecorationTheme.fillColor,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.r),
                         borderSide: BorderSide.none,
@@ -334,20 +512,30 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                   SizedBox(height: 20.h),
 
                   // Upload License
-                  Text(
-                    'Upload photo of your license',
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.w500,
+                  RichText(
+                    text: TextSpan(
+                      text: 'Upload photo of your license',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w500,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: ' *',
+                          style: TextStyle(
+                            color: theme.colorScheme.error,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   SizedBox(height: 8.h),
                   GestureDetector(
-                    onTap: () => _pickImage(context, false),
+                    onTap: () => _pickLicense(context),
                     child: Container(
                       width: double.infinity,
                       padding: EdgeInsets.symmetric(vertical: 48.h),
                       decoration: BoxDecoration(
-                        color: theme.colorScheme.surfaceContainerHighest,
+                        color: theme.inputDecorationTheme.fillColor,
                         borderRadius: BorderRadius.circular(8.r),
                         border: Border.all(
                           color: state.showErrorMessages &&
@@ -363,15 +551,44 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                       child: state.licenseImagePath.isNotEmpty
                           ? Stack(
                               children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(8.r),
-                                  child: Image.file(
-                                    File(state.licenseImagePath),
-                                    height: 120.h,
-                                    width: double.infinity,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
+                                // Check if file is an image or document
+                                _isImageFile(state.licenseImagePath)
+                                    ? ClipRRect(
+                                        borderRadius: BorderRadius.circular(8.r),
+                                        child: Image.file(
+                                          File(state.licenseImagePath),
+                                          height: 120.h,
+                                          width: double.infinity,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      )
+                                    : Container(
+                                        height: 120.h,
+                                        width: double.infinity,
+                                        decoration: BoxDecoration(
+                                          color: theme.colorScheme.surfaceVariant,
+                                          borderRadius: BorderRadius.circular(8.r),
+                                        ),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.description_rounded,
+                                              size: 48.sp,
+                                              color: theme.colorScheme.primary,
+                                            ),
+                                            SizedBox(height: 8.h),
+                                            Text(
+                                              _getFileName(state.licenseImagePath),
+                                              style: theme.textTheme.bodySmall?.copyWith(
+                                                color: theme.colorScheme.onSurfaceVariant,
+                                              ),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
                                 Positioned(
                                   top: 8.h,
                                   right: 8.w,
@@ -400,14 +617,14 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                                 ),
                                 SizedBox(height: 12.h),
                                 Text(
-                                  'Click to upload your driver\'s license photo',
+                                  'Click to upload your driver\'s license',
                                   style: theme.textTheme.bodySmall?.copyWith(
                                     color: theme.colorScheme.onSurfaceVariant,
                                   ),
                                 ),
                                 SizedBox(height: 4.h),
                                 Text(
-                                  'File should be JPG, PNG, or PDF',
+                                  'Image (JPG, PNG) or Document (PDF, DOC, DOCX)',
                                   style: theme.textTheme.bodySmall?.copyWith(
                                     color: theme.colorScheme.onSurfaceVariant,
                                   ),
@@ -457,7 +674,7 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                         color: theme.colorScheme.onSurfaceVariant,
                       ),
                       filled: true,
-                      fillColor: theme.colorScheme.surfaceContainerHighest,
+                      fillColor: theme.inputDecorationTheme.fillColor,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.r),
                         borderSide: BorderSide.none,
@@ -487,14 +704,14 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
 
               SizedBox(height: 24.h),
 
-              // Navigation Button
+              // Next Button
                   DriverRegistrationButton(
                     onPressed: () {
                       context.read<DriverRegistrationBloc>().add(
                             const DriverRegistrationEvent.nextPage(),
                           );
                     },
-                    isLastPage: widget.currentPage == widget.totalPages - 1,
+                    isLastPage: false,
               ),
 
               SizedBox(height: 24.h),

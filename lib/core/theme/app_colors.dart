@@ -58,4 +58,9 @@ class AppColors {
   
   // Light pink background for selected cards
   static const Color selectedCardBackground = Color(0xFFFFF5F5);
+  
+  // Info box colors
+  static const Color infoBoxBackground = Color(0xFFEEF4FF);
+  static const Color infoBoxForeground = Color.fromARGB(255, 33, 92, 212);
+  static const Color infoBoxBorder = Color.fromARGB(128, 47, 131, 240); // #1C64F280 with alpha
 }

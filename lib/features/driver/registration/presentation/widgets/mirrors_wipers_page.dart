@@ -151,17 +151,18 @@ class MirrorsWipersPage extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.all(16.w),
                   decoration: BoxDecoration(
-                    color: AppColors.primary.withOpacity(0.1),
+                    color: AppColors.infoBoxBackground,
                     borderRadius: BorderRadius.circular(12.r),
                     border: Border.all(
-                      color: AppColors.primary.withOpacity(0.3),
+                      color: AppColors.infoBoxBorder,
                       width: 1,
                     ),
                   ),
                   child: Text(
                     'Ensure all photos are clear, well-lit, and show the required parts of your vehicle. Photos will be reviewed for verification before you can start driving.',
                     style: theme.textTheme.bodySmall?.copyWith(
-                      color: AppColors.primary,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.infoBoxForeground,
                     ),
                   ),
                 ),
@@ -169,69 +170,117 @@ class MirrorsWipersPage extends StatelessWidget {
                 SizedBox(height: 24.h),
 
                 // Wipers Row
-                Row(
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: _buildPhotoCard(
-                        context,
-                        'Front Wiper',
-                        state.frontWiperPhotoPath,
-                        () => _pickImage(context, 'frontWiper'),
-                        'frontWiperPhoto',
-                        state,
-                      ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _buildPhotoCard(
+                            context,
+                            'Front Wiper',
+                            state.frontWiperPhotoPath,
+                            () => _pickImage(context, 'frontWiper'),
+                            'frontWiperPhoto',
+                            state,
+                            showError: false, // Don't show error inside card
+                          ),
+                        ),
+                        SizedBox(width: 16.w),
+                        Expanded(
+                          child: _buildPhotoCard(
+                            context,
+                            'Rear wiper',
+                            state.rearWiperPhotoPath,
+                            () => _pickImage(context, 'rearWiper'),
+                            'rearWiperPhoto',
+                            state,
+                            showError: false, // Don't show error inside card
+                          ),
+                        ),
+                      ],
                     ),
-                    SizedBox(width: 16.w),
-                    Expanded(
-                      child: _buildPhotoCard(
-                        context,
-                        'Rear wiper',
-                        state.rearWiperPhotoPath,
-                        () => _pickImage(context, 'rearWiper'),
-                        'rearWiperPhoto',
-                        state,
+                    // Show validation message below the row for full width
+                    if (state.showErrorMessages &&
+                        (state.firstInvalidField == 'frontWiperPhoto' ||
+                            state.firstInvalidField == 'rearWiperPhoto'))
+                      Padding(
+                        padding: EdgeInsets.only(top: 8.h),
+                        child: InputValidationMessage(
+                          message: state.firstInvalidField == 'frontWiperPhoto'
+                              ? 'Please upload Front Wiper photo'
+                              : 'Please upload Rear wiper photo',
+                        ),
                       ),
-                    ),
                   ],
                 ),
 
                 SizedBox(height: 16.h),
 
                 // Side Mirrors Row
-                Row(
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: _buildPhotoCard(
-                        context,
-                        'Side Mirror 1',
-                        state.sideMirror1PhotoPath,
-                        () => _pickImage(context, 'sideMirror1'),
-                        'sideMirror1Photo',
-                        state,
-                      ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _buildPhotoCard(
+                            context,
+                            'Side Mirror 1',
+                            state.sideMirror1PhotoPath,
+                            () => _pickImage(context, 'sideMirror1'),
+                            'sideMirror1Photo',
+                            state,
+                            showError: false, // Don't show error inside card
+                          ),
+                        ),
+                        SizedBox(width: 16.w),
+                        Expanded(
+                          child: _buildPhotoCard(
+                            context,
+                            'Side Mirror 2',
+                            state.sideMirror2PhotoPath,
+                            () => _pickImage(context, 'sideMirror2'),
+                            'sideMirror2Photo',
+                            state,
+                            showError: false, // Don't show error inside card
+                          ),
+                        ),
+                      ],
                     ),
-                    SizedBox(width: 16.w),
-                    Expanded(
-                      child: _buildPhotoCard(
-                        context,
-                        'Side Mirror 2',
-                        state.sideMirror2PhotoPath,
-                        () => _pickImage(context, 'sideMirror2'),
-                        'sideMirror2Photo',
-                        state,
+                    // Show validation message below the row for full width
+                    if (state.showErrorMessages &&
+                        (state.firstInvalidField == 'sideMirror1Photo' ||
+                            state.firstInvalidField == 'sideMirror2Photo'))
+                      Padding(
+                        padding: EdgeInsets.only(top: 8.h),
+                        child: InputValidationMessage(
+                          message: state.firstInvalidField == 'sideMirror1Photo'
+                              ? 'Please upload Side Mirror 1 photo'
+                              : 'Please upload Side Mirror 2 photo',
+                        ),
                       ),
-                    ),
                   ],
                 ),
 
                 SizedBox(height: 16.h),
 
                 // Rear View Mirror
-                Text(
-                  'Rear view mirror',
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: theme.colorScheme.onSurfaceVariant,
-                    fontWeight: FontWeight.w500,
+                RichText(
+                  text: TextSpan(
+                    text: 'Rear view mirror',
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: ' *',
+                        style: TextStyle(
+                          color: theme.colorScheme.error,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 SizedBox(height: 8.h),
@@ -241,7 +290,7 @@ class MirrorsWipersPage extends StatelessWidget {
                     width: double.infinity,
                     height: 140.h,
                     decoration: BoxDecoration(
-                      color: theme.colorScheme.surfaceContainerHighest,
+                      color: theme.inputDecorationTheme.fillColor,
                       borderRadius: BorderRadius.circular(12.r),
                       border: Border.all(
                         color: state.showErrorMessages &&
@@ -254,7 +303,8 @@ class MirrorsWipersPage extends StatelessWidget {
                             : 1,
                       ),
                     ),
-                    child: state.rearViewMirrorPhotoPath != null
+                    child: state.rearViewMirrorPhotoPath != null &&
+                            state.rearViewMirrorPhotoPath!.isNotEmpty
                         ? ClipRRect(
                             borderRadius: BorderRadius.circular(12.r),
                             child: Stack(
@@ -301,14 +351,14 @@ class MirrorsWipersPage extends StatelessWidget {
 
                 SizedBox(height: 24.h),
 
-                // Navigation Button
+                // Next Button
                 DriverRegistrationButton(
                   onPressed: () {
                     context.read<DriverRegistrationBloc>().add(
                           const DriverRegistrationEvent.nextPage(),
                         );
                   },
-                  isLastPage: currentPage == totalPages - 1,
+                  isLastPage: false,
                 ),
 
                 SizedBox(height: 24.h),
@@ -326,8 +376,9 @@ class MirrorsWipersPage extends StatelessWidget {
     String? imagePath,
     VoidCallback onTap,
     String fieldName,
-    DriverRegistrationState state,
-  ) {
+    DriverRegistrationState state, {
+    bool showError = true, // Default to true for backward compatibility
+  }) {
     final theme = Theme.of(context);
     final hasError = state.showErrorMessages &&
         state.firstInvalidField == fieldName;
@@ -335,11 +386,21 @@ class MirrorsWipersPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label,
-          style: theme.textTheme.bodySmall?.copyWith(
-            color: theme.colorScheme.onSurfaceVariant,
-            fontWeight: FontWeight.w500,
+        RichText(
+          text: TextSpan(
+            text: label,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+              fontWeight: FontWeight.w500,
+            ),
+            children: [
+              TextSpan(
+                text: ' *',
+                style: TextStyle(
+                  color: theme.colorScheme.error,
+                ),
+              ),
+            ],
           ),
         ),
         SizedBox(height: 8.h),
@@ -348,7 +409,7 @@ class MirrorsWipersPage extends StatelessWidget {
           child: Container(
             height: 140.h,
             decoration: BoxDecoration(
-              color: theme.colorScheme.surfaceContainerHighest,
+              color: theme.inputDecorationTheme.fillColor,
               borderRadius: BorderRadius.circular(12.r),
               border: Border.all(
                 color: hasError
@@ -357,7 +418,7 @@ class MirrorsWipersPage extends StatelessWidget {
                 width: hasError ? 2 : 1,
               ),
             ),
-            child: imagePath != null
+            child: imagePath != null && imagePath.isNotEmpty
                 ? ClipRRect(
                     borderRadius: BorderRadius.circular(12.r),
                     child: Stack(
@@ -396,9 +457,13 @@ class MirrorsWipersPage extends StatelessWidget {
                   ),
           ),
         ),
-        if (hasError)
-          InputValidationMessage(
-            message: 'Please upload $label photo',
+        // Only show error inside card if showError is true
+        if (hasError && showError)
+          Padding(
+            padding: EdgeInsets.only(top: 8.h),
+            child: InputValidationMessage(
+              message: 'Please upload $label photo',
+            ),
           ),
       ],
     );

@@ -31,6 +31,7 @@ class DriverRegistrationBloc
             yearOfManufacture: YearOfManufacture(0),
             plateNumber: PlateNumber(''),
             color: VehicleColor(''),
+            capacity: VehicleCapacity(0),
             vehicleType: VehicleType(''),
             additionalPhotoPaths: [],
           ),
@@ -74,6 +75,7 @@ class DriverRegistrationBloc
     on<NextPage>(_onNextPage);
     on<PreviousPage>(_onPreviousPage);
     on<PageChanged>(_onPageChanged);
+    on<ClearError>(_onClearError);
     
     // Submit
     on<SubmitForm>(_onSubmitForm);
@@ -203,7 +205,7 @@ class DriverRegistrationBloc
     Emitter<DriverRegistrationState> emit,
   ) {
     emit(state.copyWith(
-      capacity: event.capacity > 0 ? VehicleCapacity(event.capacity) : null,
+      capacity: VehicleCapacity(event.capacity > 0 ? event.capacity : 0),
     ));
   }
 
@@ -396,7 +398,13 @@ class DriverRegistrationBloc
     TermsAcceptedChanged event,
     Emitter<DriverRegistrationState> emit,
   ) {
-    emit(state.copyWith(termsAccepted: event.accepted));
+    emit(state.copyWith(
+      termsAccepted: event.accepted,
+      // Clear validation error if terms are now accepted
+      firstInvalidField: (state.firstInvalidField == 'terms' && event.accepted)
+          ? null
+          : state.firstInvalidField,
+    ));
   }
 
   // Navigation handlers
@@ -465,29 +473,60 @@ class DriverRegistrationBloc
     ));
   }
 
+  void _onClearError(
+    ClearError event,
+    Emitter<DriverRegistrationState> emit,
+  ) {
+    emit(state.copyWith(
+      isError: false,
+      errorMessage: '',
+    ));
+  }
+
   // Submit handler
   Future<void> _onSubmitForm(
     SubmitForm event,
     Emitter<DriverRegistrationState> emit,
   ) async {
-    // Validate all fields
-    final firstInvalidField = _validateAllFields();
+    // Step 1: First validate the last page (page 4 - interior photos) only
+    final validatedPages = Set<int>.from(state.validatedPages);
+    validatedPages.add(state.currentPage);
+    
+    final firstInvalidField = _validateCurrentPage();
     if (firstInvalidField != null) {
+      // Validation failed on last page - show errors
       emit(state.copyWith(
-        isError: true,
-        errorMessage: firstInvalidField,
-        isLoading: false,
+        validatedPages: validatedPages,
+        firstInvalidField: firstInvalidField,
         showErrorMessages: true,
+        isLoading: false,
+        isError: false,
+        errorMessage: '',
+      ));
+      return;
+    }
+
+    // Step 2: Last page validation passed, now validate all fields before submitting
+    final allFieldsInvalid = _validateAllFields();
+    if (allFieldsInvalid != null) {
+      emit(state.copyWith(
+        validatedPages: validatedPages,
+        firstInvalidField: allFieldsInvalid,
+        showErrorMessages: true,
+        isLoading: false,
+        isError: false,
+        errorMessage: '',
       ));
       return;
     }
 
     if (!state.termsAccepted) {
       emit(state.copyWith(
-        isError: true,
-        errorMessage: 'You must agree to the terms and conditions',
-        isLoading: false,
+        firstInvalidField: 'terms',
         showErrorMessages: true,
+        isLoading: false,
+        isError: false,
+        errorMessage: '',
       ));
       return;
     }
@@ -524,7 +563,7 @@ class DriverRegistrationBloc
         yearOfManufacture: state.yearOfManufacture.getOrCrash(),
         plateNumber: state.plateNumber.getOrCrash(),
         color: state.color.getOrCrash(),
-        capacity: state.capacity?.getOrCrash() ?? 0,
+        capacity: state.capacity.getOrCrash(),
         vehicleType: state.vehicleType.getOrCrash(),
       ),
       driverDocuments: driverDocuments,
@@ -607,27 +646,20 @@ class DriverRegistrationBloc
   String? _validateCurrentPage() {
     switch (state.currentPage) {
       case 0: // Driver Profile Page
-        if (state.profileImagePath.isEmpty) {
-          return 'profileImage';
-        }
+        if (state.profileImagePath.isEmpty) return 'profileImage';
         if (!state.fullName.isValid()) return 'fullName';
         if (!state.email.isValid()) return 'email';
-        
-        if (state.licenseImagePath.isEmpty) {
-          return 'licenseImage';
-        }
+        if (state.licenseImagePath.isEmpty) return 'licenseImage';
         if (!state.finNumber.isValid()) return 'finNumber';
         return null;
 
       case 1: // Vehicle Information Page
         if (!state.carMake.isValid()) return 'carMake';
-        if (!state.carModel.isValid()) return 'carModel';
         if (!state.yearOfManufacture.isValid()) return 'yearOfManufacture';
+        if (!state.carModel.isValid()) return 'carModel';
         if (!state.plateNumber.isValid()) return 'plateNumber';
         if (!state.color.isValid()) return 'color';
-        if (state.capacity != null && !state.capacity!.isValid()) {
-          return 'capacity';
-        }
+        if (!state.capacity.isValid()) return 'capacity';
         if (!state.vehicleType.isValid()) return 'vehicleType';
         return null;
 
@@ -712,8 +744,8 @@ class DriverRegistrationBloc
     if (!state.color.isValid()) {
       return _getValidationError(state.color);
     }
-    if (state.capacity != null && !state.capacity!.isValid()) {
-      return _getValidationError(state.capacity!);
+    if (!state.capacity.isValid()) {
+      return _getValidationError(state.capacity);
     }
     if (!state.vehicleType.isValid()) {
       return _getValidationError(state.vehicleType);
