@@ -16,7 +16,6 @@ class LocationHeaderCard extends StatelessWidget {
   final String currentLocation;
   final VoidCallback? onRefresh;
 
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -47,12 +46,13 @@ class LocationHeaderCard extends StatelessWidget {
                 child: CircleAvatar(
                   radius: imageSizes.avatarSm.r,
                   backgroundColor: theme.colorScheme.primaryContainer,
-                  backgroundImage: const AssetImage('assets/avatar_placeholder.png'),
                   child: ClipOval(
                     child: Image.asset(
                       'assets/avatar_placeholder.png',
                       fit: BoxFit.cover,
-                      errorBuilder: (_, __, ___) => Icon(
+                      width: (imageSizes.avatarSm * 2).w,
+                      height: (imageSizes.avatarSm * 2).h,
+                      errorBuilder: (context, error, stackTrace) => Icon(
                         Icons.person,
                         size: iconSizes.lg.sp,
                         color: theme.colorScheme.onPrimaryContainer,
@@ -88,5 +88,3 @@ class LocationHeaderCard extends StatelessWidget {
     return parts.isNotEmpty ? parts.first : fullName;
   }
 }
-
-
