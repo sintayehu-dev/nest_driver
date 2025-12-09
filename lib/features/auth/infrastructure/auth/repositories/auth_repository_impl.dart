@@ -8,6 +8,8 @@ import 'package:nest_driver/features/auth/domain/entities/otplogin/otp_login_res
 import 'package:nest_driver/features/auth/domain/entities/verifyotp/otp_verify_request.dart';
 import 'package:nest_driver/features/auth/domain/entities/verifyotp/otp_verify_response.dart';
 import 'package:nest_driver/features/auth/infrastructure/auth/datasources/auth_remote_data_source.dart';
+import 'package:nest_driver/features/auth/domain/entities/profile_update/profile_update_request.dart';
+import 'package:nest_driver/features/auth/domain/entities/profile_update/profile_update_response.dart';
 
 @Injectable(as: AuthRepository)
 class AuthRepositoryImpl implements AuthRepository {
@@ -34,6 +36,17 @@ class AuthRepositoryImpl implements AuthRepository {
   ) async {
     try {
       final response = await _remoteDataSource.verifyLoginOtp(request.otp);
+      return right(response);
+    } on DioException catch (e) {
+      return left(NetworkExceptions.getDioException(e));
+    }
+  }
+  @override
+  Future<Either<NetworkExceptions, ProfileUpdateResponse>> updateProfile(
+    ProfileUpdateRequest request,
+  ) async {
+    try {
+      final response = await _remoteDataSource.updateProfile(request);
       return right(response);
     } on DioException catch (e) {
       return left(NetworkExceptions.getDioException(e));

@@ -19,7 +19,9 @@ class AppColors {
 
   // Theme colors
   static const Color success = Color(0xFF00C853);
+  static const Color successContainer = Color(0xFFE0F7E9);
   static const Color onSuccess = Color(0xFFFFFFFF);
+  static const Color onSuccessContainer = Color(0xFF003615);
   static const Color error = Color(0xFFBA1A1A);
   static const Color errorContainer = Color(0xFFFFDAD6);
   static const Color onError = Color(0xFFFFFFFF);
@@ -56,11 +58,14 @@ class AppColors {
   // Surface variants
   static const Color surfaceVariant = Color(0xFFF5F5F5);
   
+  // Inner page surface background
+  static const Color innerPageSurface = Color(0xFFF9FAFB);
+  
   // Light pink background for selected cards
   static const Color selectedCardBackground = Color(0xFFFFF5F5);
-  
+
   // Info box colors
   static const Color infoBoxBackground = Color(0xFFEEF4FF);
   static const Color infoBoxForeground = Color.fromARGB(255, 33, 92, 212);
-  static const Color infoBoxBorder = Color.fromARGB(128, 47, 131, 240); // #1C64F280 with alpha
+  static const Color infoBoxBorder = Color.fromARGB(128, 47, 131, 240);
 }

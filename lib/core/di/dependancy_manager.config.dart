@@ -13,6 +13,8 @@ import 'package:injectable/injectable.dart' as _i526;
 
 import '../../features/auth/application/otplogin/bloc/otp_login_bloc.dart'
     as _i187;
+import '../../features/auth/application/profile_update/bloc/profile_update_bloc.dart'
+    as _i724;
 import '../../features/auth/application/verify_otp/bloc/verify_otp_bloc.dart'
     as _i961;
 import '../../features/auth/domain/repositories/auth_repository.dart' as _i787;
@@ -30,6 +32,7 @@ import '../../features/driver/registration/infrastructure/datasources/driver_reg
 import '../../features/driver/registration/infrastructure/repositories/driver_registration_repository_impl.dart'
     as _i829;
 import '../handlers/http_service.dart' as _i350;
+import '../services/file_picker_service.dart' as _i108;
 import '../services/image_picker_service.dart' as _i644;
 import '../services/token_refresh_service.dart' as _i785;
 
@@ -44,6 +47,7 @@ extension GetItInjectableX on _i174.GetIt {
       environment,
       environmentFilter,
     );
+    gh.factory<_i108.FilePickerService>(() => _i108.FilePickerService());
     gh.factory<_i644.ImagePickerService>(() => _i644.ImagePickerService());
     gh.lazySingleton<_i350.HttpService>(() => _i350.HttpService());
     gh.lazySingleton<_i785.TokenRefreshService>(
@@ -60,6 +64,8 @@ extension GetItInjectableX on _i174.GetIt {
             gh<_i462.DriverRegistrationRemoteDataSource>()));
     gh.factory<_i187.OtpLoginBloc>(
         () => _i187.OtpLoginBloc(gh<_i787.AuthRepository>()));
+    gh.factory<_i724.ProfileUpdateBloc>(
+        () => _i724.ProfileUpdateBloc(gh<_i787.AuthRepository>()));
     gh.factory<_i961.VerifyOtpBloc>(
         () => _i961.VerifyOtpBloc(gh<_i787.AuthRepository>()));
     gh.factory<_i894.DriverRegistrationBloc>(() =>

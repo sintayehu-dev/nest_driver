@@ -2,6 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'app_colors.dart';
 
+/// Extension to add success colors and inner page surface to ColorScheme
+extension AppColorScheme on ColorScheme {
+  Color get success => AppColors.success;
+  Color get successContainer => AppColors.successContainer;
+  Color get onSuccess => AppColors.onSuccess;
+  Color get onSuccessContainer => AppColors.onSuccessContainer;
+  Color get innerPageSurface => AppColors.innerPageSurface;
+}
+
 @immutable
 class IconSizes extends ThemeExtension<IconSizes> {
   final double xs; // e.g. 12
@@ -63,6 +72,9 @@ class ImageSizes extends ThemeExtension<ImageSizes> {
   final double avatarSm;
   final double avatarMd;
   final double avatarLg;
+  final double logoSm; // small logo size
+  final double logoMd; // medium logo size (default)
+  final double logoLg; // large logo size
 
   const ImageSizes({
     required this.thumb,
@@ -70,6 +82,9 @@ class ImageSizes extends ThemeExtension<ImageSizes> {
     required this.avatarSm,
     required this.avatarMd,
     required this.avatarLg,
+    required this.logoSm,
+    required this.logoMd,
+    required this.logoLg,
   });
 
   @override
@@ -79,6 +94,9 @@ class ImageSizes extends ThemeExtension<ImageSizes> {
     double? avatarSm,
     double? avatarMd,
     double? avatarLg,
+    double? logoSm,
+    double? logoMd,
+    double? logoLg,
   }) {
     return ImageSizes(
       thumb: thumb ?? this.thumb,
@@ -86,6 +104,9 @@ class ImageSizes extends ThemeExtension<ImageSizes> {
       avatarSm: avatarSm ?? this.avatarSm,
       avatarMd: avatarMd ?? this.avatarMd,
       avatarLg: avatarLg ?? this.avatarLg,
+      logoSm: logoSm ?? this.logoSm,
+      logoMd: logoMd ?? this.logoMd,
+      logoLg: logoLg ?? this.logoLg,
     );
   }
 
@@ -99,6 +120,9 @@ class ImageSizes extends ThemeExtension<ImageSizes> {
       avatarSm: IconSizes.lerpDouble(avatarSm, other.avatarSm, t),
       avatarMd: IconSizes.lerpDouble(avatarMd, other.avatarMd, t),
       avatarLg: IconSizes.lerpDouble(avatarLg, other.avatarLg, t),
+      logoSm: IconSizes.lerpDouble(logoSm, other.logoSm, t),
+      logoMd: IconSizes.lerpDouble(logoMd, other.logoMd, t),
+      logoLg: IconSizes.lerpDouble(logoLg, other.logoLg, t),
     );
   }
 }
@@ -290,6 +314,9 @@ class AppTheme {
           avatarSm: 32,
           avatarMd: 48,
           avatarLg: 64,
+          logoSm: 40,
+          logoMd: 50,
+          logoLg: 60,
         ),
         const ShimmerColors(
           base: AppColors.grey200,

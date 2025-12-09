@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nest_driver/core/router/route_name.dart';
+import 'package:nest_driver/core/theme/app_theme.dart';
 
 class DriverShellPage extends StatefulWidget {
   final StatefulNavigationShell navigationShell;
@@ -36,10 +37,10 @@ class _DriverShellPageState extends State<DriverShellPage> with WidgetsBindingOb
 
   void _onNavigationItemSelected(int? branchIndex, BuildContext context) {
     if (branchIndex == null) {
-      context.goNamed(RouteName.settings);
+      context.goNamed(RouteName.profile);
       return;
     }
-    
+
     widget.navigationShell.goBranch(
       branchIndex,
       initialLocation: branchIndex == widget.navigationShell.currentIndex,
@@ -53,40 +54,50 @@ class _DriverShellPageState extends State<DriverShellPage> with WidgetsBindingOb
     return Scaffold(
       body: widget.navigationShell,
       bottomNavigationBar: ClipRRect(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(28.r)),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20.r),
+          topRight: Radius.circular(20.r),
+        ),
         child: Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(28.r)),
+          decoration: BoxDecoration(
+            color: theme.colorScheme.surface,
             border: Border(
               top: BorderSide(
-                color: Theme.of(context).colorScheme.outlineVariant.withOpacity(0.4),
+                color: theme.colorScheme.outlineVariant.withOpacity(0.4),
                 width: 0.5,
               ),
             ),
-          color: theme.colorScheme.surface,
-          boxShadow: [
-            BoxShadow(
-                color: theme.colorScheme.shadow.withOpacity(0.08),
-                blurRadius: 18,
-              offset: const Offset(0, -2),
-            ),
-          ],
-        ),
-        child: SafeArea(
+            boxShadow: [
+              BoxShadow(
+                color: theme.colorScheme.shadow.withOpacity(0.06),
+                blurRadius: 16,
+                offset: const Offset(0, -2),
+              ),
+            ],
+          ),
+          child: SafeArea(
             top: false,
-          child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 12.w),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: _navItems
-                    .map(
-                      (item) => _buildNavItem(
-                  context,
-                        item: item,
-                ),
-                    )
-                    .toList(),
-                ),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return Stack(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 4.h),
+                      child: Row(
+                        children: _navItems
+                            .asMap()
+                            .entries
+                            .map((entry) => _buildNavItem(
+                                  context,
+                                  item: entry.value,
+                                ))
+                            .toList(),
+                      ),
+                    ),
+                    _buildTopIndicator(context, constraints.maxWidth),
+                  ],
+                );
+              },
             ),
           ),
         ),
@@ -99,42 +110,97 @@ class _DriverShellPageState extends State<DriverShellPage> with WidgetsBindingOb
     required _DriverNavItem item,
   }) {
     final theme = Theme.of(context);
+    final iconSizes = theme.extension<IconSizes>() ?? const IconSizes(xs: 12, sm: 16, md: 20, lg: 24, xl: 28, xxl: 32);
     final branchIndex = item.branchIndex;
-    final isSelected =
-        branchIndex != null && widget.navigationShell.currentIndex == branchIndex;
+    final isSelected = branchIndex != null && widget.navigationShell.currentIndex == branchIndex;
 
-    return InkWell(
-      borderRadius: BorderRadius.circular(24.r),
-      onTap: () => _onNavigationItemSelected(branchIndex, context),
-      child: SizedBox(
-        width: 64.w,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-            SizedBox(height: 4.h),
-            SvgPicture.asset(
-              item.assetPath,
-              width: 24.w,
-              height: 24.w,
-              colorFilter: ColorFilter.mode(
-                isSelected
-                  ? theme.colorScheme.primary
-                  : theme.colorScheme.onSurfaceVariant,
-                BlendMode.srcIn,
-            ),
+    return Expanded(
+      child: InkWell(
+        onTap: () => _onNavigationItemSelected(branchIndex, context),
+        borderRadius: BorderRadius.circular(12.r),
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 8.h),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                width: iconSizes.md.w,
+                height: iconSizes.md.h,
+                child: _buildIcon(context, item, isSelected),
+              ),
+              SizedBox(height: 6.h),
+              Text(
+                item.label,
+                overflow: TextOverflow.ellipsis,
+                style: theme.textTheme.labelLarge?.copyWith(
+                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                  color: isSelected
+                      ? theme.colorScheme.primary
+                      : theme.colorScheme.onSurfaceVariant,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
           ),
-            SizedBox(height: 10.h),
-          Text(
-              item.label,
-              overflow: TextOverflow.ellipsis,
-            style: theme.textTheme.labelMedium?.copyWith(
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-              color: isSelected
-                  ? theme.colorScheme.primary
-                  : theme.colorScheme.onSurfaceVariant,
-            ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildIcon(BuildContext context, _DriverNavItem item, bool isSelected) {
+    final theme = Theme.of(context);
+    final iconSizes = theme.extension<IconSizes>() ?? const IconSizes(xs: 12, sm: 16, md: 20, lg: 24, xl: 28, xxl: 32);
+    final color = isSelected ? theme.colorScheme.primary : theme.colorScheme.onSurfaceVariant;
+
+    switch (item.iconType) {
+      case _IconType.svg:
+        return SvgPicture.asset(
+          item.assetPath,
+          width: iconSizes.md.w,
+          height: iconSizes.md.h,
+          colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+        );
+      case _IconType.png:
+        return ColorFiltered(
+          colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+          child: Image.asset(
+            item.assetPath,
+            width: iconSizes.md.w,
+            height: iconSizes.md.h,
+            fit: BoxFit.contain,
           ),
-        ],
+        );
+      case _IconType.icon:
+        return Icon(
+          item.iconData ?? Icons.circle,
+          size: iconSizes.md,
+          color: color,
+        );
+    }
+  }
+
+  Widget _buildTopIndicator(BuildContext context, double containerWidth) {
+    final theme = Theme.of(context);
+    final selectedIndex = widget.navigationShell.currentIndex;
+    final itemCount = _navItems.length;
+    final itemWidth = containerWidth / itemCount;
+    final indicatorWidth = 60.w;
+    final indicatorLeft = selectedIndex * itemWidth + (itemWidth - indicatorWidth) / 2;
+
+    return AnimatedPositioned(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+      top: 0,
+      left: indicatorLeft,
+      child: Container(
+        width: indicatorWidth,
+        height: 6.h,
+        decoration: BoxDecoration(
+          color: theme.colorScheme.primary,
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(10.r),
+            bottomRight: Radius.circular(10.r),
+          ),
         ),
       ),
     );
@@ -145,39 +211,51 @@ class _DriverNavItem {
   const _DriverNavItem({
     required this.assetPath,
     required this.label,
+    required this.iconType,
     this.branchIndex,
+    this.iconData,
   });
 
   final String assetPath;
   final String label;
+  final _IconType iconType;
   final int? branchIndex;
+  final IconData? iconData;
 }
+
+enum _IconType { svg, png, icon }
 
 const List<_DriverNavItem> _navItems = [
   _DriverNavItem(
     assetPath: 'assets/home.svg',
     label: 'Home',
+    iconType: _IconType.svg,
     branchIndex: 0,
+  ),
+  _DriverNavItem(
+    assetPath: '',
+    label: 'Food',
+    iconType: _IconType.icon,
+    branchIndex: 1,
+    iconData: Icons.fastfood_outlined,
   ),
   _DriverNavItem(
     assetPath: 'assets/trip history.svg',
     label: 'Trip History',
-    branchIndex: 1,
+    iconType: _IconType.svg,
+    branchIndex: 2,
   ),
   _DriverNavItem(
     assetPath: 'assets/earning.svg',
     label: 'Earnings',
-    branchIndex: 2,
+    iconType: _IconType.svg,
+    branchIndex: 3,
   ),
   _DriverNavItem(
     assetPath: 'assets/message.svg',
     label: 'Message',
-    branchIndex: 3,
-  ),
-  _DriverNavItem(
-    assetPath: 'assets/account.svg',
-    label: 'Account',
-    branchIndex: null,
+    iconType: _IconType.svg,
+    branchIndex: 4,
   ),
 ];
 

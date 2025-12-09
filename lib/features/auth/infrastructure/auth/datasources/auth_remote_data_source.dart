@@ -4,10 +4,13 @@ import 'package:nest_driver/core/di/dependancy_manager.dart';
 import 'package:nest_driver/core/handlers/http_service.dart';
 import 'package:nest_driver/features/auth/domain/entities/otplogin/otp_login_response.dart';
 import 'package:nest_driver/features/auth/domain/entities/verifyotp/otp_verify_response.dart';
+import 'package:nest_driver/features/auth/domain/entities/profile_update/profile_update_request.dart';
+import 'package:nest_driver/features/auth/domain/entities/profile_update/profile_update_response.dart';
 
 abstract class AuthRemoteDataSource {
   Future<OtpLoginResponse> requestOtpLogin(String phoneNumber);
   Future<OtpVerifyResponse> verifyLoginOtp(String otp);
+  Future<ProfileUpdateResponse> updateProfile(ProfileUpdateRequest request);
 }
 
 @Injectable(as: AuthRemoteDataSource)
@@ -45,6 +48,24 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       );
 
       return OtpVerifyResponse.fromJson(response.data as Map<String, dynamic>);
+    } on DioException {
+      rethrow;
+    }
+  }
+
+   @override
+  Future<ProfileUpdateResponse> updateProfile(ProfileUpdateRequest request) async {
+    try {
+      final data = request.toJson();
+      // Remove null values from the request
+      data.removeWhere((key, value) => value == null);
+
+      final response = await getIt<HttpService>().client(requireAuth: true).patch(
+        '/users/me',
+        data: data,
+      );
+
+      return ProfileUpdateResponse.fromJson(response.data as Map<String, dynamic>);
     } on DioException {
       rethrow;
     }

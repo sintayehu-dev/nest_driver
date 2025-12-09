@@ -16,7 +16,8 @@ class RouteName {
   // Driver routes
   static const driverRegistration = 'driverRegistration';
   static const driverHome = 'driverHome';
-
-  // Settings routes
-  static const settings = 'settings';
+  static const profile = 'profile';
+  static const editProfile = 'editProfile';
+  static const driverProfile = 'driverProfile';
+  static const foodDelivery = 'foodDelivery';
 }

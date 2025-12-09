@@ -9,14 +9,15 @@ import 'package:nest_driver/features/auth/presentation/pages/first_time_splash/f
 import 'package:nest_driver/features/auth/presentation/pages/registration/registration_screen.dart';
 import 'package:nest_driver/features/auth/presentation/pages/verification/otp_verification_screen.dart';
 import 'package:nest_driver/features/auth/presentation/pages/splash/splash_screen.dart';
-import 'package:nest_driver/features/settings/presentation/pages/settings_screen.dart';
-import 'package:nest_driver/core/presentation/main/main_screen.dart';
 import 'package:nest_driver/core/presentation/main/driver_shell_page.dart';
+import 'package:nest_driver/features/driver/home/presentation/driver_home_screen.dart';
 import 'package:nest_driver/features/driver/trip_history/presentation/driver_trip_history_screen.dart';
 import 'package:nest_driver/features/driver/earnings/presentation/driver_earnings_screen.dart';
 import 'package:nest_driver/features/driver/message/presentation/driver_message_screen.dart';
 import 'package:nest_driver/features/driver/registration/presentation/driver_registration_screen.dart';
-
+import 'package:nest_driver/features/driver/profile/presentation/pages/profile_screen.dart';
+import 'package:nest_driver/features/driver/food/presentation/driver_food_screen.dart';
+import 'package:nest_driver/features/driver/profile/presentation/pages/edit_profile_screen.dart';
 
 final router = GoRouter(
     navigatorKey: NavigationService.navigatorKey,
@@ -123,9 +124,9 @@ final router = GoRouter(
 
       // Settings
       GoRoute(
-        name: RouteName.settings,
-        path: '/${RouteName.settings}',
-        builder: (context, state) => const SettingsScreen(),
+        name: RouteName.profile,
+        path: '/${RouteName.profile}',
+        builder: (context, state) => const ProfileScreen(),
       ),
 
       // Driver Registration
@@ -150,7 +151,16 @@ final router = GoRouter(
               GoRoute(
                 name: RouteName.driverHome,
                 path: '/driver/home',
-                builder: (context, state) => const MainScreen(),
+                builder: (context, state) => const DriverHomeScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                name: RouteName.foodDelivery,
+                path: '/driver/food',
+                builder: (context, state) => const DriverFoodScreen(),
               ),
             ],
           ),
@@ -179,5 +189,16 @@ final router = GoRouter(
             ],
           ),
         ],
+      ),
+      GoRoute(
+        name: RouteName.editProfile,
+        path: '/driver/edit-profile',
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          return EditProfileScreen(
+            initialFullName: extra?['fullName'] as String?,
+            initialPhoneNumber: extra?['phoneNumber'] as String?,
+          );
+        },
       ),
     ]);
