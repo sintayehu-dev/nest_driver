@@ -22,6 +22,8 @@ mixin _$AppEvent {
     required TResult Function(bool isDarkMode) changeTheme,
     required TResult Function(bool isConnected) connectivityChanged,
     required TResult Function() appInitialized,
+    required TResult Function() getDriverAvailability,
+    required TResult Function(bool isAvailable) setDriverAvailability,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -30,6 +32,8 @@ mixin _$AppEvent {
     TResult? Function(bool isDarkMode)? changeTheme,
     TResult? Function(bool isConnected)? connectivityChanged,
     TResult? Function()? appInitialized,
+    TResult? Function()? getDriverAvailability,
+    TResult? Function(bool isAvailable)? setDriverAvailability,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -38,6 +42,8 @@ mixin _$AppEvent {
     TResult Function(bool isDarkMode)? changeTheme,
     TResult Function(bool isConnected)? connectivityChanged,
     TResult Function()? appInitialized,
+    TResult Function()? getDriverAvailability,
+    TResult Function(bool isAvailable)? setDriverAvailability,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -47,6 +53,10 @@ mixin _$AppEvent {
     required TResult Function(ChangeTheme value) changeTheme,
     required TResult Function(ConnectivityChanged value) connectivityChanged,
     required TResult Function(AppInitialized value) appInitialized,
+    required TResult Function(GetDriverAvailability value)
+        getDriverAvailability,
+    required TResult Function(SetDriverAvailability value)
+        setDriverAvailability,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -55,6 +65,8 @@ mixin _$AppEvent {
     TResult? Function(ChangeTheme value)? changeTheme,
     TResult? Function(ConnectivityChanged value)? connectivityChanged,
     TResult? Function(AppInitialized value)? appInitialized,
+    TResult? Function(GetDriverAvailability value)? getDriverAvailability,
+    TResult? Function(SetDriverAvailability value)? setDriverAvailability,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -63,6 +75,8 @@ mixin _$AppEvent {
     TResult Function(ChangeTheme value)? changeTheme,
     TResult Function(ConnectivityChanged value)? connectivityChanged,
     TResult Function(AppInitialized value)? appInitialized,
+    TResult Function(GetDriverAvailability value)? getDriverAvailability,
+    TResult Function(SetDriverAvailability value)? setDriverAvailability,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -133,6 +147,8 @@ class _$GetThemeModeImpl implements GetThemeMode {
     required TResult Function(bool isDarkMode) changeTheme,
     required TResult Function(bool isConnected) connectivityChanged,
     required TResult Function() appInitialized,
+    required TResult Function() getDriverAvailability,
+    required TResult Function(bool isAvailable) setDriverAvailability,
   }) {
     return getThemeMode();
   }
@@ -144,6 +160,8 @@ class _$GetThemeModeImpl implements GetThemeMode {
     TResult? Function(bool isDarkMode)? changeTheme,
     TResult? Function(bool isConnected)? connectivityChanged,
     TResult? Function()? appInitialized,
+    TResult? Function()? getDriverAvailability,
+    TResult? Function(bool isAvailable)? setDriverAvailability,
   }) {
     return getThemeMode?.call();
   }
@@ -155,6 +173,8 @@ class _$GetThemeModeImpl implements GetThemeMode {
     TResult Function(bool isDarkMode)? changeTheme,
     TResult Function(bool isConnected)? connectivityChanged,
     TResult Function()? appInitialized,
+    TResult Function()? getDriverAvailability,
+    TResult Function(bool isAvailable)? setDriverAvailability,
     required TResult orElse(),
   }) {
     if (getThemeMode != null) {
@@ -170,6 +190,10 @@ class _$GetThemeModeImpl implements GetThemeMode {
     required TResult Function(ChangeTheme value) changeTheme,
     required TResult Function(ConnectivityChanged value) connectivityChanged,
     required TResult Function(AppInitialized value) appInitialized,
+    required TResult Function(GetDriverAvailability value)
+        getDriverAvailability,
+    required TResult Function(SetDriverAvailability value)
+        setDriverAvailability,
   }) {
     return getThemeMode(this);
   }
@@ -181,6 +205,8 @@ class _$GetThemeModeImpl implements GetThemeMode {
     TResult? Function(ChangeTheme value)? changeTheme,
     TResult? Function(ConnectivityChanged value)? connectivityChanged,
     TResult? Function(AppInitialized value)? appInitialized,
+    TResult? Function(GetDriverAvailability value)? getDriverAvailability,
+    TResult? Function(SetDriverAvailability value)? setDriverAvailability,
   }) {
     return getThemeMode?.call(this);
   }
@@ -192,6 +218,8 @@ class _$GetThemeModeImpl implements GetThemeMode {
     TResult Function(ChangeTheme value)? changeTheme,
     TResult Function(ConnectivityChanged value)? connectivityChanged,
     TResult Function(AppInitialized value)? appInitialized,
+    TResult Function(GetDriverAvailability value)? getDriverAvailability,
+    TResult Function(SetDriverAvailability value)? setDriverAvailability,
     required TResult orElse(),
   }) {
     if (getThemeMode != null) {
@@ -278,6 +306,8 @@ class _$ChangeThemeImpl implements ChangeTheme {
     required TResult Function(bool isDarkMode) changeTheme,
     required TResult Function(bool isConnected) connectivityChanged,
     required TResult Function() appInitialized,
+    required TResult Function() getDriverAvailability,
+    required TResult Function(bool isAvailable) setDriverAvailability,
   }) {
     return changeTheme(isDarkMode);
   }
@@ -289,6 +319,8 @@ class _$ChangeThemeImpl implements ChangeTheme {
     TResult? Function(bool isDarkMode)? changeTheme,
     TResult? Function(bool isConnected)? connectivityChanged,
     TResult? Function()? appInitialized,
+    TResult? Function()? getDriverAvailability,
+    TResult? Function(bool isAvailable)? setDriverAvailability,
   }) {
     return changeTheme?.call(isDarkMode);
   }
@@ -300,6 +332,8 @@ class _$ChangeThemeImpl implements ChangeTheme {
     TResult Function(bool isDarkMode)? changeTheme,
     TResult Function(bool isConnected)? connectivityChanged,
     TResult Function()? appInitialized,
+    TResult Function()? getDriverAvailability,
+    TResult Function(bool isAvailable)? setDriverAvailability,
     required TResult orElse(),
   }) {
     if (changeTheme != null) {
@@ -315,6 +349,10 @@ class _$ChangeThemeImpl implements ChangeTheme {
     required TResult Function(ChangeTheme value) changeTheme,
     required TResult Function(ConnectivityChanged value) connectivityChanged,
     required TResult Function(AppInitialized value) appInitialized,
+    required TResult Function(GetDriverAvailability value)
+        getDriverAvailability,
+    required TResult Function(SetDriverAvailability value)
+        setDriverAvailability,
   }) {
     return changeTheme(this);
   }
@@ -326,6 +364,8 @@ class _$ChangeThemeImpl implements ChangeTheme {
     TResult? Function(ChangeTheme value)? changeTheme,
     TResult? Function(ConnectivityChanged value)? connectivityChanged,
     TResult? Function(AppInitialized value)? appInitialized,
+    TResult? Function(GetDriverAvailability value)? getDriverAvailability,
+    TResult? Function(SetDriverAvailability value)? setDriverAvailability,
   }) {
     return changeTheme?.call(this);
   }
@@ -337,6 +377,8 @@ class _$ChangeThemeImpl implements ChangeTheme {
     TResult Function(ChangeTheme value)? changeTheme,
     TResult Function(ConnectivityChanged value)? connectivityChanged,
     TResult Function(AppInitialized value)? appInitialized,
+    TResult Function(GetDriverAvailability value)? getDriverAvailability,
+    TResult Function(SetDriverAvailability value)? setDriverAvailability,
     required TResult orElse(),
   }) {
     if (changeTheme != null) {
@@ -433,6 +475,8 @@ class _$ConnectivityChangedImpl implements ConnectivityChanged {
     required TResult Function(bool isDarkMode) changeTheme,
     required TResult Function(bool isConnected) connectivityChanged,
     required TResult Function() appInitialized,
+    required TResult Function() getDriverAvailability,
+    required TResult Function(bool isAvailable) setDriverAvailability,
   }) {
     return connectivityChanged(isConnected);
   }
@@ -444,6 +488,8 @@ class _$ConnectivityChangedImpl implements ConnectivityChanged {
     TResult? Function(bool isDarkMode)? changeTheme,
     TResult? Function(bool isConnected)? connectivityChanged,
     TResult? Function()? appInitialized,
+    TResult? Function()? getDriverAvailability,
+    TResult? Function(bool isAvailable)? setDriverAvailability,
   }) {
     return connectivityChanged?.call(isConnected);
   }
@@ -455,6 +501,8 @@ class _$ConnectivityChangedImpl implements ConnectivityChanged {
     TResult Function(bool isDarkMode)? changeTheme,
     TResult Function(bool isConnected)? connectivityChanged,
     TResult Function()? appInitialized,
+    TResult Function()? getDriverAvailability,
+    TResult Function(bool isAvailable)? setDriverAvailability,
     required TResult orElse(),
   }) {
     if (connectivityChanged != null) {
@@ -470,6 +518,10 @@ class _$ConnectivityChangedImpl implements ConnectivityChanged {
     required TResult Function(ChangeTheme value) changeTheme,
     required TResult Function(ConnectivityChanged value) connectivityChanged,
     required TResult Function(AppInitialized value) appInitialized,
+    required TResult Function(GetDriverAvailability value)
+        getDriverAvailability,
+    required TResult Function(SetDriverAvailability value)
+        setDriverAvailability,
   }) {
     return connectivityChanged(this);
   }
@@ -481,6 +533,8 @@ class _$ConnectivityChangedImpl implements ConnectivityChanged {
     TResult? Function(ChangeTheme value)? changeTheme,
     TResult? Function(ConnectivityChanged value)? connectivityChanged,
     TResult? Function(AppInitialized value)? appInitialized,
+    TResult? Function(GetDriverAvailability value)? getDriverAvailability,
+    TResult? Function(SetDriverAvailability value)? setDriverAvailability,
   }) {
     return connectivityChanged?.call(this);
   }
@@ -492,6 +546,8 @@ class _$ConnectivityChangedImpl implements ConnectivityChanged {
     TResult Function(ChangeTheme value)? changeTheme,
     TResult Function(ConnectivityChanged value)? connectivityChanged,
     TResult Function(AppInitialized value)? appInitialized,
+    TResult Function(GetDriverAvailability value)? getDriverAvailability,
+    TResult Function(SetDriverAvailability value)? setDriverAvailability,
     required TResult orElse(),
   }) {
     if (connectivityChanged != null) {
@@ -559,6 +615,8 @@ class _$AppInitializedImpl implements AppInitialized {
     required TResult Function(bool isDarkMode) changeTheme,
     required TResult Function(bool isConnected) connectivityChanged,
     required TResult Function() appInitialized,
+    required TResult Function() getDriverAvailability,
+    required TResult Function(bool isAvailable) setDriverAvailability,
   }) {
     return appInitialized();
   }
@@ -570,6 +628,8 @@ class _$AppInitializedImpl implements AppInitialized {
     TResult? Function(bool isDarkMode)? changeTheme,
     TResult? Function(bool isConnected)? connectivityChanged,
     TResult? Function()? appInitialized,
+    TResult? Function()? getDriverAvailability,
+    TResult? Function(bool isAvailable)? setDriverAvailability,
   }) {
     return appInitialized?.call();
   }
@@ -581,6 +641,8 @@ class _$AppInitializedImpl implements AppInitialized {
     TResult Function(bool isDarkMode)? changeTheme,
     TResult Function(bool isConnected)? connectivityChanged,
     TResult Function()? appInitialized,
+    TResult Function()? getDriverAvailability,
+    TResult Function(bool isAvailable)? setDriverAvailability,
     required TResult orElse(),
   }) {
     if (appInitialized != null) {
@@ -596,6 +658,10 @@ class _$AppInitializedImpl implements AppInitialized {
     required TResult Function(ChangeTheme value) changeTheme,
     required TResult Function(ConnectivityChanged value) connectivityChanged,
     required TResult Function(AppInitialized value) appInitialized,
+    required TResult Function(GetDriverAvailability value)
+        getDriverAvailability,
+    required TResult Function(SetDriverAvailability value)
+        setDriverAvailability,
   }) {
     return appInitialized(this);
   }
@@ -607,6 +673,8 @@ class _$AppInitializedImpl implements AppInitialized {
     TResult? Function(ChangeTheme value)? changeTheme,
     TResult? Function(ConnectivityChanged value)? connectivityChanged,
     TResult? Function(AppInitialized value)? appInitialized,
+    TResult? Function(GetDriverAvailability value)? getDriverAvailability,
+    TResult? Function(SetDriverAvailability value)? setDriverAvailability,
   }) {
     return appInitialized?.call(this);
   }
@@ -618,6 +686,8 @@ class _$AppInitializedImpl implements AppInitialized {
     TResult Function(ChangeTheme value)? changeTheme,
     TResult Function(ConnectivityChanged value)? connectivityChanged,
     TResult Function(AppInitialized value)? appInitialized,
+    TResult Function(GetDriverAvailability value)? getDriverAvailability,
+    TResult Function(SetDriverAvailability value)? setDriverAvailability,
     required TResult orElse(),
   }) {
     if (appInitialized != null) {
@@ -629,4 +699,307 @@ class _$AppInitializedImpl implements AppInitialized {
 
 abstract class AppInitialized implements AppEvent {
   const factory AppInitialized() = _$AppInitializedImpl;
+}
+
+/// @nodoc
+abstract class _$$GetDriverAvailabilityImplCopyWith<$Res> {
+  factory _$$GetDriverAvailabilityImplCopyWith(
+          _$GetDriverAvailabilityImpl value,
+          $Res Function(_$GetDriverAvailabilityImpl) then) =
+      __$$GetDriverAvailabilityImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$GetDriverAvailabilityImplCopyWithImpl<$Res>
+    extends _$AppEventCopyWithImpl<$Res, _$GetDriverAvailabilityImpl>
+    implements _$$GetDriverAvailabilityImplCopyWith<$Res> {
+  __$$GetDriverAvailabilityImplCopyWithImpl(_$GetDriverAvailabilityImpl _value,
+      $Res Function(_$GetDriverAvailabilityImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of AppEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$GetDriverAvailabilityImpl implements GetDriverAvailability {
+  const _$GetDriverAvailabilityImpl();
+
+  @override
+  String toString() {
+    return 'AppEvent.getDriverAvailability()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GetDriverAvailabilityImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() getThemeMode,
+    required TResult Function(bool isDarkMode) changeTheme,
+    required TResult Function(bool isConnected) connectivityChanged,
+    required TResult Function() appInitialized,
+    required TResult Function() getDriverAvailability,
+    required TResult Function(bool isAvailable) setDriverAvailability,
+  }) {
+    return getDriverAvailability();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? getThemeMode,
+    TResult? Function(bool isDarkMode)? changeTheme,
+    TResult? Function(bool isConnected)? connectivityChanged,
+    TResult? Function()? appInitialized,
+    TResult? Function()? getDriverAvailability,
+    TResult? Function(bool isAvailable)? setDriverAvailability,
+  }) {
+    return getDriverAvailability?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? getThemeMode,
+    TResult Function(bool isDarkMode)? changeTheme,
+    TResult Function(bool isConnected)? connectivityChanged,
+    TResult Function()? appInitialized,
+    TResult Function()? getDriverAvailability,
+    TResult Function(bool isAvailable)? setDriverAvailability,
+    required TResult orElse(),
+  }) {
+    if (getDriverAvailability != null) {
+      return getDriverAvailability();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(GetThemeMode value) getThemeMode,
+    required TResult Function(ChangeTheme value) changeTheme,
+    required TResult Function(ConnectivityChanged value) connectivityChanged,
+    required TResult Function(AppInitialized value) appInitialized,
+    required TResult Function(GetDriverAvailability value)
+        getDriverAvailability,
+    required TResult Function(SetDriverAvailability value)
+        setDriverAvailability,
+  }) {
+    return getDriverAvailability(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(GetThemeMode value)? getThemeMode,
+    TResult? Function(ChangeTheme value)? changeTheme,
+    TResult? Function(ConnectivityChanged value)? connectivityChanged,
+    TResult? Function(AppInitialized value)? appInitialized,
+    TResult? Function(GetDriverAvailability value)? getDriverAvailability,
+    TResult? Function(SetDriverAvailability value)? setDriverAvailability,
+  }) {
+    return getDriverAvailability?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(GetThemeMode value)? getThemeMode,
+    TResult Function(ChangeTheme value)? changeTheme,
+    TResult Function(ConnectivityChanged value)? connectivityChanged,
+    TResult Function(AppInitialized value)? appInitialized,
+    TResult Function(GetDriverAvailability value)? getDriverAvailability,
+    TResult Function(SetDriverAvailability value)? setDriverAvailability,
+    required TResult orElse(),
+  }) {
+    if (getDriverAvailability != null) {
+      return getDriverAvailability(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class GetDriverAvailability implements AppEvent {
+  const factory GetDriverAvailability() = _$GetDriverAvailabilityImpl;
+}
+
+/// @nodoc
+abstract class _$$SetDriverAvailabilityImplCopyWith<$Res> {
+  factory _$$SetDriverAvailabilityImplCopyWith(
+          _$SetDriverAvailabilityImpl value,
+          $Res Function(_$SetDriverAvailabilityImpl) then) =
+      __$$SetDriverAvailabilityImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({bool isAvailable});
+}
+
+/// @nodoc
+class __$$SetDriverAvailabilityImplCopyWithImpl<$Res>
+    extends _$AppEventCopyWithImpl<$Res, _$SetDriverAvailabilityImpl>
+    implements _$$SetDriverAvailabilityImplCopyWith<$Res> {
+  __$$SetDriverAvailabilityImplCopyWithImpl(_$SetDriverAvailabilityImpl _value,
+      $Res Function(_$SetDriverAvailabilityImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of AppEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? isAvailable = null,
+  }) {
+    return _then(_$SetDriverAvailabilityImpl(
+      isAvailable: null == isAvailable
+          ? _value.isAvailable
+          : isAvailable // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$SetDriverAvailabilityImpl implements SetDriverAvailability {
+  const _$SetDriverAvailabilityImpl({required this.isAvailable});
+
+  @override
+  final bool isAvailable;
+
+  @override
+  String toString() {
+    return 'AppEvent.setDriverAvailability(isAvailable: $isAvailable)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SetDriverAvailabilityImpl &&
+            (identical(other.isAvailable, isAvailable) ||
+                other.isAvailable == isAvailable));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, isAvailable);
+
+  /// Create a copy of AppEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SetDriverAvailabilityImplCopyWith<_$SetDriverAvailabilityImpl>
+      get copyWith => __$$SetDriverAvailabilityImplCopyWithImpl<
+          _$SetDriverAvailabilityImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() getThemeMode,
+    required TResult Function(bool isDarkMode) changeTheme,
+    required TResult Function(bool isConnected) connectivityChanged,
+    required TResult Function() appInitialized,
+    required TResult Function() getDriverAvailability,
+    required TResult Function(bool isAvailable) setDriverAvailability,
+  }) {
+    return setDriverAvailability(isAvailable);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? getThemeMode,
+    TResult? Function(bool isDarkMode)? changeTheme,
+    TResult? Function(bool isConnected)? connectivityChanged,
+    TResult? Function()? appInitialized,
+    TResult? Function()? getDriverAvailability,
+    TResult? Function(bool isAvailable)? setDriverAvailability,
+  }) {
+    return setDriverAvailability?.call(isAvailable);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? getThemeMode,
+    TResult Function(bool isDarkMode)? changeTheme,
+    TResult Function(bool isConnected)? connectivityChanged,
+    TResult Function()? appInitialized,
+    TResult Function()? getDriverAvailability,
+    TResult Function(bool isAvailable)? setDriverAvailability,
+    required TResult orElse(),
+  }) {
+    if (setDriverAvailability != null) {
+      return setDriverAvailability(isAvailable);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(GetThemeMode value) getThemeMode,
+    required TResult Function(ChangeTheme value) changeTheme,
+    required TResult Function(ConnectivityChanged value) connectivityChanged,
+    required TResult Function(AppInitialized value) appInitialized,
+    required TResult Function(GetDriverAvailability value)
+        getDriverAvailability,
+    required TResult Function(SetDriverAvailability value)
+        setDriverAvailability,
+  }) {
+    return setDriverAvailability(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(GetThemeMode value)? getThemeMode,
+    TResult? Function(ChangeTheme value)? changeTheme,
+    TResult? Function(ConnectivityChanged value)? connectivityChanged,
+    TResult? Function(AppInitialized value)? appInitialized,
+    TResult? Function(GetDriverAvailability value)? getDriverAvailability,
+    TResult? Function(SetDriverAvailability value)? setDriverAvailability,
+  }) {
+    return setDriverAvailability?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(GetThemeMode value)? getThemeMode,
+    TResult Function(ChangeTheme value)? changeTheme,
+    TResult Function(ConnectivityChanged value)? connectivityChanged,
+    TResult Function(AppInitialized value)? appInitialized,
+    TResult Function(GetDriverAvailability value)? getDriverAvailability,
+    TResult Function(SetDriverAvailability value)? setDriverAvailability,
+    required TResult orElse(),
+  }) {
+    if (setDriverAvailability != null) {
+      return setDriverAvailability(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class SetDriverAvailability implements AppEvent {
+  const factory SetDriverAvailability({required final bool isAvailable}) =
+      _$SetDriverAvailabilityImpl;
+
+  bool get isAvailable;
+
+  /// Create a copy of AppEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$SetDriverAvailabilityImplCopyWith<_$SetDriverAvailabilityImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

@@ -19,6 +19,7 @@ mixin _$AppState {
   bool get isDarkMode => throw _privateConstructorUsedError;
   bool get isConnected => throw _privateConstructorUsedError;
   bool get isInitialized => throw _privateConstructorUsedError;
+  bool get isDriverAvailable => throw _privateConstructorUsedError;
 
   /// Create a copy of AppState
   /// with the given fields replaced by the non-null parameter values.
@@ -32,7 +33,11 @@ abstract class $AppStateCopyWith<$Res> {
   factory $AppStateCopyWith(AppState value, $Res Function(AppState) then) =
       _$AppStateCopyWithImpl<$Res, AppState>;
   @useResult
-  $Res call({bool isDarkMode, bool isConnected, bool isInitialized});
+  $Res call(
+      {bool isDarkMode,
+      bool isConnected,
+      bool isInitialized,
+      bool isDriverAvailable});
 }
 
 /// @nodoc
@@ -53,6 +58,7 @@ class _$AppStateCopyWithImpl<$Res, $Val extends AppState>
     Object? isDarkMode = null,
     Object? isConnected = null,
     Object? isInitialized = null,
+    Object? isDriverAvailable = null,
   }) {
     return _then(_value.copyWith(
       isDarkMode: null == isDarkMode
@@ -67,6 +73,10 @@ class _$AppStateCopyWithImpl<$Res, $Val extends AppState>
           ? _value.isInitialized
           : isInitialized // ignore: cast_nullable_to_non_nullable
               as bool,
+      isDriverAvailable: null == isDriverAvailable
+          ? _value.isDriverAvailable
+          : isDriverAvailable // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -79,7 +89,11 @@ abstract class _$$AppStateImplCopyWith<$Res>
       __$$AppStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isDarkMode, bool isConnected, bool isInitialized});
+  $Res call(
+      {bool isDarkMode,
+      bool isConnected,
+      bool isInitialized,
+      bool isDriverAvailable});
 }
 
 /// @nodoc
@@ -98,6 +112,7 @@ class __$$AppStateImplCopyWithImpl<$Res>
     Object? isDarkMode = null,
     Object? isConnected = null,
     Object? isInitialized = null,
+    Object? isDriverAvailable = null,
   }) {
     return _then(_$AppStateImpl(
       isDarkMode: null == isDarkMode
@@ -112,6 +127,10 @@ class __$$AppStateImplCopyWithImpl<$Res>
           ? _value.isInitialized
           : isInitialized // ignore: cast_nullable_to_non_nullable
               as bool,
+      isDriverAvailable: null == isDriverAvailable
+          ? _value.isDriverAvailable
+          : isDriverAvailable // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -122,7 +141,8 @@ class _$AppStateImpl extends _AppState {
   const _$AppStateImpl(
       {this.isDarkMode = false,
       this.isConnected = false,
-      this.isInitialized = false})
+      this.isInitialized = false,
+      this.isDriverAvailable = false})
       : super._();
 
   @override
@@ -134,10 +154,13 @@ class _$AppStateImpl extends _AppState {
   @override
   @JsonKey()
   final bool isInitialized;
+  @override
+  @JsonKey()
+  final bool isDriverAvailable;
 
   @override
   String toString() {
-    return 'AppState(isDarkMode: $isDarkMode, isConnected: $isConnected, isInitialized: $isInitialized)';
+    return 'AppState(isDarkMode: $isDarkMode, isConnected: $isConnected, isInitialized: $isInitialized, isDriverAvailable: $isDriverAvailable)';
   }
 
   @override
@@ -150,12 +173,14 @@ class _$AppStateImpl extends _AppState {
             (identical(other.isConnected, isConnected) ||
                 other.isConnected == isConnected) &&
             (identical(other.isInitialized, isInitialized) ||
-                other.isInitialized == isInitialized));
+                other.isInitialized == isInitialized) &&
+            (identical(other.isDriverAvailable, isDriverAvailable) ||
+                other.isDriverAvailable == isDriverAvailable));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, isDarkMode, isConnected, isInitialized);
+  int get hashCode => Object.hash(
+      runtimeType, isDarkMode, isConnected, isInitialized, isDriverAvailable);
 
   /// Create a copy of AppState
   /// with the given fields replaced by the non-null parameter values.
@@ -170,7 +195,8 @@ abstract class _AppState extends AppState {
   const factory _AppState(
       {final bool isDarkMode,
       final bool isConnected,
-      final bool isInitialized}) = _$AppStateImpl;
+      final bool isInitialized,
+      final bool isDriverAvailable}) = _$AppStateImpl;
   const _AppState._() : super._();
 
   @override
@@ -179,6 +205,8 @@ abstract class _AppState extends AppState {
   bool get isConnected;
   @override
   bool get isInitialized;
+  @override
+  bool get isDriverAvailable;
 
   /// Create a copy of AppState
   /// with the given fields replaced by the non-null parameter values.

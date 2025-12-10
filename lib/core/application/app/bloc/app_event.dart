@@ -8,4 +8,7 @@ abstract class AppEvent with _$AppEvent {
   const factory AppEvent.changeTheme({required bool isDarkMode}) = ChangeTheme;
   const factory AppEvent.connectivityChanged({required bool isConnected}) = ConnectivityChanged;
   const factory AppEvent.appInitialized() = AppInitialized;
+  const factory AppEvent.getDriverAvailability() = GetDriverAvailability;
+  const factory AppEvent.setDriverAvailability({required bool isAvailable}) =
+      SetDriverAvailability;
 } 

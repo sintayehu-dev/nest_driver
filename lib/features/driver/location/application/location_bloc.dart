@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nest_driver/core/services/location_service.dart';
+import 'package:nest_driver/core/utils/local_storage/local_storage.dart';
 import 'package:nest_driver/features/driver/location/domain/entities/driver_location_update.dart';
 import 'package:nest_driver/features/driver/location/domain/entities/driver_status.dart';
 import 'package:nest_driver/features/driver/location/domain/repositories/driver_location_repository.dart';
@@ -24,6 +26,11 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     on<LocationBackendError>(_onBackendError);
     on<LocationBackendDisconnected>(_onBackendDisconnected);
     on<LocationPermissionChecked>(_onPermissionChecked);
+    on<LocationAvailabilityRestoreRequested>(_onAvailabilityRestoreRequested);
+    on<LocationAvailabilityRestoreAuto>(_onAvailabilityRestoreAuto);
+
+    // Kick off an auto-restore without needing a BuildContext.
+    Future.microtask(() => add(LocationAvailabilityRestoreAuto()));
   }
 
   final LocationService _locationService;
@@ -38,6 +45,14 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   DriverStatus _currentStatus = DriverStatus.available;
 
   static const _maxInterval = Duration(milliseconds: 2500);
+  
+  /// bloc.restoreAvailability(context);
+  Future<void> restoreAvailability(BuildContext context) async {
+    final cached = LocalStorage.instance.getDriverAvailability();
+    if (cached && !state.isAvailable) {
+      add(LocationAvailabilityToggled(true, context));
+    }
+  }
 
   // Handles availability toggle events
   Future<void> _onAvailabilityToggled(
@@ -47,6 +62,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     if (!event.isAvailable) {
       await _stopStream();
       await _stopBackendStream();
+      await LocalStorage.instance.setDriverAvailability(false);
       emit(state.copyWith(
         isAvailable: false,
         isLoading: false,
@@ -68,6 +84,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
 
     final ok = await _locationService.ensurePermission(event.context);
     if (!ok) {
+      await LocalStorage.instance.setDriverAvailability(false);
       emit(state.copyWith(
         isAvailable: false,
         isLoading: false,
@@ -87,6 +104,8 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
         await _startStream();
       },
     );
+
+    await LocalStorage.instance.setDriverAvailability(true);
   }
 
   // Handles location stream updates
@@ -294,10 +313,45 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
             await _startStream();
           },
         );
+
+        await LocalStorage.instance.setDriverAvailability(true);
       }
     } catch (e) {
       // Handle errors silently
     }
+  }
+
+  Future<void> _onAvailabilityRestoreRequested(
+    LocationAvailabilityRestoreRequested event,
+    Emitter<LocationState> emit,
+  ) async {
+    final cached = LocalStorage.instance.getDriverAvailability();
+    if (cached && !state.isAvailable) {
+      add(LocationAvailabilityToggled(true, event.context));
+    }
+  }
+
+  Future<void> _onAvailabilityRestoreAuto(
+    LocationAvailabilityRestoreAuto event,
+    Emitter<LocationState> emit,
+  ) async {
+    final cached = LocalStorage.instance.getDriverAvailability();
+    if (!cached || state.isAvailable) return;
+
+    final hasPermission = await _locationService.isLocationPermissionGranted();
+    if (!hasPermission) {
+      await LocalStorage.instance.setDriverAvailability(false);
+      return;
+    }
+
+    emit(state.copyWith(isAvailable: true, isLoading: false));
+
+    await _startBackendStream(
+      emit,
+      onConnected: () async {
+        await _startStream();
+      },
+    );
   }
 
   @override

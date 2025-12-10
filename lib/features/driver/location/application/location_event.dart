@@ -30,6 +30,13 @@ class LocationBackendError extends LocationEvent {
 
 class LocationBackendDisconnected extends LocationEvent {}
 
+class LocationAvailabilityRestoreRequested extends LocationEvent {
+  LocationAvailabilityRestoreRequested(this.context);
+  final BuildContext context;
+}
+
+class LocationAvailabilityRestoreAuto extends LocationEvent {}
+
 class LocationPermissionChecked extends LocationEvent {
   LocationPermissionChecked(this.context);
   final BuildContext context;

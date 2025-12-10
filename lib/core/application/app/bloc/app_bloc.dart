@@ -14,6 +14,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     on<ChangeTheme>(_onChangeTheme);
     on<ConnectivityChanged>(_onConnectivityChanged);
     on<AppInitialized>(_onAppInitialized);
+    on<GetDriverAvailability>(_onGetDriverAvailability);
+    on<SetDriverAvailability>(_onSetDriverAvailability);
     _setupConnectivity();
   }
 
@@ -45,6 +47,22 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
   void _onAppInitialized(AppInitialized event, Emitter<AppState> emit) {
     emit(state.copyWith(isInitialized: true));
+  }
+
+  Future<void> _onGetDriverAvailability(
+    GetDriverAvailability event,
+    Emitter<AppState> emit,
+  ) async {
+    final isAvailable = LocalStorage.instance.getDriverAvailability();
+    emit(state.copyWith(isDriverAvailable: isAvailable));
+  }
+
+  Future<void> _onSetDriverAvailability(
+    SetDriverAvailability event,
+    Emitter<AppState> emit,
+  ) async {
+    await LocalStorage.instance.setDriverAvailability(event.isAvailable);
+    emit(state.copyWith(isDriverAvailable: event.isAvailable));
   }
 
   @override

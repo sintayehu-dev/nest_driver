@@ -8,7 +8,6 @@ import 'package:nest_driver/core/utils/local_storage/local_storage_key.dart';
 class LocalStorage {
   LocalStorage._();
   static SharedPreferences? _preferences;
-  static LocalStorage? _localStorage;
   static final LocalStorage instance = LocalStorage._();
   
   static Future<void> ensureInitialized() async {
@@ -22,11 +21,6 @@ class LocalStorage {
       // Initialize with an empty instance to prevent further crashes
       _preferences = null;
     }
-  }
-
-  /// init shared preferences
-  Future<void> _init() async {
-    _preferences = await SharedPreferences.getInstance();
   }
 
   /// get is onboarding
@@ -247,5 +241,17 @@ class LocalStorage {
   /// check if user has a role
   bool hasUserRole() {
     return getUserRole() != null;
+  }
+
+  /// Driver availability (cached toggle)
+  Future<void> setDriverAvailability(bool value) async {
+    await ensureInitialized();
+    if (_preferences == null) return;
+    await _preferences!.setBool(LocalStorageKey.driverAvailability, value);
+  }
+
+  bool getDriverAvailability() {
+    if (_preferences == null) return false;
+    return _preferences!.getBool(LocalStorageKey.driverAvailability) ?? false;
   }
 }

@@ -9,4 +9,5 @@ class LocalStorageKey {
   static const isFirstTime = 'isFirstTime';
   static const userRole = 'userRole';
   static const hasSeenFirstTimeSplash = 'hasSeenFirstTimeSplash';
+  static const driverAvailability = 'driverAvailability';
 }
