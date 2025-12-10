@@ -23,6 +23,13 @@ import '../../features/auth/infrastructure/auth/datasources/auth_remote_data_sou
     as _i1046;
 import '../../features/auth/infrastructure/auth/repositories/auth_repository_impl.dart'
     as _i446;
+import '../../features/driver/location/application/location_bloc.dart' as _i405;
+import '../../features/driver/location/domain/repositories/driver_location_repository.dart'
+    as _i11;
+import '../../features/driver/location/infrastructure/datasources/driver_location_remote_data_source.dart'
+    as _i567;
+import '../../features/driver/location/infrastructure/repositories/driver_location_repository_impl.dart'
+    as _i922;
 import '../../features/driver/registration/application/bloc/driver_registration_bloc.dart'
     as _i894;
 import '../../features/driver/registration/domain/repositories/driver_registration_repository.dart'
@@ -35,6 +42,7 @@ import '../handlers/http_service.dart' as _i350;
 import '../handlers/websocket_service.dart' as _i958;
 import '../services/file_picker_service.dart' as _i108;
 import '../services/image_picker_service.dart' as _i644;
+import '../services/location_service.dart' as _i669;
 import '../services/token_refresh_service.dart' as _i785;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -52,6 +60,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i644.ImagePickerService>(() => _i644.ImagePickerService());
     gh.lazySingleton<_i350.HttpService>(() => _i350.HttpService());
     gh.lazySingleton<_i958.WebSocketService>(() => _i958.WebSocketService());
+    gh.lazySingleton<_i669.LocationService>(() => _i669.LocationService());
     gh.lazySingleton<_i785.TokenRefreshService>(
         () => _i785.TokenRefreshService());
     gh.factory<_i1046.AuthRemoteDataSource>(
@@ -59,6 +68,15 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i516.UserService>(() => _i516.UserServiceImpl());
     gh.factory<_i462.DriverRegistrationRemoteDataSource>(
         () => _i462.DriverRegistrationRemoteDataSourceImpl());
+    gh.factory<_i567.DriverLocationRemoteDataSource>(() =>
+        _i567.DriverLocationRemoteDataSourceImpl(gh<_i958.WebSocketService>()));
+    gh.factory<_i11.DriverLocationRepository>(() =>
+        _i922.DriverLocationRepositoryImpl(
+            gh<_i567.DriverLocationRemoteDataSource>()));
+    gh.factory<_i405.LocationBloc>(() => _i405.LocationBloc(
+          gh<_i669.LocationService>(),
+          gh<_i11.DriverLocationRepository>(),
+        ));
     gh.factory<_i787.AuthRepository>(
         () => _i446.AuthRepositoryImpl(gh<_i1046.AuthRemoteDataSource>()));
     gh.factory<_i958.DriverRegistrationRepository>(() =>

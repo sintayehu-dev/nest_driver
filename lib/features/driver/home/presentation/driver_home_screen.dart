@@ -2,7 +2,7 @@ import 'dart:developer' as dev;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nest_driver/core/services/location_service.dart';
+import 'package:nest_driver/core/di/dependancy_manager.dart';
 import 'package:nest_driver/features/driver/location/application/location_bloc.dart';
 import 'package:nest_driver/features/driver/location/application/location_event.dart';
 import 'package:nest_driver/features/driver/location/application/location_state.dart';
@@ -21,7 +21,7 @@ class _DriverHomeScreenState extends State<DriverHomeScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return BlocProvider(
-      create: (_) => LocationBloc(LocationService()),
+      create: (_) => getIt<LocationBloc>(),
       child: Scaffold(
         body: SafeArea(
           top: false,

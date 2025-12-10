@@ -18,3 +18,15 @@ class LocationStreamError extends LocationEvent {
   final String message;
 }
 
+class LocationBackendAck extends LocationEvent {
+  LocationBackendAck(this.timestamp);
+  final DateTime timestamp;
+}
+
+class LocationBackendError extends LocationEvent {
+  LocationBackendError(this.message);
+  final String message;
+}
+
+class LocationBackendDisconnected extends LocationEvent {}
+

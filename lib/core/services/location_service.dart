@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nest_driver/core/utils/permission_handler_util.dart';
 
+@lazySingleton
 class LocationService {
   /// Ensures location service is enabled and permission is granted.
   /// Returns true when ready to read location.
