@@ -81,8 +81,12 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       isLoading: false,
     ));
 
-    await _startStream();
-    await _startBackendStream(emit);
+    await _startBackendStream(
+      emit,
+      onConnected: () async {
+        await _startStream();
+      },
+    );
   }
 
   // Handles location stream updates
@@ -172,13 +176,19 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     _fallbackTimer = null;
   }
 
-  Future<void> _startBackendStream(Emitter<LocationState> emit) async {
+  Future<void> _startBackendStream(
+    Emitter<LocationState> emit, {
+    void Function()? onConnected,
+  }) async {
     await _stopBackendStream();
 
     _updateController = StreamController<DriverLocationUpdate>();
 
     _backendAckSub = _locationRepository
-        .streamLiveLocation(_updateController!.stream)
+        .streamLiveLocation(
+          _updateController!.stream,
+          onConnected: onConnected,
+        )
         .listen(
       (result) {
         result.fold(
@@ -278,8 +288,12 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
 
         _currentStatus = DriverStatus.available;
 
-        await _startStream();
-        await _startBackendStream(emit);
+        await _startBackendStream(
+          emit,
+          onConnected: () async {
+            await _startStream();
+          },
+        );
       }
     } catch (e) {
       // Handle errors silently

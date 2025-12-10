@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:nest_driver/core/utils/local_storage_key.dart';
+import 'package:nest_driver/core/utils/local_storage/local_storage_key.dart';
 
 
 class LocalStorage {

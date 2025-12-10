@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nest_driver/core/application/app/bloc/app_event.dart';
 import 'package:nest_driver/core/application/app/bloc/app_state.dart';
-import 'package:nest_driver/core/utils/local_storage.dart';
+import 'package:nest_driver/core/utils/local_storage/local_storage.dart';
 import 'package:nest_driver/core/handlers/app_connectivity.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 

@@ -5,7 +5,8 @@ import 'package:nest_driver/features/driver/location/domain/entities/location_up
 
 abstract class DriverLocationRepository {
   Stream<Either<NetworkExceptions, LocationUpdateAck>> streamLiveLocation(
-    Stream<DriverLocationUpdate> updates,
-  );
+    Stream<DriverLocationUpdate> updates, {
+    void Function()? onConnected,
+  });
 }
 

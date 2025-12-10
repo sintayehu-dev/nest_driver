@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nest_driver/core/constants/app_constants.dart';
-import 'package:nest_driver/core/utils/local_storage.dart';
+import 'package:nest_driver/core/utils/local_storage/local_storage.dart';
 import 'package:nest_driver/features/auth/domain/entities/verifyotp/otp_verify_response.dart';
 
 @lazySingleton

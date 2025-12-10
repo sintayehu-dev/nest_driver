@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:nest_driver/core/di/dependancy_manager.dart';
 import 'package:nest_driver/core/navigation/navigation_service.dart';
 import 'package:nest_driver/core/router/route_name.dart';
-import 'package:nest_driver/core/utils/local_storage.dart';
+import 'package:nest_driver/core/utils/local_storage/local_storage.dart';
 import 'package:nest_driver/features/auth/presentation/pages/login/login_screen.dart';
 import 'package:nest_driver/features/auth/presentation/pages/onboarding/onboarding_screen.dart';
 import 'package:nest_driver/features/auth/presentation/pages/auth_selection/auth_selection_screen.dart';

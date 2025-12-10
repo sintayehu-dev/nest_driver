@@ -11,7 +11,7 @@ import 'package:nest_driver/core/services/image_picker_service.dart';
 import 'package:nest_driver/core/theme/app_colors.dart';
 import 'package:nest_driver/core/theme/app_theme.dart';
 import 'package:nest_driver/core/utils/app_helpers.dart';
-import 'package:nest_driver/core/utils/local_storage.dart';
+import 'package:nest_driver/core/utils/local_storage/local_storage.dart';
 import 'package:nest_driver/features/auth/application/profile_update/bloc/profile_update_bloc.dart';
 import 'package:nest_driver/core/utils/input_validation_message.dart';
 

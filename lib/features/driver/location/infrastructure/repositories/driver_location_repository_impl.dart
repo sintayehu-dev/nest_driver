@@ -17,13 +17,14 @@ class DriverLocationRepositoryImpl implements DriverLocationRepository {
 
   @override
   Stream<Either<NetworkExceptions, LocationUpdateAck>> streamLiveLocation(
-    Stream<DriverLocationUpdate> updates,
-  ) {
+    Stream<DriverLocationUpdate> updates, {
+    void Function()? onConnected,
+  }) {
     final controller =
         StreamController<Either<NetworkExceptions, LocationUpdateAck>>();
 
     late final StreamSubscription<LocationUpdateAck> sub;
-    sub = _remote.streamLiveLocation(updates).listen(
+    sub = _remote.streamLiveLocation(updates, onConnected: onConnected).listen(
       (ack) => controller.add(right(ack)),
       onError: (error, _) => controller.add(left(_mapError(error))),
       onDone: controller.close,

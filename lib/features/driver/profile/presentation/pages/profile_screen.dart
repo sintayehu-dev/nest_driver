@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nest_driver/core/router/route_name.dart';
 import 'package:nest_driver/core/theme/app_theme.dart';
-import 'package:nest_driver/core/utils/local_storage.dart';
+import 'package:nest_driver/core/utils/local_storage/local_storage.dart';
 import 'package:nest_driver/features/driver/profile/presentation/widgets/logout_dialog.dart';
 import 'package:nest_driver/features/driver/profile/presentation/widgets/profile_account_card.dart';
 import 'package:nest_driver/features/driver/profile/presentation/widgets/profile_menu_item.dart';

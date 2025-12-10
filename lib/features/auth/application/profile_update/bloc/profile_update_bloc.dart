@@ -3,7 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:nest_driver/core/handlers/app_connectivity.dart';
 import 'package:nest_driver/core/handlers/network_exceptions.dart';
-import 'package:nest_driver/core/utils/local_storage.dart';
+import 'package:nest_driver/core/utils/local_storage/local_storage.dart';
 import 'package:nest_driver/core/value_object/value_objects.dart';
 import 'package:nest_driver/features/auth/domain/entities/profile_update/profile_update_request.dart';
 import 'package:nest_driver/features/auth/domain/repositories/auth_repository.dart';

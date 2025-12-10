@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:nest_driver/core/navigation/navigation_service.dart';
 import 'package:nest_driver/core/router/route_name.dart';
 import 'package:nest_driver/core/utils/app_helpers.dart';
-import 'package:nest_driver/core/utils/local_storage.dart';
+import 'package:nest_driver/core/utils/local_storage/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:nest_driver/core/services/token_refresh_service.dart';
 import 'package:nest_driver/core/di/dependancy_manager.dart';

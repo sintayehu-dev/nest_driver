@@ -3,10 +3,12 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
-import 'package:nest_driver/core/utils/local_storage.dart';
+import 'package:nest_driver/core/utils/local_storage/local_storage.dart';
 import 'package:nest_driver/core/di/dependancy_manager.dart';
 import 'package:nest_driver/core/config/app_config.dart';
 import 'package:nest_driver/core/config/environment.dart';
+import 'package:nest_driver/core/utils/local_storage/hive_storage.dart';
+import 'package:nest_driver/features/driver/location/offline/location_queue_service.dart';
 
 class AppBlocObserver extends BlocObserver {
   const AppBlocObserver();
@@ -32,6 +34,7 @@ Future<void> bootstrap(
     log(details.exceptionAsString(), stackTrace: details.stack);
   };
   WidgetsFlutterBinding.ensureInitialized();
+  await HiveStorage.instance.init();
 
   // Initialize environment configuration
   if (environment != null) {
@@ -45,6 +48,9 @@ Future<void> bootstrap(
 
   // Initialize LocalStorage
   await LocalStorage.ensureInitialized();
+
+  // Initialize offline location queue
+  await LocationQueueService.instance.init();
 
   // Add cross-flavor configuration here
   configureDependencies();

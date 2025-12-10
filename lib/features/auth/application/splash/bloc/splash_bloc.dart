@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nest_driver/core/di/dependancy_manager.dart';
 import 'package:nest_driver/core/router/route_name.dart';
-import 'package:nest_driver/core/utils/local_storage.dart';
+import 'package:nest_driver/core/utils/local_storage/local_storage.dart';
 import 'package:nest_driver/features/auth/application/splash/bloc/splash_event.dart';
 import 'package:nest_driver/features/auth/application/splash/bloc/splash_state.dart';
 import 'package:nest_driver/features/auth/domain/user/user_service.dart';

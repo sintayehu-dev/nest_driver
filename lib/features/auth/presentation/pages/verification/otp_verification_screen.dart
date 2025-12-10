@@ -12,7 +12,7 @@ import 'package:nest_driver/core/utils/custom_numeric_keyboard.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nest_driver/core/di/dependancy_manager.dart';
 import 'package:nest_driver/core/utils/app_helpers.dart';
-import 'package:nest_driver/core/utils/local_storage.dart';
+import 'package:nest_driver/core/utils/local_storage/local_storage.dart';
 import 'package:nest_driver/features/auth/application/verify_otp/bloc/verify_otp_bloc.dart';
 
 class OTPVerificationScreen extends StatelessWidget {

@@ -8,8 +8,9 @@ import 'package:nest_driver/features/driver/location/domain/entities/location_up
 
 abstract class DriverLocationRemoteDataSource {
   Stream<LocationUpdateAck> streamLiveLocation(
-    Stream<DriverLocationUpdate> updates,
-  );
+    Stream<DriverLocationUpdate> updates, {
+    void Function()? onConnected,
+  });
 }
 
 @Injectable(as: DriverLocationRemoteDataSource)
@@ -21,8 +22,9 @@ class DriverLocationRemoteDataSourceImpl
 
   @override
   Stream<LocationUpdateAck> streamLiveLocation(
-    Stream<DriverLocationUpdate> updates,
-  ) {
+    Stream<DriverLocationUpdate> updates, {
+    void Function()? onConnected,
+  }) {
     final controller = StreamController<LocationUpdateAck>();
     final pendingUpdates = <DriverLocationUpdate>[];
     bool connectionEstablished = false;
@@ -36,6 +38,7 @@ class DriverLocationRemoteDataSourceImpl
       void onConnect(dynamic _) {
         log('🔌 WebSocket connected, processing ${pendingUpdates.length} pending updates');
         connectionEstablished = true;
+        onConnected?.call();
         
         // Process pending updates
         for (final update in pendingUpdates) {

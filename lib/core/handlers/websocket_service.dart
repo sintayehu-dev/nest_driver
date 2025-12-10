@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:injectable/injectable.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 import 'package:nest_driver/core/constants/app_constants.dart';
-import 'package:nest_driver/core/utils/local_storage.dart';
+import 'package:nest_driver/core/utils/local_storage/local_storage.dart';
 
 /// Lightweight reusable WebSocket/Socket.IO service.
 @lazySingleton
