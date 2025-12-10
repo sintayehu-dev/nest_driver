@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nest_driver/core/router/route_name.dart';
 import 'package:nest_driver/core/theme/app_theme.dart';
+import 'package:nest_driver/features/driver/location/application/location_bloc.dart';
+import 'package:nest_driver/features/driver/location/application/location_event.dart';
 
 class DriverShellPage extends StatefulWidget {
   final StatefulNavigationShell navigationShell;
@@ -17,7 +20,8 @@ class DriverShellPage extends StatefulWidget {
   State<DriverShellPage> createState() => _DriverShellPageState();
 }
 
-class _DriverShellPageState extends State<DriverShellPage> with WidgetsBindingObserver {
+class _DriverShellPageState extends State<DriverShellPage>
+    with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
@@ -32,7 +36,17 @@ class _DriverShellPageState extends State<DriverShellPage> with WidgetsBindingOb
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    // Handle app lifecycle changes if needed
+    if (state == AppLifecycleState.resumed) {
+      // Check permissions after app resumes from settings
+      Future.delayed(const Duration(milliseconds: 1000), () {
+        if (mounted) {
+          final locationBloc = context.read<LocationBloc>();
+          locationBloc.add(LocationPermissionChecked(context));
+        }
+      });
+    } else if (state == AppLifecycleState.detached) {
+      print('🔌 DriverShellPage: App detached');
+    }
   }
 
   void _onNavigationItemSelected(int? branchIndex, BuildContext context) {
@@ -110,9 +124,11 @@ class _DriverShellPageState extends State<DriverShellPage> with WidgetsBindingOb
     required _DriverNavItem item,
   }) {
     final theme = Theme.of(context);
-    final iconSizes = theme.extension<IconSizes>() ?? const IconSizes(xs: 12, sm: 16, md: 20, lg: 24, xl: 28, xxl: 32);
+    final iconSizes = theme.extension<IconSizes>() ??
+        const IconSizes(xs: 12, sm: 16, md: 20, lg: 24, xl: 28, xxl: 32);
     final branchIndex = item.branchIndex;
-    final isSelected = branchIndex != null && widget.navigationShell.currentIndex == branchIndex;
+    final isSelected = branchIndex != null &&
+        widget.navigationShell.currentIndex == branchIndex;
 
     return Expanded(
       child: InkWell(
@@ -147,10 +163,14 @@ class _DriverShellPageState extends State<DriverShellPage> with WidgetsBindingOb
     );
   }
 
-  Widget _buildIcon(BuildContext context, _DriverNavItem item, bool isSelected) {
+  Widget _buildIcon(
+      BuildContext context, _DriverNavItem item, bool isSelected) {
     final theme = Theme.of(context);
-    final iconSizes = theme.extension<IconSizes>() ?? const IconSizes(xs: 12, sm: 16, md: 20, lg: 24, xl: 28, xxl: 32);
-    final color = isSelected ? theme.colorScheme.primary : theme.colorScheme.onSurfaceVariant;
+    final iconSizes = theme.extension<IconSizes>() ??
+        const IconSizes(xs: 12, sm: 16, md: 20, lg: 24, xl: 28, xxl: 32);
+    final color = isSelected
+        ? theme.colorScheme.primary
+        : theme.colorScheme.onSurfaceVariant;
 
     switch (item.iconType) {
       case _IconType.svg:
@@ -185,7 +205,8 @@ class _DriverShellPageState extends State<DriverShellPage> with WidgetsBindingOb
     final itemCount = _navItems.length;
     final itemWidth = containerWidth / itemCount;
     final indicatorWidth = 60.w;
-    final indicatorLeft = selectedIndex * itemWidth + (itemWidth - indicatorWidth) / 2;
+    final indicatorLeft =
+        selectedIndex * itemWidth + (itemWidth - indicatorWidth) / 2;
 
     return AnimatedPositioned(
       duration: const Duration(milliseconds: 300),
@@ -258,4 +279,3 @@ const List<_DriverNavItem> _navItems = [
     branchIndex: 4,
   ),
 ];
-

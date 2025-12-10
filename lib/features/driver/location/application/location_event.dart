@@ -30,3 +30,7 @@ class LocationBackendError extends LocationEvent {
 
 class LocationBackendDisconnected extends LocationEvent {}
 
+class LocationPermissionChecked extends LocationEvent {
+  LocationPermissionChecked(this.context);
+  final BuildContext context;
+}

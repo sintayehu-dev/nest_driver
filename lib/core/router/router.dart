@@ -1,4 +1,6 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nest_driver/core/di/dependancy_manager.dart';
 import 'package:nest_driver/core/navigation/navigation_service.dart';
 import 'package:nest_driver/core/router/route_name.dart';
 import 'package:nest_driver/core/utils/local_storage.dart';
@@ -11,6 +13,7 @@ import 'package:nest_driver/features/auth/presentation/pages/verification/otp_ve
 import 'package:nest_driver/features/auth/presentation/pages/splash/splash_screen.dart';
 import 'package:nest_driver/core/presentation/main/driver_shell_page.dart';
 import 'package:nest_driver/features/driver/home/presentation/driver_home_screen.dart';
+import 'package:nest_driver/features/driver/location/application/location_bloc.dart';
 import 'package:nest_driver/features/driver/trip_history/presentation/driver_trip_history_screen.dart';
 import 'package:nest_driver/features/driver/earnings/presentation/driver_earnings_screen.dart';
 import 'package:nest_driver/features/driver/message/presentation/driver_message_screen.dart';
@@ -143,7 +146,10 @@ final router = GoRouter(
       // Driver Shell Route
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
-          return DriverShellPage(navigationShell: navigationShell);
+          return BlocProvider(
+            create: (_) => getIt<LocationBloc>(),
+            child: DriverShellPage(navigationShell: navigationShell),
+          );
         },
         branches: [
           StatefulShellBranch(

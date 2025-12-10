@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer' as dev;
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
@@ -24,6 +23,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     on<LocationBackendAck>(_onBackendAck);
     on<LocationBackendError>(_onBackendError);
     on<LocationBackendDisconnected>(_onBackendDisconnected);
+    on<LocationPermissionChecked>(_onPermissionChecked);
   }
 
   final LocationService _locationService;
@@ -32,7 +32,6 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   StreamSubscription? _backendAckSub;
   StreamController<DriverLocationUpdate>? _updateController;
   DateTime? _lastUpdate;
-  DateTime? _startTime;
   Timer? _fallbackTimer;
   bool _isFallbackInProgress = false;
   String? _currentBookingId;
@@ -40,11 +39,11 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
 
   static const _maxInterval = Duration(milliseconds: 2500);
 
+  // Handles availability toggle events
   Future<void> _onAvailabilityToggled(
     LocationAvailabilityToggled event,
     Emitter<LocationState> emit,
   ) async {
-    dev.log('Availability toggled: ${event.isAvailable}');
     if (!event.isAvailable) {
       await _stopStream();
       await _stopBackendStream();
@@ -60,36 +59,38 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     }
 
     emit(state.copyWith(
-      isAvailable: true,
       isLoading: true,
       errorMessage: null,
       backendError: null,
     ));
 
-    _startTime = DateTime.now();
     _currentStatus = DriverStatus.available;
+
     final ok = await _locationService.ensurePermission(event.context);
     if (!ok) {
       emit(state.copyWith(
+        isAvailable: false,
         isLoading: false,
         errorMessage: 'Location permission is required.',
       ));
       return;
     }
 
+    emit(state.copyWith(
+      isAvailable: true,
+      isLoading: false,
+    ));
+
     await _startStream();
     await _startBackendStream(emit);
-    dev.log(
-      'Availability ON → backendConnected=${state.isBackendConnected}, socket updates active=${_updateController != null && !_updateController!.isClosed}',
-    );
   }
 
+  // Handles location stream updates
   void _onStreamUpdated(
     LocationStreamUpdated event,
     Emitter<LocationState> emit,
   ) {
     final updated = List<String>.from(state.locations)..add(event.locationText);
-    // If we hit 10 entries, reset and start fresh with the latest.
     final trimmed = updated.length > 10 ? [event.locationText] : updated;
     emit(state.copyWith(
       isLoading: false,
@@ -98,6 +99,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     ));
   }
 
+  // Handles location stream errors
   void _onStreamError(
     LocationStreamError event,
     Emitter<LocationState> emit,
@@ -117,29 +119,17 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     );
 
     // Emit one reading immediately so UI leaves "loading" sooner.
-    final initialStart = DateTime.now();
     try {
       final initial = await _locationService.getCurrentPosition();
-      final initialElapsed = DateTime.now().difference(initialStart).inMilliseconds;
-      final sinceToggle = _startTime == null
-          ? null
-          : DateTime.now().difference(_startTime!).inMilliseconds;
-      dev.log(
-        'Initial location fetched in ${initialElapsed}ms'
-        '${sinceToggle != null ? ', since toggle=${sinceToggle}ms' : ''}',
-      );
       _handlePosition(initial, force: true);
     } catch (e) {
-      dev.log('Initial location fetch failed: $e');
       add(LocationStreamError('Unable to get initial location.'));
     }
 
-    _positionSub = Geolocator.getPositionStream(locationSettings: settings).listen(
+    _positionSub =
+        Geolocator.getPositionStream(locationSettings: settings).listen(
       (pos) => _handlePosition(pos),
-      onError: (e) {
-        dev.log('Location stream error: $e');
-        add(LocationStreamError('Unable to get location.'));
-      },
+      onError: (_) => add(LocationStreamError('Unable to get location.')),
     );
 
     _fallbackTimer = Timer.periodic(_maxInterval, (_) => _checkStaleness());
@@ -147,9 +137,6 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
 
   void _handlePosition(Position pos, {bool force = false}) {
     final now = DateTime.now();
-    final sinceLast = _lastUpdate == null ? null : now.difference(_lastUpdate!).inMilliseconds;
-    final sourceLag = now.difference(pos.timestamp).inMilliseconds;
-    final sinceToggle = _startTime == null ? null : now.difference(_startTime!).inMilliseconds;
     if (!force &&
         _lastUpdate != null &&
         now.difference(_lastUpdate!).inMilliseconds < 1000) {
@@ -158,17 +145,11 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     _lastUpdate = now;
     final loc =
         '${pos.latitude.toStringAsFixed(5)}, ${pos.longitude.toStringAsFixed(5)}';
-    dev.log(
-      'Location streamed: $loc'
-      '${sinceLast != null ? ', interval=${sinceLast}ms' : ''}'
-      ', sourceLag=${sourceLag}ms'
-      '${sinceToggle != null ? ', since toggle=${sinceToggle}ms' : ''}',
-    );
     add(LocationStreamUpdated(loc));
 
     // Send to backend if streaming is active and availability is on
-    if (state.isAvailable && 
-        _updateController != null && 
+    if (state.isAvailable &&
+        _updateController != null &&
         !_updateController!.isClosed) {
       final update = DriverLocationUpdate(
         bookingId: _currentBookingId,
@@ -189,55 +170,47 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     _positionSub = null;
     _fallbackTimer?.cancel();
     _fallbackTimer = null;
-    dev.log('Location stream stopped');
   }
 
   Future<void> _startBackendStream(Emitter<LocationState> emit) async {
     await _stopBackendStream();
 
     _updateController = StreamController<DriverLocationUpdate>();
-    
+
     _backendAckSub = _locationRepository
         .streamLiveLocation(_updateController!.stream)
         .listen(
       (result) {
         result.fold(
           (error) {
-            dev.log('Backend location update failed: $error');
             add(LocationBackendError(error.toString()));
           },
           (ack) {
-            dev.log('Backend location ack: success=${ack.success}, timestamp=${ack.timestamp}');
             add(LocationBackendAck(ack.timestamp));
           },
         );
       },
       onError: (error, stackTrace) {
-        dev.log('Backend stream error: $error', stackTrace: stackTrace);
         add(LocationBackendError(error.toString()));
       },
     );
 
     emit(state.copyWith(isBackendConnected: true, backendError: null));
-    dev.log('Backend location stream started');
   }
 
   Future<void> _stopBackendStream() async {
-    dev.log('Stopping backend location stream...');
-    
     // Cancel the subscription first to stop receiving acks
     await _backendAckSub?.cancel();
     _backendAckSub = null;
-    
+
     // Close the update controller - this will trigger stream cancellation
     // in the datasource and disconnect the WebSocket
     if (_updateController != null && !_updateController!.isClosed) {
       await _updateController!.close();
     }
     _updateController = null;
-    
+
     add(LocationBackendDisconnected());
-    dev.log('Backend location stream stopped');
   }
 
   Future<void> _checkStaleness() async {
@@ -249,11 +222,9 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
 
     _isFallbackInProgress = true;
     try {
-      dev.log('Fallback location fetch after idle gap ${gap.inMilliseconds}ms');
       final pos = await _locationService.getCurrentPosition();
       _handlePosition(pos, force: true);
     } catch (e) {
-      dev.log('Fallback location fetch failed: $e');
     } finally {
       _isFallbackInProgress = false;
     }
@@ -288,6 +259,33 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     emit(state.copyWith(isBackendConnected: false));
   }
 
+  // Handles permission check events from app lifecycle
+  Future<void> _onPermissionChecked(
+    LocationPermissionChecked event,
+    Emitter<LocationState> emit,
+  ) async {
+    try {
+      final isPermissionGranted =
+          await _locationService.isLocationPermissionGranted();
+
+      if (isPermissionGranted && !state.isAvailable) {
+        emit(state.copyWith(
+          isAvailable: true,
+          isLoading: true,
+          errorMessage: null,
+          backendError: null,
+        ));
+
+        _currentStatus = DriverStatus.available;
+
+        await _startStream();
+        await _startBackendStream(emit);
+      }
+    } catch (e) {
+      // Handle errors silently
+    }
+  }
+
   @override
   Future<void> close() {
     _stopStream();
@@ -295,4 +293,3 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     return super.close();
   }
 }
-
