@@ -134,6 +134,9 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   }
 
   Future<void> _startStream() async {
+    // Do not start GPS updates if driver is unavailable.
+    if (!state.isAvailable) return;
+
     await _positionSub?.cancel();
     _fallbackTimer?.cancel();
     const settings = LocationSettings(
@@ -159,6 +162,9 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   }
 
   void _handlePosition(Position pos, {bool force = false}) {
+    // Drop GPS samples when unavailable to avoid UI updates while off.
+    if (!state.isAvailable && !force) return;
+
     final now = DateTime.now();
     if (!force &&
         _lastUpdate != null &&
@@ -294,8 +300,30 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     Emitter<LocationState> emit,
   ) async {
     try {
+      // Only allow background/location services to spin up when the driver
+      // explicitly marked themselves as available.
+      final cachedAvailability = LocalStorage.instance.getDriverAvailability();
+      if (!cachedAvailability) {
+        await _stopStream();
+        await _stopBackendStream();
+        emit(state.copyWith(
+          isAvailable: false,
+          isBackendConnected: false,
+          isLoading: false,
+        ));
+        return;
+      }
+
       final isPermissionGranted =
           await _locationService.isLocationPermissionGranted();
+
+      if (!isPermissionGranted) {
+        emit(state.copyWith(
+          isAvailable: false,
+          isBackendConnected: false,
+        ));
+        return;
+      }
 
       if (isPermissionGranted && !state.isAvailable) {
         emit(state.copyWith(

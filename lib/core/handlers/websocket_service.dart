@@ -13,11 +13,7 @@ class WebSocketService {
   bool get isConnected => _socket?.connected ?? false;
   String? get socketId => _socket?.id;
 
-  /// Connects to the Socket.IO namespace `/ws`.
-  ///
-  /// [token] overrides the stored access token when provided.
-  /// [baseUrl] overrides the default AppConstants.baseUrl.
-  /// [namespace] defaults to `/ws` as per backend reference.
+  // Connect to the Socket.IO namespace `/ws`.
   io.Socket connect({
     String? token,
     String? baseUrl,
