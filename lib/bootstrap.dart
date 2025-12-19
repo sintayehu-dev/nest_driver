@@ -7,7 +7,7 @@ import 'package:nest_driver/core/utils/local_storage/local_storage.dart';
 import 'package:nest_driver/core/di/dependancy_manager.dart';
 import 'package:nest_driver/core/config/app_config.dart';
 import 'package:nest_driver/core/config/environment.dart';
-import 'package:nest_driver/core/utils/local_storage/hive_storage.dart';
+import 'package:nest_driver/core/utils/local_storage/local_db_hive/hive_storage.dart';
 import 'package:nest_driver/features/driver/location/offline/location_queue_service.dart';
 
 class AppBlocObserver extends BlocObserver {

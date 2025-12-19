@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:hive/hive.dart';
-import 'package:nest_driver/core/utils/local_storage/hive_boxes.dart';
-import 'package:nest_driver/core/utils/local_storage/hive_storage.dart';
+import 'package:nest_driver/core/utils/local_storage/local_db_hive/hive_boxes.dart';
+import 'package:nest_driver/core/utils/local_storage/local_db_hive/hive_storage.dart';
 import 'package:nest_driver/features/driver/location/offline/location_point.dart';
 
 class QueuedLocation {
