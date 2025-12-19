@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:injectable/injectable.dart';
+import 'package:nest_driver/core/services/background_location_service.dart';
 import 'package:nest_driver/core/services/location_service.dart';
 import 'package:nest_driver/core/utils/local_storage/local_storage.dart';
 import 'package:nest_driver/features/driver/location/domain/entities/driver_location_update.dart';
@@ -18,6 +19,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   LocationBloc(
     this._locationService,
     this._locationRepository,
+    this._backgroundLocationService,
   ) : super(const LocationState()) {
     on<LocationAvailabilityToggled>(_onAvailabilityToggled);
     on<LocationStreamUpdated>(_onStreamUpdated);
@@ -35,6 +37,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
 
   final LocationService _locationService;
   final DriverLocationRepository _locationRepository;
+  final BackgroundLocationService _backgroundLocationService;
   StreamSubscription<Position>? _positionSub;
   StreamSubscription? _backendAckSub;
   StreamController<DriverLocationUpdate>? _updateController;
@@ -45,7 +48,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   DriverStatus _currentStatus = DriverStatus.available;
 
   static const _maxInterval = Duration(milliseconds: 2500);
-  
+
   /// bloc.restoreAvailability(context);
   Future<void> restoreAvailability(BuildContext context) async {
     final cached = LocalStorage.instance.getDriverAvailability();
@@ -211,9 +214,9 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
 
     _backendAckSub = _locationRepository
         .streamLiveLocation(
-          _updateController!.stream,
-          onConnected: onConnected,
-        )
+      _updateController!.stream,
+      onConnected: onConnected,
+    )
         .listen(
       (result) {
         result.fold(
@@ -306,6 +309,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       if (!cachedAvailability) {
         await _stopStream();
         await _stopBackendStream();
+        await _backgroundLocationService.stop();
         emit(state.copyWith(
           isAvailable: false,
           isBackendConnected: false,
@@ -334,6 +338,13 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
         ));
 
         _currentStatus = DriverStatus.available;
+
+        // Start background service
+        try {
+          await _backgroundLocationService.start();
+        } catch (e) {
+          // Log error but continue
+        }
 
         await _startBackendStream(
           emit,
@@ -374,6 +385,13 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
 
     emit(state.copyWith(isAvailable: true, isLoading: false));
 
+    // Start background service
+    try {
+      await _backgroundLocationService.start();
+    } catch (e) {
+      // Log error but continue
+    }
+
     await _startBackendStream(
       emit,
       onConnected: () async {
@@ -386,6 +404,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   Future<void> close() {
     _stopStream();
     _stopBackendStream();
+    _backgroundLocationService.stop();
     return super.close();
   }
 }
