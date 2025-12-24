@@ -40,10 +40,18 @@ import '../../features/driver/registration/infrastructure/repositories/driver_re
     as _i829;
 import '../handlers/http_service.dart' as _i350;
 import '../handlers/websocket_service.dart' as _i958;
+import '../services/battery_optimization/adaptive_config_service.dart' as _i337;
+import '../services/battery_optimization/adaptive_settings_bridge.dart'
+    as _i936;
+import '../services/battery_optimization/app_state_monitor_service.dart'
+    as _i995;
 import '../services/background_location_service.dart' as _i341;
+import '../services/battery_optimization/battery_monitor_service.dart' as _i280;
 import '../services/file_picker_service.dart' as _i108;
 import '../services/image_picker_service.dart' as _i644;
 import '../services/location_service.dart' as _i669;
+import '../services/battery_optimization/network_monitor_service.dart'
+    as _i1063;
 import '../services/token_refresh_service.dart' as _i785;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -61,9 +69,15 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i644.ImagePickerService>(() => _i644.ImagePickerService());
     gh.lazySingleton<_i350.HttpService>(() => _i350.HttpService());
     gh.lazySingleton<_i958.WebSocketService>(() => _i958.WebSocketService());
+    gh.lazySingleton<_i995.AppStateMonitorService>(
+        () => _i995.AppStateMonitorService());
     gh.lazySingleton<_i341.BackgroundLocationService>(
         () => _i341.BackgroundLocationService());
+    gh.lazySingleton<_i280.BatteryMonitorService>(
+        () => _i280.BatteryMonitorService());
     gh.lazySingleton<_i669.LocationService>(() => _i669.LocationService());
+    gh.lazySingleton<_i1063.NetworkMonitorService>(
+        () => _i1063.NetworkMonitorService());
     gh.lazySingleton<_i785.TokenRefreshService>(
         () => _i785.TokenRefreshService());
     gh.factory<_i1046.AuthRemoteDataSource>(
@@ -81,6 +95,14 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i11.DriverLocationRepository>(),
           gh<_i341.BackgroundLocationService>(),
         ));
+    gh.lazySingleton<_i337.AdaptiveConfigService>(
+        () => _i337.AdaptiveConfigService(
+              gh<_i280.BatteryMonitorService>(),
+              gh<_i1063.NetworkMonitorService>(),
+              gh<_i995.AppStateMonitorService>(),
+            ));
+    gh.lazySingleton<_i936.AdaptiveSettingsBridge>(
+        () => _i936.AdaptiveSettingsBridge(gh<_i337.AdaptiveConfigService>()));
     gh.factory<_i787.AuthRepository>(
         () => _i446.AuthRepositoryImpl(gh<_i1046.AuthRemoteDataSource>()));
     gh.factory<_i958.DriverRegistrationRepository>(() =>

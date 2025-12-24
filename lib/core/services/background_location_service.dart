@@ -117,6 +117,14 @@ class BackgroundLocationService {
     int reconnectAttempts = 0;
     const maxReconnectAttempts = 10;
 
+    // Adaptive settings
+    int currentLocationInterval = 1000; // Default 1 second
+    int currentHeartbeatInterval = 20000; // Default 20 seconds
+    int currentReconnectDelay = 3000; // Default 3 seconds
+    LocationAccuracy currentAccuracy = LocationAccuracy.high;
+    bool shouldBufferUpdates = false;
+    List<Map<String, dynamic>> bufferedLocations = [];
+
     // Get auth token from SharedPreferences
     Future<String?> getAuthToken() async {
       try {
@@ -138,6 +146,45 @@ class BackgroundLocationService {
       } catch (e) {
         log('❌ [Background] Failed to get base URL: $e');
         return 'https://melo-backend-h304.onrender.com';
+      }
+    }
+
+    // Map GPS priority string to LocationAccuracy
+    LocationAccuracy mapGpsPriorityToAccuracy(String priority) {
+      switch (priority) {
+        case 'high_accuracy':
+          return LocationAccuracy.high;
+        case 'balanced':
+          return LocationAccuracy.medium;
+        case 'low_power':
+          return LocationAccuracy.low;
+        default:
+          return LocationAccuracy.high;
+      }
+    }
+
+    // Get adaptive settings from SharedPreferences
+    Future<void> updateAdaptiveSettings() async {
+      try {
+        final prefs = await SharedPreferences.getInstance();
+        currentLocationInterval =
+            prefs.getInt('adaptive_location_interval') ?? 1000;
+        currentHeartbeatInterval =
+            prefs.getInt('adaptive_heartbeat_interval') ?? 20000;
+        currentReconnectDelay =
+            prefs.getInt('adaptive_reconnect_delay') ?? 3000;
+        final accuracyString =
+            prefs.getString('adaptive_gps_priority') ?? 'high_accuracy';
+        currentAccuracy = mapGpsPriorityToAccuracy(accuracyString);
+        shouldBufferUpdates = prefs.getBool('adaptive_should_buffer') ?? false;
+
+        log('⚙️ [Background] Adaptive settings updated: '
+            'Location: ${currentLocationInterval}ms, '
+            'Heartbeat: ${currentHeartbeatInterval}ms, '
+            'Accuracy: $currentAccuracy, '
+            'Buffer: $shouldBufferUpdates');
+      } catch (e) {
+        log('❌ [Background] Failed to get adaptive settings: $e');
       }
     }
 
@@ -165,6 +212,8 @@ class BackgroundLocationService {
     // Declare function variables first to allow mutual recursion
     late void Function() scheduleReconnect;
     late Future<void> Function() connectWebSocket;
+    late void Function() startLocationTracking;
+    late void Function() startHeartbeat;
 
     // Connect WebSocket
     connectWebSocket = () async {
@@ -200,6 +249,15 @@ class BackgroundLocationService {
           log('🔌 [Background] WebSocket connected: ${socket!.id}');
           reconnectAttempts = 0;
           reconnectTimer?.cancel();
+
+          // Flush buffered locations
+          if (bufferedLocations.isNotEmpty) {
+            log('📍 [Background] Flushing ${bufferedLocations.length} buffered locations');
+            for (final location in bufferedLocations) {
+              socket!.emit('location:update', location);
+            }
+            bufferedLocations.clear();
+          }
         });
 
         socket!.onDisconnect((_) {
@@ -233,7 +291,7 @@ class BackgroundLocationService {
 
       reconnectTimer?.cancel();
       reconnectAttempts++;
-      reconnectTimer = Timer(const Duration(seconds: 2), () {
+      reconnectTimer = Timer(Duration(milliseconds: currentReconnectDelay), () {
         if (shouldReconnect && (socket == null || !socket!.connected)) {
           log('🔄 [Background] Reconnecting... ($reconnectAttempts/$maxReconnectAttempts)');
           connectWebSocket();
@@ -242,38 +300,50 @@ class BackgroundLocationService {
     };
 
     // Start location tracking
-    void startLocationTracking() {
-      const settings = LocationSettings(
-        accuracy: LocationAccuracy.high,
+    startLocationTracking = () {
+      locationSubscription?.cancel();
+
+      final settings = LocationSettings(
+        accuracy: currentAccuracy,
         distanceFilter: 0,
-        timeLimit: null,
+        timeLimit: Duration(milliseconds: currentLocationInterval),
       );
+
+      log('📍 [Background] Starting location tracking with interval: ${currentLocationInterval}ms, accuracy: $currentAccuracy');
 
       locationSubscription = Geolocator.getPositionStream(
         locationSettings: settings,
       ).listen(
         (position) {
           // Send location update via WebSocket
+          final update = {
+            'booking_id': null,
+            'lat': position.latitude,
+            'lon': position.longitude,
+            'speed': position.speed,
+            'heading': position.heading,
+            'accuracy': position.accuracy,
+            'status': DriverStatus.available.wireValue,
+            'timestamp': DateTime.now().toIso8601String(),
+          };
+
           if (socket != null && socket!.connected) {
             try {
-              final update = {
-                'booking_id': null,
-                'lat': position.latitude,
-                'lon': position.longitude,
-                'speed': position.speed,
-                'heading': position.heading,
-                'accuracy': position.accuracy,
-                'status': DriverStatus.available.wireValue,
-                'timestamp': DateTime.now().toIso8601String(),
-              };
-
               socket!.emit('location:update', update);
               log('📍 [Background] Location sent: ${position.latitude}, ${position.longitude}');
             } catch (e) {
               log('❌ [Background] Failed to send location: $e');
+              if (shouldBufferUpdates) {
+                bufferedLocations.add(update);
+                log('📦 [Background] Location buffered (${bufferedLocations.length} total)');
+              }
             }
           } else {
-            log('⚠️ [Background] WebSocket not connected, reconnecting...');
+            log('⚠️ [Background] WebSocket not connected');
+            if (shouldBufferUpdates) {
+              bufferedLocations.add(update);
+              log('📦 [Background] Location buffered (${bufferedLocations.length} total)');
+            }
             connectWebSocket();
           }
         },
@@ -281,12 +351,16 @@ class BackgroundLocationService {
           log('❌ [Background] Location error: $error');
         },
       );
-    }
+    };
 
     // Heartbeat to maintain connection
-    void startHeartbeat() {
+    startHeartbeat = () {
+      heartbeatTimer?.cancel();
+
+      log('💓 [Background] Starting heartbeat with interval: ${currentHeartbeatInterval}ms');
+
       heartbeatTimer = Timer.periodic(
-        const Duration(seconds: 20),
+        Duration(milliseconds: currentHeartbeatInterval),
         (timer) {
           if (socket != null && socket!.connected) {
             // Send heartbeat/ping
@@ -299,9 +373,32 @@ class BackgroundLocationService {
           }
         },
       );
-    }
+    };
+
+    // Listen for adaptive settings updates from main app
+    service.on('updateAdaptiveSettings').listen((event) async {
+      await updateAdaptiveSettings();
+
+      // Restart location tracking with new settings
+      startLocationTracking();
+
+      // Restart heartbeat with new interval
+      startHeartbeat();
+
+      // Update notification
+      if (service is AndroidServiceInstance) {
+        final prefs = await SharedPreferences.getInstance();
+        final batteryLevel =
+            prefs.getString('adaptive_battery_level') ?? 'high';
+        service.setForegroundNotificationInfo(
+          title: 'Driver is available ($batteryLevel battery mode)',
+          content: 'Tracking location and receiving trip requests',
+        );
+      }
+    });
 
     // Initial setup
+    await updateAdaptiveSettings();
     await connectWebSocket();
     startLocationTracking();
     startHeartbeat();
@@ -311,9 +408,11 @@ class BackgroundLocationService {
       shouldReconnect = false;
       locationSubscription?.cancel();
       heartbeatTimer?.cancel();
+      reconnectTimer?.cancel();
       socket?.disconnect();
       socket?.dispose();
       socket = null;
+      bufferedLocations.clear();
     });
   }
 
@@ -322,4 +421,3 @@ class BackgroundLocationService {
     return true;
   }
 }
-

@@ -77,6 +77,7 @@ dependencies:
   http: ^1.2.1
   flutter_animate: ^4.5.0
   socket_io_client: ^2.0.3
+  rxdart: ^0.28.0
   geolocator: ^13.0.1
   battery_plus: ^6.0.2
   hive: ^2.2.3

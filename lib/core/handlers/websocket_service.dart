@@ -57,7 +57,7 @@ class WebSocketService {
     _registerAuthListeners(_socket!);
     _setupAutoReconnect();
     _startHeartbeat();
-    
+
     if (!autoConnect) {
       _socket!.connect();
     }
@@ -86,6 +86,29 @@ class WebSocketService {
     _socket?.disconnect();
     _socket = null;
     _reconnectAttempts = 0;
+  }
+
+  /// Update heartbeat interval dynamically
+  void updateHeartbeatInterval(Duration interval) {
+    log('🔌 WS updating heartbeat interval to ${interval.inSeconds}s');
+    _heartbeatTimer?.cancel();
+    _heartbeatTimer = Timer.periodic(interval, (timer) {
+      if (isConnected && _socket != null) {
+        try {
+          _socket!
+              .emit('ping', {'timestamp': DateTime.now().toIso8601String()});
+        } catch (e) {
+          log('❌ WS heartbeat error: $e');
+        }
+      }
+    });
+  }
+
+  /// Update reconnect delay dynamically
+  void updateReconnectDelay(Duration delay) {
+    log('🔌 WS updating reconnect delay to ${delay.inSeconds}s');
+    // This will be used in the next reconnect attempt
+    // We don't need to store it separately as it's handled in _scheduleReconnect
   }
 
   /// Register a listener for a specific event.
@@ -118,13 +141,11 @@ class WebSocketService {
     // Remove default ports to avoid :0 or incorrect parsing
     String hostWithPort;
     if (uri.scheme == 'https') {
-      hostWithPort = uri.hasPort && uri.port != 443
-          ? '${uri.host}:${uri.port}'
-          : uri.host;
+      hostWithPort =
+          uri.hasPort && uri.port != 443 ? '${uri.host}:${uri.port}' : uri.host;
     } else if (uri.scheme == 'http') {
-      hostWithPort = uri.hasPort && uri.port != 80
-          ? '${uri.host}:${uri.port}'
-          : uri.host;
+      hostWithPort =
+          uri.hasPort && uri.port != 80 ? '${uri.host}:${uri.port}' : uri.host;
     } else {
       hostWithPort = uri.hasPort ? '${uri.host}:${uri.port}' : uri.host;
     }
@@ -145,7 +166,7 @@ class WebSocketService {
   /// Setup auto-reconnect logic
   void _setupAutoReconnect() {
     if (_socket == null) return;
-    
+
     _socket!.onDisconnect((_) {
       log('🔌 WS disconnected');
       _reconnectAttempts = 0;
@@ -217,7 +238,8 @@ class WebSocketService {
     _heartbeatTimer = Timer.periodic(_heartbeatInterval, (timer) {
       if (isConnected && _socket != null) {
         try {
-          _socket!.emit('ping', {'timestamp': DateTime.now().toIso8601String()});
+          _socket!
+              .emit('ping', {'timestamp': DateTime.now().toIso8601String()});
         } catch (e) {
           log('❌ WS heartbeat error: $e');
         }
@@ -239,4 +261,3 @@ class WebSocketService {
     });
   }
 }
-

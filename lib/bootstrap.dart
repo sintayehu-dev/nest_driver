@@ -8,6 +8,7 @@ import 'package:nest_driver/core/di/dependancy_manager.dart';
 import 'package:nest_driver/core/config/app_config.dart';
 import 'package:nest_driver/core/config/environment.dart';
 import 'package:nest_driver/core/utils/local_storage/local_db_hive/hive_storage.dart';
+import 'package:nest_driver/core/services/battery_optimization/adaptive_settings_bridge.dart';
 import 'package:nest_driver/features/driver/location/offline/location_queue_service.dart';
 
 class AppBlocObserver extends BlocObserver {
@@ -54,6 +55,14 @@ Future<void> bootstrap(
 
   // Add cross-flavor configuration here
   configureDependencies();
+
+  // Initialize adaptive settings bridge to start monitoring battery/network/app state
+  try {
+    getIt<AdaptiveSettingsBridge>();
+    log('✅ Adaptive Settings Bridge initialized');
+  } catch (e) {
+    log('⚠️ Failed to initialize Adaptive Settings Bridge: $e');
+  }
 
   runApp(await builder());
 }
