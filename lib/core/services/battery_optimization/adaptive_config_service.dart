@@ -37,7 +37,7 @@ class AdaptiveConfigService {
 
   // Constraints
   static const int minLocationInterval = 1000; // 1 second
-  static const int maxLocationInterval = 8000; // 8 seconds
+  static const int maxLocationInterval = 10000; // 10 seconds
 
   void _init() {
     // Combine all three streams using RxDart
@@ -134,19 +134,19 @@ class AdaptiveConfigService {
     switch (level) {
       case BatteryLevel.high: // >50%
         return const _BatteryConfig(
-          locationInterval: 1000,
+          locationInterval: 3000, // 3 seconds for high battery
           socketHeartbeat: 20000,
           gpsPriority: GpsPriority.highAccuracy,
         );
       case BatteryLevel.medium: // 20-50%
         return const _BatteryConfig(
-          locationInterval: 3000,
+          locationInterval: 5000, // 5 seconds for medium battery
           socketHeartbeat: 30000,
           gpsPriority: GpsPriority.balanced,
         );
       case BatteryLevel.low: // <20%
         return const _BatteryConfig(
-          locationInterval: 5000,
+          locationInterval: 10000, // 10 seconds for low battery
           socketHeartbeat: 45000,
           gpsPriority: GpsPriority.lowPower,
         );
@@ -157,25 +157,25 @@ class AdaptiveConfigService {
     switch (type) {
       case NetworkType.wifi:
         return const _NetworkConfig(
-          locationInterval: 2000,
+          locationInterval: 3000, // Good network: 3 seconds
           socketHeartbeat: 20000,
           reconnectDelay: 3000,
         );
       case NetworkType.mobile:
         return const _NetworkConfig(
-          locationInterval: 4000,
+          locationInterval: 3000, // Mobile network: 3 seconds
           socketHeartbeat: 25000,
           reconnectDelay: 6000,
         );
       case NetworkType.poor:
         return const _NetworkConfig(
-          locationInterval: 6000,
+          locationInterval: 5000, // Poor network: 5 seconds
           socketHeartbeat: 40000,
           reconnectDelay: 10000,
         );
       case NetworkType.none:
         return const _NetworkConfig(
-          locationInterval: 8000,
+          locationInterval: 10000, // No network: 10 seconds
           socketHeartbeat: 60000,
           reconnectDelay: 15000,
         );
@@ -186,17 +186,17 @@ class AdaptiveConfigService {
     switch (state) {
       case AppState.foreground:
         return const _AppStateConfig(
-          locationInterval: 1000,
+          locationInterval: 3000, // Foreground: 3 seconds
           socketHeartbeat: 20000,
         );
       case AppState.background:
         return const _AppStateConfig(
-          locationInterval: 3000,
+          locationInterval: 3000, // Background: 3 seconds (same as foreground)
           socketHeartbeat: 30000,
         );
       case AppState.screenOff:
         return const _AppStateConfig(
-          locationInterval: 4000,
+          locationInterval: 5000, // Screen off: 5 seconds
           socketHeartbeat: 40000,
         );
     }
