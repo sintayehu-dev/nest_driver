@@ -2,9 +2,17 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:injectable/injectable.dart';
-import 'package:socket_io_client/socket_io_client.dart' as io;
 import 'package:nest_driver/core/constants/app_constants.dart';
 import 'package:nest_driver/core/utils/local_storage/local_storage.dart';
+import 'package:socket_io_client/socket_io_client.dart' as io;
+
+enum SocketConnectionStatus {
+  connecting,
+  connected,
+  reconnecting,
+  disconnected,
+  error,
+}
 
 /// Lightweight reusable WebSocket/Socket.IO service with auto-reconnect.
 @lazySingleton
@@ -18,6 +26,11 @@ class WebSocketService {
   static const Duration _reconnectDelay = Duration(seconds: 2);
   static const Duration _heartbeatInterval = Duration(seconds: 20);
 
+  final _statusController =
+      StreamController<SocketConnectionStatus>.broadcast();
+
+  Stream<SocketConnectionStatus> get statusStream => _statusController.stream;
+
   bool get isConnected => _socket?.connected ?? false;
   String? get socketId => _socket?.id;
 
@@ -29,39 +42,57 @@ class WebSocketService {
     String socketPath = '/socket.io',
     bool autoConnect = true,
   }) {
-    final authToken = token ?? LocalStorage.instance.getAccessToken();
-    final url = _buildSocketUrl(baseUrl ?? AppConstants.baseUrl, namespace);
+    if (isConnected) {
+      log('🔌 WS already connected');
+      return _socket!;
+    }
 
-    log('🔌 WS connecting -> url=$url, token=${authToken != null ? 'present' : 'missing'}');
+    final authToken = token ?? LocalStorage.instance.getAccessToken();
+    if (authToken == null) {
+      log('❌ WS connection failed: No auth token found.');
+      _statusController.add(SocketConnectionStatus.error);
+      return _socket ?? io.io('http://localhost', <String, dynamic>{});
+    }
+
+    _statusController.add(SocketConnectionStatus.connecting);
+
+    final url = _buildSocketUrl(baseUrl ?? AppConstants.baseUrl, namespace);
+    log('🔌 WS connecting -> url=$url');
 
     final builder = io.OptionBuilder()
         .setTransports(['websocket'])
         .setPath(socketPath)
-        .enableAutoConnect()
         .enableForceNew()
         .setTimeout(10000)
-        .setAuth(authToken != null ? {'token': authToken} : {})
-        // Extras for servers that read from headers/query
-        .setExtraHeaders(
-          authToken != null ? {'Authorization': 'Bearer $authToken'} : {},
-        )
-        .setQuery(authToken != null ? {'token': authToken} : {});
+        .setAuth({'token': authToken})
+        .setExtraHeaders({'Authorization': 'Bearer $authToken'})
+        .setQuery({'token': authToken});
 
     if (!autoConnect) {
       builder.disableAutoConnect();
+    } else {
+      builder.enableAutoConnect();
     }
 
     _socket = io.io(url, builder.build());
 
-    _registerBaseListeners(_socket!);
-    _registerAuthListeners(_socket!);
-    _setupAutoReconnect();
+    _setupListeners();
     _startHeartbeat();
 
     if (!autoConnect) {
       _socket!.connect();
     }
+
     return _socket!;
+  }
+
+  /// Manually trigger a reconnect attempt
+  void reconnect() {
+    log('🔄 WS manual reconnect triggered');
+    disconnect();
+    _shouldReconnect = true;
+    _reconnectAttempts = 0;
+    connect();
   }
 
   /// Enable auto-reconnect (default: true)
@@ -82,33 +113,11 @@ class WebSocketService {
     _heartbeatTimer?.cancel();
     if (_socket != null) {
       log('🔌 WS disconnect requested (id=${_socket?.id})');
+      _socket?.disconnect();
+      _socket = null;
     }
-    _socket?.disconnect();
-    _socket = null;
     _reconnectAttempts = 0;
-  }
-
-  /// Update heartbeat interval dynamically
-  void updateHeartbeatInterval(Duration interval) {
-    log('🔌 WS updating heartbeat interval to ${interval.inSeconds}s');
-    _heartbeatTimer?.cancel();
-    _heartbeatTimer = Timer.periodic(interval, (timer) {
-      if (isConnected && _socket != null) {
-        try {
-          _socket!
-              .emit('ping', {'timestamp': DateTime.now().toIso8601String()});
-        } catch (e) {
-          log('❌ WS heartbeat error: $e');
-        }
-      }
-    });
-  }
-
-  /// Update reconnect delay dynamically
-  void updateReconnectDelay(Duration delay) {
-    log('🔌 WS updating reconnect delay to ${delay.inSeconds}s');
-    // This will be used in the next reconnect attempt
-    // We don't need to store it separately as it's handled in _scheduleReconnect
+    _statusController.add(SocketConnectionStatus.disconnected);
   }
 
   /// Register a listener for a specific event.
@@ -134,11 +143,9 @@ class WebSocketService {
     _socket?.emit(event, data);
   }
 
+  ///
   String _buildSocketUrl(String base, String namespace) {
-    // Parse the base URL to handle ports correctly
     final uri = Uri.parse(base);
-
-    // Remove default ports to avoid :0 or incorrect parsing
     String hostWithPort;
     if (uri.scheme == 'https') {
       hostWithPort =
@@ -150,45 +157,44 @@ class WebSocketService {
       hostWithPort = uri.hasPort ? '${uri.host}:${uri.port}' : uri.host;
     }
 
-    // Clean up path
     var cleanPath = uri.path;
     if (cleanPath.endsWith('/')) {
       cleanPath = cleanPath.substring(0, cleanPath.length - 1);
     }
 
     final sanitizedNs = namespace.startsWith('/') ? namespace : '/$namespace';
-    final finalUrl = '${uri.scheme}://$hostWithPort$cleanPath$sanitizedNs';
-
-    log('🔌 Building WebSocket URL: $finalUrl (from base: $base)');
-    return finalUrl;
+    return '${uri.scheme}://$hostWithPort$cleanPath$sanitizedNs';
   }
 
-  /// Setup auto-reconnect logic
-  void _setupAutoReconnect() {
+  /// Setup all listeners including auto-reconnect logic
+  void _setupListeners() {
     if (_socket == null) return;
-
-    _socket!.onDisconnect((_) {
-      log('🔌 WS disconnected');
-      _reconnectAttempts = 0;
-      if (_shouldReconnect && _socket != null) {
-        _scheduleReconnect();
-      }
-    });
 
     _socket!.onConnect((_) {
       log('🔌 WS connected: ${_socket?.id}');
       _reconnectAttempts = 0;
       _reconnectTimer?.cancel();
+      _statusController.add(SocketConnectionStatus.connected);
+    });
+
+    _socket!.onDisconnect((_) {
+      log('🔌 WS disconnected');
+      _statusController.add(SocketConnectionStatus.disconnected);
+      if (_shouldReconnect) {
+        _scheduleReconnect();
+      }
     });
 
     _socket!.onReconnect((_) {
-      log('🔌 WS reconnected: ${_socket?.id}');
+      log('🔌 WS reconnected');
       _reconnectAttempts = 0;
+      _statusController.add(SocketConnectionStatus.connected);
     });
 
     _socket!.onReconnectAttempt((attempt) {
       log('🔌 WS reconnect attempt: $attempt');
       _reconnectAttempts = attempt;
+      _statusController.add(SocketConnectionStatus.reconnecting);
     });
 
     _socket!.onReconnectError((err) {
@@ -196,18 +202,30 @@ class WebSocketService {
       if (_reconnectAttempts >= _maxReconnectAttempts) {
         log('❌ WS max reconnect attempts reached');
         _shouldReconnect = false;
+        _statusController.add(SocketConnectionStatus.error);
       }
     });
 
     _socket!.onError((err) {
       log('🔌 WS error: $err');
+      _statusController.add(SocketConnectionStatus.error);
     });
 
     _socket!.onConnectError((err) {
       log('🔌 WS connect error: $err');
+      _statusController.add(SocketConnectionStatus.error);
       if (_shouldReconnect && !isConnected) {
         _scheduleReconnect();
       }
+    });
+
+    _socket!.on('auth:success', (data) {
+      log('🔌 WS auth:success $data');
+    });
+
+    _socket!.on('auth:error', (data) {
+      log('🔌 WS auth:error $data');
+      _statusController.add(SocketConnectionStatus.error);
     });
   }
 
@@ -216,6 +234,8 @@ class WebSocketService {
     if (!_shouldReconnect || _reconnectAttempts >= _maxReconnectAttempts) {
       return;
     }
+
+    _statusController.add(SocketConnectionStatus.reconnecting);
 
     _reconnectTimer?.cancel();
     _reconnectTimer = Timer(_reconnectDelay, () {
@@ -244,20 +264,6 @@ class WebSocketService {
           log('❌ WS heartbeat error: $e');
         }
       }
-    });
-  }
-
-  /// Attach base diagnostics listeners for connect/disconnect/errors.
-  void _registerBaseListeners(io.Socket socket) {
-    // Base listeners are now handled in _setupAutoReconnect
-  }
-
-  void _registerAuthListeners(io.Socket socket) {
-    socket.on('auth:success', (data) {
-      log('🔌 WS auth:success $data');
-    });
-    socket.on('auth:error', (data) {
-      log('🔌 WS auth:error $data');
     });
   }
 }

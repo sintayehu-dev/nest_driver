@@ -10,6 +10,7 @@ import 'package:nest_driver/core/utils/local_storage/local_storage.dart';
 import 'package:nest_driver/features/driver/location/domain/entities/driver_location_update.dart';
 import 'package:nest_driver/features/driver/location/domain/entities/driver_status.dart';
 import 'package:nest_driver/features/driver/location/domain/repositories/driver_location_repository.dart';
+import 'package:nest_driver/core/application/bloc/websocket/websocket_bloc.dart';
 
 import 'location_event.dart';
 import 'location_state.dart';
@@ -20,6 +21,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     this._locationService,
     this._locationRepository,
     this._backgroundLocationService,
+    this._webSocketBloc,
   ) : super(const LocationState()) {
     on<LocationAvailabilityToggled>(_onAvailabilityToggled);
     on<LocationStreamUpdated>(_onStreamUpdated);
@@ -38,6 +40,8 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   final LocationService _locationService;
   final DriverLocationRepository _locationRepository;
   final BackgroundLocationService _backgroundLocationService;
+  final WebSocketBloc _webSocketBloc;
+
   StreamSubscription<Position>? _positionSub;
   StreamSubscription? _backendAckSub;
   StreamController<DriverLocationUpdate>? _updateController;
@@ -66,6 +70,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       await _stopStream();
       await _stopBackendStream();
       await LocalStorage.instance.setDriverAvailability(false);
+      _webSocketBloc.add(const WebSocketEvent.disconnect());
       emit(state.copyWith(
         isAvailable: false,
         isLoading: false,
@@ -95,6 +100,9 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       ));
       return;
     }
+
+    // Connect WebSocket when available
+    _webSocketBloc.add(const WebSocketEvent.connect());
 
     emit(state.copyWith(
       isAvailable: true,
@@ -242,7 +250,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     _backendAckSub = null;
 
     // Close the update controller - this will trigger stream cancellation
-    // in the datasource and disconnect the WebSocket
+    // in the datasource
     if (_updateController != null && !_updateController!.isClosed) {
       await _updateController!.close();
     }
@@ -310,6 +318,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
         await _stopStream();
         await _stopBackendStream();
         await _backgroundLocationService.stop();
+        _webSocketBloc.add(const WebSocketEvent.disconnect());
         emit(state.copyWith(
           isAvailable: false,
           isBackendConnected: false,
@@ -345,6 +354,9 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
         } catch (e) {
           // Log error but continue
         }
+
+        // Connect WebSocket
+        _webSocketBloc.add(const WebSocketEvent.connect());
 
         await _startBackendStream(
           emit,
@@ -391,6 +403,8 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     } catch (e) {
       // Log error but continue
     }
+
+    _webSocketBloc.add(const WebSocketEvent.connect());
 
     await _startBackendStream(
       emit,

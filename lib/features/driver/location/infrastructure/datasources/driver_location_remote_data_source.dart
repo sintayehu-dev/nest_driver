@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:injectable/injectable.dart';
-import 'package:nest_driver/core/handlers/websocket_service.dart';
+import 'package:nest_driver/core/handlers/ws/websocket_service.dart';
 import 'package:nest_driver/features/driver/location/domain/entities/driver_location_update.dart';
 import 'package:nest_driver/features/driver/location/domain/entities/location_update_ack.dart';
 
@@ -26,64 +26,16 @@ class DriverLocationRemoteDataSourceImpl
     void Function()? onConnected,
   }) {
     final controller = StreamController<LocationUpdateAck>();
-    final pendingUpdates = <DriverLocationUpdate>[];
-    bool connectionEstablished = false;
 
-    // Connect if not already connected
-    if (!_ws.isConnected) {
-      log('🔌 Connecting WebSocket...');
-      _ws.connect();
-      
-      // Set up connection listener
-      void onConnect(dynamic _) {
-        log('🔌 WebSocket connected, processing ${pendingUpdates.length} pending updates');
-        connectionEstablished = true;
-        onConnected?.call();
-        
-        // Process pending updates
-        for (final update in pendingUpdates) {
-          _emitUpdate(update, controller);
+    // Listen to updates from the bloc and emit them if WS is connected
+    final updateSub = updates.listen(
+      (update) {
+        if (!_ws.isConnected) {
+          log('🔌 WS not connected, skipping update');
+          return;
         }
-        pendingUpdates.clear();
-      }
-      
-      _ws.on('connect', onConnect);
-      
-      // Clean up listener on cancel
-      final originalOnCancel = controller.onCancel;
-      controller.onCancel = () async {
-        _ws.off('connect', onConnect);
-        await originalOnCancel?.call();
-      };
-    } else {
-      connectionEstablished = true;
-      log('🔌 WebSocket already connected');
-    }
-
-    void emitUpdate(DriverLocationUpdate update) {
-      if (!connectionEstablished || !_ws.isConnected) {
-        log('🔌 Queueing update (not connected yet)');
-        pendingUpdates.add(update);
-        return;
-      }
-      _emitUpdate(update, controller);
-    }
-
-    final locErrorHandler = (dynamic data) {
-      log('🔌 Received location:error: $data');
-      controller.addError(
-        Exception(
-          data is Map && data['message'] != null
-              ? data['message'].toString()
-              : 'location:error',
-        ),
-      );
-    };
-
-    _ws.on('location:error', locErrorHandler);
-
-    final sub = updates.listen(
-      emitUpdate,
+        _emitUpdate(update, controller);
+      },
       onError: (error) {
         log('🔌 Update stream error: $error');
         controller.addError(error);
@@ -94,20 +46,34 @@ class DriverLocationRemoteDataSourceImpl
       },
     );
 
-    final originalOnCancel = controller.onCancel;
-    controller.onCancel = () async {
-      log('🔌 Cancelling location stream');
-      _ws.off('location:error', locErrorHandler);
-      await sub.cancel();
-      
-      // Disconnect WebSocket when stream is cancelled
-      if (_ws.isConnected) {
-        log('🔌 Disconnecting WebSocket');
-        _ws.disconnect();
+    // Also listen for explicit backend errors
+    final locErrorHandler = (dynamic data) {
+      log('🔌 Received location:error: $data');
+      if (!controller.isClosed) {
+        controller.addError(
+          Exception(
+            data is Map && data['message'] != null
+                ? data['message'].toString()
+                : 'location:error',
+          ),
+        );
       }
-      
-      await originalOnCancel?.call();
     };
+    _ws.on('location:error', locErrorHandler);
+
+    // Clean up when the consumer cancels the stream
+    controller.onCancel = () async {
+      _ws.off('location:error', locErrorHandler);
+      await updateSub.cancel();
+    };
+
+    // If already connected, notify immediately
+    if (_ws.isConnected) {
+      onConnected?.call();
+    } else {
+      // Or wait for connection
+      // We don't force connect here anymore
+    }
 
     return controller.stream;
   }
@@ -116,23 +82,16 @@ class DriverLocationRemoteDataSourceImpl
     DriverLocationUpdate update,
     StreamController<LocationUpdateAck> controller,
   ) {
-    if (!_ws.isConnected) {
-      log('🔌 Cannot emit: WebSocket not connected');
-      return;
-    }
-
-    log('🔌 Emitting location update: ${update.lat}, ${update.lon}');
     _ws.emit(
       'location:update',
       update.toJson(),
       (resp) {
+        if (controller.isClosed) return;
         try {
           if (resp is Map<String, dynamic>) {
             final ack = LocationUpdateAck.fromJson(resp);
-            log('🔌 Location update ack: success=${ack.success}');
             controller.add(ack);
           } else {
-            log('🔌 Unexpected ack format: $resp');
             controller.add(
               LocationUpdateAck.fromJson(
                 {
@@ -151,4 +110,3 @@ class DriverLocationRemoteDataSourceImpl
     );
   }
 }
-
