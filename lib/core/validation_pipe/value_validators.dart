@@ -5,10 +5,8 @@ Either<ValueFailure<String>, String> validateEmailAddress(String input) {
   const emailRegex =
       r"""^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+""";
 
-  // Trim the input to handle whitespace
   final trimmedInput = input.trim();
 
-  // Check for empty or whitespace-only input
   if (trimmedInput.isEmpty) {
     return left(
       const ValueFailure.invalidEmail(
@@ -17,9 +15,7 @@ Either<ValueFailure<String>, String> validateEmailAddress(String input) {
     );
   }
 
-  // Check for length constraints
   if (trimmedInput.length > 254) {
-    // Maximum length per RFC 5321
     return left(
       const ValueFailure.invalidEmail(
         failedValue: 'Email address is too long (maximum 254 characters)',
@@ -27,7 +23,6 @@ Either<ValueFailure<String>, String> validateEmailAddress(String input) {
     );
   }
 
-  // Check for basic structure
   if (!trimmedInput.contains('@')) {
     return left(
       const ValueFailure.invalidEmail(
@@ -36,7 +31,6 @@ Either<ValueFailure<String>, String> validateEmailAddress(String input) {
     );
   }
 
-  // Split email into local and domain parts
   final parts = trimmedInput.split('@');
   if (parts.length > 2) {
     return left(
@@ -49,7 +43,6 @@ Either<ValueFailure<String>, String> validateEmailAddress(String input) {
   final localPart = parts[0];
   final domainPart = parts[1];
 
-  // Validate local part
   if (localPart.isEmpty) {
     return left(
       const ValueFailure.invalidEmail(
@@ -59,7 +52,6 @@ Either<ValueFailure<String>, String> validateEmailAddress(String input) {
   }
 
   if (localPart.length > 64) {
-    // Maximum length per RFC 5321
     return left(
       const ValueFailure.invalidEmail(
         failedValue:
@@ -68,7 +60,6 @@ Either<ValueFailure<String>, String> validateEmailAddress(String input) {
     );
   }
 
-  // Check for invalid starting/ending characters in local part
   if (localPart.startsWith('.') || localPart.endsWith('.')) {
     return left(
       const ValueFailure.invalidEmail(
@@ -77,7 +68,6 @@ Either<ValueFailure<String>, String> validateEmailAddress(String input) {
     );
   }
 
-  // Validate domain part
   if (domainPart.isEmpty) {
     return left(
       const ValueFailure.invalidEmail(
@@ -110,7 +100,6 @@ Either<ValueFailure<String>, String> validateEmailAddress(String input) {
     );
   }
 
-  // Check for consecutive dots
   if (trimmedInput.contains('..')) {
     return left(
       const ValueFailure.invalidEmail(
@@ -119,7 +108,6 @@ Either<ValueFailure<String>, String> validateEmailAddress(String input) {
     );
   }
 
-  // Check for invalid characters
   if (trimmedInput.contains(' ')) {
     return left(
       const ValueFailure.invalidEmail(
@@ -128,12 +116,10 @@ Either<ValueFailure<String>, String> validateEmailAddress(String input) {
     );
   }
 
-  // Final regex check for overall format
   if (RegExp(emailRegex).hasMatch(trimmedInput)) {
     return right(trimmedInput);
   }
 
-  // If all specific checks pass but regex fails, provide a general message
   return left(
     const ValueFailure.invalidEmail(
       failedValue: 'Please enter a valid email address',
@@ -142,10 +128,8 @@ Either<ValueFailure<String>, String> validateEmailAddress(String input) {
 }
 
 Either<ValueFailure<String>, String> validatePhoneNumber(String input) {
-  // Trim the input to handle whitespace
   final trimmedInput = input.trim();
 
-  // Check for empty or whitespace-only input
   if (trimmedInput.isEmpty) {
     return left(
       const ValueFailure.empty(
@@ -154,7 +138,6 @@ Either<ValueFailure<String>, String> validatePhoneNumber(String input) {
     );
   }
 
-  // Simple validation for now - check for length and numeric characters
   if (trimmedInput.length < 7) {
     return left(
       const ValueFailure.invalidPhoneNumber(
@@ -171,7 +154,6 @@ Either<ValueFailure<String>, String> validatePhoneNumber(String input) {
     );
   }
 
-  // Check if it contains only digits, plus sign, and parentheses
   if (!RegExp(r'^[0-9\+\(\)\-\s]+$').hasMatch(trimmedInput)) {
     return left(
       const ValueFailure.invalidPhoneNumber(
@@ -182,7 +164,6 @@ Either<ValueFailure<String>, String> validatePhoneNumber(String input) {
 
   return right(trimmedInput);
 }
-// Only keep Email and PhoneNumber validators
 
 Either<ValueFailure<String>, String> validateFullName(String input) {
   final trimmedInput = input.trim();
@@ -193,7 +174,6 @@ Either<ValueFailure<String>, String> validateFullName(String input) {
       ),
     );
   }
-  // Reasonable bounds
   if (trimmedInput.length < 2) {
     return left(
       const ValueFailure.invalidFullName(
@@ -208,7 +188,6 @@ Either<ValueFailure<String>, String> validateFullName(String input) {
       ),
     );
   }
-  // Allow letters, spaces, hyphens, apostrophes, and dots
   final nameRegex =
       RegExp(r"^[A-Za-z\u00C0-\u024F][A-Za-z\u00C0-\u024F\.\'\- ]+$");
   if (!nameRegex.hasMatch(trimmedInput)) {
@@ -218,7 +197,6 @@ Either<ValueFailure<String>, String> validateFullName(String input) {
       ),
     );
   }
-  // Prevent multiple consecutive spaces
   if (trimmedInput.contains(RegExp(r'\s{2,}'))) {
     return left(
       const ValueFailure.invalidFullName(
@@ -252,7 +230,6 @@ Either<ValueFailure<String>, String> validateFinNumber(String input) {
       ),
     );
   }
-  // Allow alphanumeric characters and hyphens
   if (!RegExp(r'^[A-Za-z0-9\-]+$').hasMatch(trimmedInput)) {
     return left(
       const ValueFailure.invalidFinNumber(
@@ -320,7 +297,6 @@ Either<ValueFailure<String>, String> validateCarModel(String input) {
       ),
     );
   }
-  // Allow letters, numbers, spaces, hyphens, and common symbols
   if (!RegExp(r'^[A-Za-z0-9\s\-\.\/]+$').hasMatch(trimmedInput)) {
     return left(
       const ValueFailure.invalidCarModel(

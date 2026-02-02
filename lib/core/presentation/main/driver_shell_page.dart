@@ -37,7 +37,6 @@ class _DriverShellPageState extends State<DriverShellPage>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      // Check permissions after app resumes from settings
       Future.delayed(const Duration(milliseconds: 1000), () {
         if (mounted) {
           final locationBloc = context.read<LocationBloc>();

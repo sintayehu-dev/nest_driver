@@ -1,11 +1,9 @@
-/// Environment enum for different app configurations
 enum Environment {
   development,
   staging,
   production,
 }
 
-/// Environment configuration class
 class AppEnvironment {
   final Environment environment;
   final String baseUrl;
@@ -21,16 +19,14 @@ class AppEnvironment {
     this.enableCrashReporting = false,
   });
 
-  /// Development environment configuration
   static const AppEnvironment development = AppEnvironment(
     environment: Environment.development,
     baseUrl: 'https://21ee1ef84882.ngrok-free.app',
     appName: 'nest_driver dev',
     enableLogging: true,
-    enableCrashReporting: false,  
+    enableCrashReporting: false,
   );
 
-  /// Staging environment configuration
   static const AppEnvironment staging = AppEnvironment(
     environment: Environment.staging,
     baseUrl: 'https://staging-api.nest.com',
@@ -39,7 +35,6 @@ class AppEnvironment {
     enableCrashReporting: true,
   );
 
-  /// Production environment configuration
   static const AppEnvironment production = AppEnvironment(
     environment: Environment.production,
     baseUrl: 'https://melo-backend-h304.onrender.com',
@@ -48,7 +43,6 @@ class AppEnvironment {
     enableCrashReporting: true,
   );
 
-  /// Get current environment from string
   static AppEnvironment fromString(String env) {
     switch (env.toLowerCase()) {
       case 'dev':
@@ -60,16 +54,13 @@ class AppEnvironment {
       case 'production':
         return production;
       default:
-        return development; // Default to development
+        return development;
     }
   }
 
-  /// Check if current environment is development
   bool get isDevelopment => environment == Environment.development;
 
-  /// Check if current environment is staging
   bool get isStaging => environment == Environment.staging;
 
-  /// Check if current environment is production
   bool get isProduction => environment == Environment.production;
 }

@@ -9,9 +9,7 @@ abstract class AbstractValueObject<T> implements IValidatable {
   const AbstractValueObject();
   Either<ValueFailure<T>, T> get value;
 
-  /// Throws [UnexpectedValueError] containing the [ValueFailure]
   T getOrCrash() {
-    // id = identity - same as writing (right) => right
     return value.fold((f) => throw UnexpectedValueError(f), id);
   }
 
@@ -65,4 +63,3 @@ abstract class AbstractValueObject<T> implements IValidatable {
 
 //   const UniqueId._(this.value);
 // }
-
