@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nest_driver/core/navigation/navigation_service.dart';
 import 'package:nest_driver/core/router/route_name.dart';
-import 'package:nest_driver/core/utils/app_helpers.dart';
+import 'package:nest_driver/core/presentation/widgets/app_helpers.dart';
 import 'package:nest_driver/core/utils/local_storage/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:nest_driver/core/services/token_refresh_service.dart';
@@ -15,7 +15,8 @@ class TokenInterceptor extends Interceptor {
   TokenInterceptor({required this.requireAuth, required this.dio});
 
   @override
-  Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+  Future<void> onRequest(
+      RequestOptions options, RequestInterceptorHandler handler) async {
     final accessToken = LocalStorage.instance.getAccessToken();
     if (requireAuth && accessToken != null) {
       options.headers.addAll({'Authorization': 'Bearer $accessToken'});
@@ -24,12 +25,15 @@ class TokenInterceptor extends Interceptor {
   }
 
   @override
-  Future<void> onError(DioException err, ErrorInterceptorHandler handler) async {
+  Future<void> onError(
+      DioException err, ErrorInterceptorHandler handler) async {
     if (err.response?.statusCode == 401) {
       // Only handle 401s for requests that were actually sent with an Authorization header
       // to avoid treating login/register credential errors as session expiry.
-      final authHeader = (err.requestOptions.headers['Authorization'] as String?);
-      final sentWithBearer = authHeader != null && authHeader.startsWith('Bearer ');
+      final authHeader =
+          (err.requestOptions.headers['Authorization'] as String?);
+      final sentWithBearer =
+          authHeader != null && authHeader.startsWith('Bearer ');
       if (!requireAuth || !sentWithBearer) {
         return handler.next(err);
       }
@@ -57,7 +61,8 @@ class TokenInterceptor extends Interceptor {
 
       final context = NavigationService.currentContext;
       if (context != null) {
-        final isOnLoginScreen = ModalRoute.of(context)?.settings.name == RouteName.login;
+        final isOnLoginScreen =
+            ModalRoute.of(context)?.settings.name == RouteName.login;
         if (!isOnLoginScreen) {
           AppHelpers.showCheckFlash(
             context,

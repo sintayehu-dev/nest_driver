@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:nest_driver/core/theme/app_colors.dart';
 import 'package:nest_driver/core/theme/app_theme.dart';
-import 'package:nest_driver/core/utils/input_validation_message.dart';
+import 'package:nest_driver/core/presentation/widgets/input_validation_message.dart';
 import 'package:nest_driver/features/auth/application/otplogin/bloc/otp_login_bloc.dart';
 
 /// Phone number input form widget for registration

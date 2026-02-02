@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nest_driver/core/presentation/widgets/app_back_button.dart';
-import 'package:nest_driver/core/utils/input_validation_message.dart';
+import 'package:nest_driver/core/presentation/widgets/input_validation_message.dart';
 import 'package:nest_driver/features/driver/registration/application/bloc/driver_registration_bloc.dart';
 import 'package:nest_driver/features/driver/registration/presentation/widgets/driver_registration_progress_indicator.dart';
 import 'package:nest_driver/features/driver/registration/presentation/widgets/driver_registration_button.dart';
@@ -95,7 +95,8 @@ class _VehicleInformationPageState extends State<VehicleInformationPage> {
     });
     _plateNumberController.addListener(() {
       context.read<DriverRegistrationBloc>().add(
-            DriverRegistrationEvent.plateNumberChanged(_plateNumberController.text),
+            DriverRegistrationEvent.plateNumberChanged(
+                _plateNumberController.text),
           );
     });
     _colorController.addListener(() {
@@ -272,135 +273,136 @@ class _VehicleInformationPageState extends State<VehicleInformationPage> {
 
     return BlocBuilder<DriverRegistrationBloc, DriverRegistrationState>(
       builder: (context, state) {
-    return SingleChildScrollView(
-      child: Form(
-        key: _formKey,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+        return SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                   // Header
-              Padding(
-                padding: EdgeInsets.only(top: 16.h),
-                child: Column(
-                  children: [
-                    Row(
+                  Padding(
+                    padding: EdgeInsets.only(top: 16.h),
+                    child: Column(
                       children: [
-                        AppBackButton(
+                        Row(
+                          children: [
+                            AppBackButton(
                               onPressed: () {
                                 context.read<DriverRegistrationBloc>().add(
-                                      const DriverRegistrationEvent.previousPage(),
+                                      const DriverRegistrationEvent
+                                          .previousPage(),
                                     );
                               },
+                            ),
+                            const Spacer(),
+                            Text(
+                              '${widget.currentPage + 1}/${widget.totalPages}',
+                              style: theme.textTheme.bodyMedium?.copyWith(
+                                color: theme.colorScheme.onSurfaceVariant,
+                              ),
+                            ),
+                          ],
                         ),
-                        const Spacer(),
-                        Text(
-                          '${widget.currentPage + 1}/${widget.totalPages}',
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            color: theme.colorScheme.onSurfaceVariant,
-                          ),
+                        SizedBox(height: 16.h),
+                        DriverRegistrationProgressIndicator(
+                          currentPage: widget.currentPage,
+                          totalPages: widget.totalPages,
                         ),
                       ],
                     ),
-                    SizedBox(height: 16.h),
-                    DriverRegistrationProgressIndicator(
-                      currentPage: widget.currentPage,
-                      totalPages: widget.totalPages,
-                    ),
-                  ],
-                ),
-              ),
-
-              // Title
-              Padding(
-                padding: EdgeInsets.only(top: 32.h),
-                child: Text(
-                  widget.title,
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: theme.colorScheme.onSurface,
                   ),
-                ),
-              ),
 
-              SizedBox(height: 32.h),
+                  // Title
+                  Padding(
+                    padding: EdgeInsets.only(top: 32.h),
+                    child: Text(
+                      widget.title,
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: theme.colorScheme.onSurface,
+                      ),
+                    ),
+                  ),
 
-              // Car Make
+                  SizedBox(height: 32.h),
+
+                  // Car Make
                   _buildField(
                     label: 'Car Make',
                     isRequired: true,
                     child: _buildTextField(
-              controller: _carMakeController,
+                      controller: _carMakeController,
                       hintText: 'Eg. "Toyota"',
                     ),
                     fieldName: 'carMake',
                     state: state,
-            ),
+                  ),
 
-            // Year of Manufacture
+                  // Year of Manufacture
                   _buildField(
                     label: 'Year of Manufacture',
                     isRequired: true,
                     child: _buildTextField(
-              controller: _yearOfManufactureController,
+                      controller: _yearOfManufactureController,
                       hintText: 'Eg. "2020"',
                       keyboardType: TextInputType.number,
-                ),
+                    ),
                     fieldName: 'yearOfManufacture',
                     state: state,
-            ),
+                  ),
 
-            // Car Model
+                  // Car Model
                   _buildField(
                     label: 'Car Model',
                     isRequired: true,
                     child: _buildTextField(
-              controller: _carModelController,
+                      controller: _carModelController,
                       hintText: 'Eg. "Corolla"',
                     ),
                     fieldName: 'carModel',
                     state: state,
-            ),
+                  ),
 
-            // Plate Number
+                  // Plate Number
                   _buildField(
                     label: 'Plate Number',
                     isRequired: true,
                     child: _buildTextField(
-              controller: _plateNumberController,
+                      controller: _plateNumberController,
                       hintText: 'ABC-1234',
                     ),
                     fieldName: 'plateNumber',
                     state: state,
-            ),
+                  ),
 
-            // Color
+                  // Color
                   _buildField(
                     label: 'Color',
                     isRequired: true,
                     child: _buildTextField(
-              controller: _colorController,
+                      controller: _colorController,
                       hintText: 'Eg. "Red"',
                     ),
                     fieldName: 'color',
                     state: state,
-                ),
+                  ),
 
-            // Capacity
+                  // Capacity
                   _buildField(
                     label: 'Capacity',
                     isRequired: true,
                     child: _buildTextField(
-              controller: _capacityController,
+                      controller: _capacityController,
                       hintText: 'Eg. 4',
                       keyboardType: TextInputType.number,
-                ),
+                    ),
                     fieldName: 'capacity',
                     state: state,
-            ),
+                  ),
 
-            // Vehicle Type
+                  // Vehicle Type
                   _buildField(
                     label: 'Vehicle Type',
                     isRequired: true,
@@ -408,55 +410,56 @@ class _VehicleInformationPageState extends State<VehicleInformationPage> {
                       value: state.vehicleType.isValid()
                           ? state.vehicleType.getOrElse('')
                           : null,
-              decoration: InputDecoration(
-                hintText: 'Select vehicle category',
+                      decoration: InputDecoration(
+                        hintText: 'Select vehicle category',
                         hintStyle: theme.textTheme.bodyMedium?.copyWith(
                           color: theme.colorScheme.onSurfaceVariant,
-                ),
-                filled: true,
+                        ),
+                        filled: true,
                         fillColor: theme.inputDecorationTheme.fillColor,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                  borderSide: BorderSide.none,
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                  borderSide: BorderSide.none,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                  borderSide: BorderSide.none,
-                ),
-                contentPadding: EdgeInsets.symmetric(
-                  horizontal: 16.w,
-                  vertical: 14.h,
-                ),
-                suffixIcon: Icon(
-                  Icons.keyboard_arrow_down,
-                  color: theme.colorScheme.onSurfaceVariant,
-                  size: 24.sp,
-                ),
-              ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                          borderSide: BorderSide.none,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                          borderSide: BorderSide.none,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                          borderSide: BorderSide.none,
+                        ),
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: 16.w,
+                          vertical: 14.h,
+                        ),
+                        suffixIcon: Icon(
+                          Icons.keyboard_arrow_down,
+                          color: theme.colorScheme.onSurfaceVariant,
+                          size: 24.sp,
+                        ),
+                      ),
                       style: theme.textTheme.bodyMedium,
-              items: _vehicleTypes.map((String type) {
-                return DropdownMenuItem<String>(
-                  value: type,
-                  child: Text(type),
-                );
-              }).toList(),
-              onChanged: (String? newValue) {
+                      items: _vehicleTypes.map((String type) {
+                        return DropdownMenuItem<String>(
+                          value: type,
+                          child: Text(type),
+                        );
+                      }).toList(),
+                      onChanged: (String? newValue) {
                         if (newValue != null && newValue.isNotEmpty) {
                           context.read<DriverRegistrationBloc>().add(
-                                DriverRegistrationEvent.vehicleTypeChanged(newValue),
+                                DriverRegistrationEvent.vehicleTypeChanged(
+                                    newValue),
                               );
                         }
                       },
                     ),
                     fieldName: 'vehicleType',
                     state: state,
-            ),
+                  ),
 
-              SizedBox(height: 24.h),
+                  SizedBox(height: 24.h),
 
                   // Next Button
                   DriverRegistrationButton(
@@ -466,13 +469,13 @@ class _VehicleInformationPageState extends State<VehicleInformationPage> {
                           );
                     },
                     isLastPage: false,
-              ),
+                  ),
 
-              SizedBox(height: 24.h),
-            ],
+                  SizedBox(height: 24.h),
+                ],
+              ),
+            ),
           ),
-        ),
-      ),
         );
       },
     );

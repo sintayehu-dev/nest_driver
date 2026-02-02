@@ -10,10 +10,10 @@ import 'package:nest_driver/core/presentation/widgets/app_back_button.dart';
 import 'package:nest_driver/core/services/image_picker_service.dart';
 import 'package:nest_driver/core/theme/app_colors.dart';
 import 'package:nest_driver/core/theme/app_theme.dart';
-import 'package:nest_driver/core/utils/app_helpers.dart';
+import 'package:nest_driver/core/presentation/widgets/app_helpers.dart';
 import 'package:nest_driver/core/utils/local_storage/local_storage.dart';
 import 'package:nest_driver/features/auth/application/profile_update/bloc/profile_update_bloc.dart';
-import 'package:nest_driver/core/utils/input_validation_message.dart';
+import 'package:nest_driver/core/presentation/widgets/input_validation_message.dart';
 
 class EditProfileScreen extends StatelessWidget {
   const EditProfileScreen({
@@ -83,7 +83,8 @@ class _EditProfileViewState extends State<EditProfileView> {
     final extraFullName = widget.initialFullName?.trim();
     final extraPhone = widget.initialPhoneNumber?.trim();
 
-    final fullName = (userData['full_name'] as String?)?.trim() ?? extraFullName;
+    final fullName =
+        (userData['full_name'] as String?)?.trim() ?? extraFullName;
     final firstName = (userData['first_name'] as String?)?.trim();
     final lastName = (userData['last_name'] as String?)?.trim();
     String? _asString(dynamic v) {

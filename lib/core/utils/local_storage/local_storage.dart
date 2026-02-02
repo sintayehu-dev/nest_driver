@@ -4,12 +4,11 @@ import 'dart:developer';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:nest_driver/core/utils/local_storage/local_storage_key.dart';
 
-
 class LocalStorage {
   LocalStorage._();
   static SharedPreferences? _preferences;
   static final LocalStorage instance = LocalStorage._();
-  
+
   static Future<void> ensureInitialized() async {
     try {
       if (_preferences == null) {
@@ -18,27 +17,27 @@ class LocalStorage {
       }
     } catch (e) {
       log('Error initializing SharedPreferences: $e');
-      // Initialize with an empty instance to prevent further crashes
       _preferences = null;
     }
   }
 
-  /// get is onboarding
   bool getIsDoneOnboarding() {
     try {
       if (_preferences == null) {
         log('getIsDoneOnboarding: _preferences is null');
         return false;
       }
-      final isDoneOnboarding = _preferences!.getBool(LocalStorageKey.isDoneOnboarding);
+      final isDoneOnboarding =
+          _preferences!.getBool(LocalStorageKey.isDoneOnboarding);
       log('getIsDoneOnboarding: $isDoneOnboarding');
-      
+
       return isDoneOnboarding ?? false;
     } catch (e) {
       log('Error in getIsDoneOnboarding: $e');
       return false;
     }
   }
+
   /// set is onboarding
   Future<void> setIsDoneOnboarding(bool value) async {
     log('setIsDoneOnboarding: $value');
@@ -54,6 +53,7 @@ class LocalStorage {
       log('Error in setIsDoneOnboarding: $e');
     }
   }
+
   /// delete is onboarding
   Future<void> deleteIsDoneOnboarding() async {
     if (_preferences == null) {
@@ -62,20 +62,19 @@ class LocalStorage {
     await _preferences?.remove(LocalStorageKey.isDoneOnboarding);
   }
 
-  /// Check if user has seen first-time splash screen
   bool hasSeenFirstTimeSplash() {
     try {
       if (_preferences == null) {
         return false;
       }
-      return _preferences!.getBool(LocalStorageKey.hasSeenFirstTimeSplash) ?? false;
+      return _preferences!.getBool(LocalStorageKey.hasSeenFirstTimeSplash) ??
+          false;
     } catch (e) {
       log('Error in hasSeenFirstTimeSplash: $e');
       return false;
     }
   }
 
-  /// Mark first-time splash as seen
   Future<void> setHasSeenFirstTimeSplash(bool value) async {
     log('setHasSeenFirstTimeSplash: $value');
     try {
@@ -83,11 +82,13 @@ class LocalStorage {
       if (_preferences == null) {
         return;
       }
-      await _preferences!.setBool(LocalStorageKey.hasSeenFirstTimeSplash, value);
+      await _preferences!
+          .setBool(LocalStorageKey.hasSeenFirstTimeSplash, value);
     } catch (e) {
       log('Error in setHasSeenFirstTimeSplash: $e');
     }
   }
+
   /// set refresh token
   Future<void> setRefreshToken(String token) async {
     if (_preferences == null) {
@@ -95,6 +96,7 @@ class LocalStorage {
     }
     await _preferences?.setString(LocalStorageKey.refreshToken, token);
   }
+
   /// get refresh token
   String? getRefreshToken() {
     if (_preferences == null) {
@@ -102,6 +104,7 @@ class LocalStorage {
     }
     return _preferences!.getString(LocalStorageKey.refreshToken);
   }
+
   /// delete refresh token
   Future<void> deleteRefreshToken() async {
     if (_preferences == null) {
@@ -109,6 +112,7 @@ class LocalStorage {
     }
     await _preferences!.remove(LocalStorageKey.refreshToken);
   }
+
   /// set token
   Future<void> setAccessToken(String token) async {
     if (_preferences == null) {
@@ -116,6 +120,7 @@ class LocalStorage {
     }
     await _preferences?.setString(LocalStorageKey.accessToken, token);
   }
+
   /// get token
   String? getAccessToken() {
     if (_preferences == null) {
@@ -123,6 +128,7 @@ class LocalStorage {
     }
     return _preferences?.getString(LocalStorageKey.accessToken);
   }
+
   /// delete token
   Future<void> deleteAccessToken() async {
     if (_preferences == null) {
@@ -130,6 +136,7 @@ class LocalStorage {
     }
     await _preferences?.remove(LocalStorageKey.accessToken);
   }
+
   /// set is dark mode
   Future<void> setIsDarkMode(bool value) async {
     if (_preferences == null) {
@@ -137,6 +144,7 @@ class LocalStorage {
     }
     await _preferences?.setBool(LocalStorageKey.isDarkMode, value);
   }
+
   /// get is dark mode
   bool getIsDarkMode() {
     final isDarkMode = _preferences?.getBool(LocalStorageKey.isDarkMode);
@@ -145,6 +153,7 @@ class LocalStorage {
     }
     return isDarkMode;
   }
+
   /// clear all
   Future<void> clear() async {
     if (_preferences == null) {
@@ -152,9 +161,10 @@ class LocalStorage {
     }
     await _preferences?.clear();
   }
+
   // set app theme mode
-    Future<void> setAppThemeMode(bool isDarkMode) async {
-      log('setAppThemeMode: $isDarkMode');
+  Future<void> setAppThemeMode(bool isDarkMode) async {
+    log('setAppThemeMode: $isDarkMode');
     if (_preferences != null) {
       await _preferences!.setBool(LocalStorageKey.themeMode, isDarkMode);
     }
@@ -170,7 +180,6 @@ class LocalStorage {
     _preferences?.remove(LocalStorageKey.themeMode);
   }
 
-  /// set user data
   Future<void> setUserData(Map<String, dynamic> userData) async {
     if (_preferences == null) {
       return;
@@ -179,7 +188,6 @@ class LocalStorage {
     await _preferences?.setString(LocalStorageKey.userData, userDataString);
   }
 
-  /// get user data
   Map<String, dynamic>? getUserData() {
     if (_preferences == null) {
       return null;
@@ -191,7 +199,6 @@ class LocalStorage {
     return jsonDecode(userDataString) as Map<String, dynamic>;
   }
 
-  /// delete user data
   Future<void> deleteUserData() async {
     if (_preferences == null) {
       return;
@@ -199,7 +206,6 @@ class LocalStorage {
     await _preferences?.remove(LocalStorageKey.userData);
   }
 
-  /// clear user session (tokens and data)
   Future<void> clearUserSession() async {
     if (_preferences == null) {
       return;
@@ -210,7 +216,6 @@ class LocalStorage {
     await deleteUserRole();
   }
 
-  /// set user role
   Future<void> setUserRole(String role) async {
     if (_preferences == null) {
       return;
@@ -219,7 +224,6 @@ class LocalStorage {
     log('setUserRole: $role');
   }
 
-  /// get user role
   String? getUserRole() {
     if (_preferences == null) {
       return null;
@@ -229,7 +233,6 @@ class LocalStorage {
     return role;
   }
 
-  /// delete user role
   Future<void> deleteUserRole() async {
     if (_preferences == null) {
       return;
@@ -238,12 +241,10 @@ class LocalStorage {
     log('deleteUserRole');
   }
 
-  /// check if user has a role
   bool hasUserRole() {
     return getUserRole() != null;
   }
 
-  /// Driver availability (cached toggle)
   Future<void> setDriverAvailability(bool value) async {
     await ensureInitialized();
     if (_preferences == null) return;

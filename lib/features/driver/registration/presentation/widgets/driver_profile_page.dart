@@ -7,7 +7,7 @@ import 'package:nest_driver/core/presentation/widgets/app_back_button.dart';
 import 'package:nest_driver/core/services/image_picker_service.dart';
 import 'package:nest_driver/core/services/file_picker_service.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:nest_driver/core/utils/input_validation_message.dart';
+import 'package:nest_driver/core/presentation/widgets/input_validation_message.dart';
 import 'package:nest_driver/features/driver/registration/application/bloc/driver_registration_bloc.dart';
 import 'package:nest_driver/features/driver/registration/presentation/widgets/driver_registration_progress_indicator.dart';
 import 'package:nest_driver/features/driver/registration/presentation/widgets/driver_registration_button.dart';
@@ -69,9 +69,8 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
 
   Future<void> _pickImage(BuildContext context, bool isProfile) async {
     final state = context.read<DriverRegistrationBloc>().state;
-    final currentImagePath = isProfile
-        ? state.profileImagePath
-        : state.licenseImagePath;
+    final currentImagePath =
+        isProfile ? state.profileImagePath : state.licenseImagePath;
 
     final imagePath = await _imagePickerService.showImageSourceSelectionDialog(
       context,
@@ -79,15 +78,15 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
     );
 
     if (imagePath != null) {
-        if (isProfile) {
+      if (isProfile) {
         context.read<DriverRegistrationBloc>().add(
               DriverRegistrationEvent.profileImageChanged(imagePath),
             );
-        } else {
+      } else {
         context.read<DriverRegistrationBloc>().add(
               DriverRegistrationEvent.licenseImageChanged(imagePath),
             );
-        }
+      }
     }
   }
 
@@ -209,7 +208,8 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
       // Request Camera/Gallery permission and open Image Picker
       filePath = await _imagePickerService.showImageSourceSelectionDialog(
         context,
-        currentImagePath: currentLicensePath.isNotEmpty ? currentLicensePath : null,
+        currentImagePath:
+            currentLicensePath.isNotEmpty ? currentLicensePath : null,
       );
     } else if (selectedOption == 'document') {
       // Option B: Pick Document
@@ -225,7 +225,7 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
       context.read<DriverRegistrationBloc>().add(
             DriverRegistrationEvent.licenseImageChanged(filePath),
           );
-        }
+    }
   }
 
   /// Check if file is an image based on extension
@@ -253,63 +253,66 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
 
     return BlocBuilder<DriverRegistrationBloc, DriverRegistrationState>(
       builder: (context, state) {
-    return SingleChildScrollView(
-      child: Form(
-        key: _formKey,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+        return SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                   // Header
-              Padding(
-                padding: EdgeInsets.only(top: 16.h),
-                child: Column(
-                  children: [
-                    Row(
+                  Padding(
+                    padding: EdgeInsets.only(top: 16.h),
+                    child: Column(
                       children: [
-                        AppBackButton(
+                        Row(
+                          children: [
+                            AppBackButton(
                               onPressed: widget.currentPage == 0
                                   ? () => context.pop()
                                   : () {
-                                      context.read<DriverRegistrationBloc>().add(
-                                            const DriverRegistrationEvent.previousPage(),
+                                      context
+                                          .read<DriverRegistrationBloc>()
+                                          .add(
+                                            const DriverRegistrationEvent
+                                                .previousPage(),
                                           );
                                     },
+                            ),
+                            const Spacer(),
+                            Text(
+                              '${widget.currentPage + 1}/${widget.totalPages}',
+                              style: theme.textTheme.bodyMedium?.copyWith(
+                                color: theme.colorScheme.onSurfaceVariant,
+                              ),
+                            ),
+                          ],
                         ),
-                        const Spacer(),
-                        Text(
-                          '${widget.currentPage + 1}/${widget.totalPages}',
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            color: theme.colorScheme.onSurfaceVariant,
-                          ),
+                        SizedBox(height: 16.h),
+                        DriverRegistrationProgressIndicator(
+                          currentPage: widget.currentPage,
+                          totalPages: widget.totalPages,
                         ),
                       ],
                     ),
-                    SizedBox(height: 16.h),
-                    DriverRegistrationProgressIndicator(
-                      currentPage: widget.currentPage,
-                      totalPages: widget.totalPages,
-                    ),
-                  ],
-                ),
-              ),
-
-              // Title
-              Padding(
-                padding: EdgeInsets.only(top: 32.h),
-                child: Text(
-                  widget.title,
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: theme.colorScheme.onSurface,
                   ),
-                ),
-              ),
 
-              SizedBox(height: 32.h),
+                  // Title
+                  Padding(
+                    padding: EdgeInsets.only(top: 32.h),
+                    child: Text(
+                      widget.title,
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: theme.colorScheme.onSurface,
+                      ),
+                    ),
+                  ),
 
-              // Profile Photo
+                  SizedBox(height: 32.h),
+
+                  // Profile Photo
                   RichText(
                     text: TextSpan(
                       text: 'Profile Photo',
@@ -338,7 +341,8 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                             color: theme.inputDecorationTheme.fillColor,
                             image: state.profileImagePath.isNotEmpty
                                 ? DecorationImage(
-                                    image: FileImage(File(state.profileImagePath)),
+                                    image:
+                                        FileImage(File(state.profileImagePath)),
                                     fit: BoxFit.cover,
                                   )
                                 : null,
@@ -391,8 +395,8 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                       padding: EdgeInsets.only(top: 8.h),
                       child: InputValidationMessage(
                         message: 'Please upload your profile picture',
+                      ),
                     ),
-                  ),
 
                   SizedBox(height: 16.h),
 
@@ -449,7 +453,7 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                         message: failure.failedValue.toString(),
                       ),
                       (_) => const SizedBox.shrink(),
-                  ),
+                    ),
 
                   SizedBox(height: 20.h),
 
@@ -457,8 +461,8 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                   RichText(
                     text: TextSpan(
                       text: 'Email Address',
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.w500,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w500,
                       ),
                       children: [
                         TextSpan(
@@ -507,7 +511,7 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                         message: failure.failedValue.toString(),
                       ),
                       (_) => const SizedBox.shrink(),
-                  ),
+                    ),
 
                   SizedBox(height: 20.h),
 
@@ -515,8 +519,8 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                   RichText(
                     text: TextSpan(
                       text: 'Upload photo of your license',
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.w500,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w500,
                       ),
                       children: [
                         TextSpan(
@@ -553,24 +557,28 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                               children: [
                                 // Check if file is an image or document
                                 _isImageFile(state.licenseImagePath)
-                          ? ClipRRect(
-                              borderRadius: BorderRadius.circular(8.r),
-                              child: Image.file(
+                                    ? ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(8.r),
+                                        child: Image.file(
                                           File(state.licenseImagePath),
-                                height: 120.h,
+                                          height: 120.h,
                                           width: double.infinity,
-                                fit: BoxFit.cover,
-                              ),
+                                          fit: BoxFit.cover,
+                                        ),
                                       )
                                     : Container(
                                         height: 120.h,
                                         width: double.infinity,
                                         decoration: BoxDecoration(
-                                          color: theme.colorScheme.surfaceVariant,
-                                          borderRadius: BorderRadius.circular(8.r),
+                                          color:
+                                              theme.colorScheme.surfaceVariant,
+                                          borderRadius:
+                                              BorderRadius.circular(8.r),
                                         ),
                                         child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             Icon(
                                               Icons.description_rounded,
@@ -579,9 +587,12 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                                             ),
                                             SizedBox(height: 8.h),
                                             Text(
-                                              _getFileName(state.licenseImagePath),
-                                              style: theme.textTheme.bodySmall?.copyWith(
-                                                color: theme.colorScheme.onSurfaceVariant,
+                                              _getFileName(
+                                                  state.licenseImagePath),
+                                              style: theme.textTheme.bodySmall
+                                                  ?.copyWith(
+                                                color: theme.colorScheme
+                                                    .onSurfaceVariant,
                                               ),
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
@@ -595,7 +606,8 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                                   child: Container(
                                     padding: EdgeInsets.all(4.w),
                                     decoration: BoxDecoration(
-                                      color: theme.colorScheme.scrim.withOpacity(0.54),
+                                      color: theme.colorScheme.scrim
+                                          .withOpacity(0.54),
                                       shape: BoxShape.circle,
                                     ),
                                     child: Icon(
@@ -643,7 +655,7 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                       state.firstInvalidField == 'licenseImage')
                     InputValidationMessage(
                       message: 'Please upload your driver\'s license photo',
-                  ),
+                    ),
 
                   SizedBox(height: 20.h),
 
@@ -700,11 +712,11 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                         message: failure.failedValue.toString(),
                       ),
                       (_) => const SizedBox.shrink(),
-                  ),
+                    ),
 
-              SizedBox(height: 24.h),
+                  SizedBox(height: 24.h),
 
-              // Next Button
+                  // Next Button
                   DriverRegistrationButton(
                     onPressed: () {
                       context.read<DriverRegistrationBloc>().add(
@@ -712,13 +724,13 @@ class _DriverProfilePageState extends State<DriverProfilePage> {
                           );
                     },
                     isLastPage: false,
-              ),
+                  ),
 
-              SizedBox(height: 24.h),
-            ],
+                  SizedBox(height: 24.h),
+                ],
+              ),
+            ),
           ),
-        ),
-      ),
         );
       },
     );

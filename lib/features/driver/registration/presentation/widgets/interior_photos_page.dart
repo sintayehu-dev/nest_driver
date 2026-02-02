@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nest_driver/core/presentation/widgets/app_back_button.dart';
 import 'package:nest_driver/core/services/image_picker_service.dart';
 import 'package:nest_driver/core/theme/app_colors.dart';
-import 'package:nest_driver/core/utils/input_validation_message.dart';
+import 'package:nest_driver/core/presentation/widgets/input_validation_message.dart';
 import 'package:nest_driver/features/driver/registration/application/bloc/driver_registration_bloc.dart';
 import 'package:nest_driver/features/driver/registration/presentation/widgets/driver_registration_progress_indicator.dart';
 import 'package:nest_driver/features/driver/registration/presentation/widgets/driver_registration_button.dart';
@@ -496,8 +496,8 @@ class InteriorPhotosPage extends StatelessWidget {
                           value: state.termsAccepted,
                           onChanged: (value) {
                             context.read<DriverRegistrationBloc>().add(
-                                  DriverRegistrationEvent
-                                      .termsAcceptedChanged(value ?? false),
+                                  DriverRegistrationEvent.termsAcceptedChanged(
+                                      value ?? false),
                                 );
                           },
                           activeColor: AppColors.primary,

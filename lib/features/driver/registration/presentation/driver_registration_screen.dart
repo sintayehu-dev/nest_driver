@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nest_driver/core/di/dependancy_manager.dart';
 import 'package:nest_driver/core/router/route_name.dart';
-import 'package:nest_driver/core/utils/app_helpers.dart';
+import 'package:nest_driver/core/presentation/widgets/app_helpers.dart';
 import 'package:nest_driver/features/driver/registration/application/bloc/driver_registration_bloc.dart';
 import 'package:nest_driver/features/driver/registration/presentation/widgets/driver_profile_page.dart';
 import 'package:nest_driver/features/driver/registration/presentation/widgets/vehicle_information_page.dart';
@@ -76,7 +76,8 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
       child: BlocConsumer<DriverRegistrationBloc, DriverRegistrationState>(
         listenWhen: (previous, current) =>
             previous.isLoading != current.isLoading ||
-            (previous.isError != current.isError && current.isError) || // Only when error becomes true
+            (previous.isError != current.isError &&
+                current.isError) || // Only when error becomes true
             previous.isSuccess != current.isSuccess ||
             previous.shouldNavigateNext != current.shouldNavigateNext ||
             previous.shouldNavigatePrevious != current.shouldNavigatePrevious ||
@@ -128,39 +129,40 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
           }
         },
         builder: (context, state) {
-            return Scaffold(
-              backgroundColor: theme.colorScheme.surface,
-              body: SafeArea(
-                top: true,
-                bottom: true,
-                child: Column(
-                  children: [
-                    // Page View
-                    Expanded(
-                      child: PageView.builder(
-                        controller: _pageController,
-                      physics: const NeverScrollableScrollPhysics(), // Disable swipe gesture
-                        onPageChanged: (index) {
+          return Scaffold(
+            backgroundColor: theme.colorScheme.surface,
+            body: SafeArea(
+              top: true,
+              bottom: true,
+              child: Column(
+                children: [
+                  // Page View
+                  Expanded(
+                    child: PageView.builder(
+                      controller: _pageController,
+                      physics:
+                          const NeverScrollableScrollPhysics(), // Disable swipe gesture
+                      onPageChanged: (index) {
                         context.read<DriverRegistrationBloc>().add(
                               DriverRegistrationEvent.pageChanged(index),
                             );
-                        },
-                        itemCount: _pages.length,
-                        itemBuilder: (context, index) {
-                          return _DriverRegistrationPage(
-                            data: _pages[index],
+                      },
+                      itemCount: _pages.length,
+                      itemBuilder: (context, index) {
+                        return _DriverRegistrationPage(
+                          data: _pages[index],
                           currentPage: state.currentPage,
-                            totalPages: _pages.length,
+                          totalPages: _pages.length,
                           title: _pages[index].title,
-                          );
-                        },
-                      ),
+                        );
+                      },
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            );
-          },
+            ),
+          );
+        },
       ),
     );
   }

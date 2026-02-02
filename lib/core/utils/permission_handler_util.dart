@@ -4,9 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 
-// Utility class for handling app permissions
 class PermissionHandlerUtil {
-  // Checks and requests camera permission
   static Future<bool> requestCameraPermission(BuildContext context) async {
     try {
       PermissionStatus status = await Permission.camera.status;
@@ -50,7 +48,6 @@ class PermissionHandlerUtil {
         return false;
       }
 
-      // For any other status, try requesting
       status = await Permission.camera.request();
       return status.isGranted;
     } catch (e) {
@@ -59,7 +56,6 @@ class PermissionHandlerUtil {
     }
   }
 
-  // Checks and requests photo library/storage permission
   static Future<bool> requestPhotoLibraryPermission(
       BuildContext context) async {
     try {
@@ -96,9 +92,7 @@ class PermissionHandlerUtil {
           return false;
         }
       } else {
-        // On Android, check Android version
         if (Platform.isAndroid) {
-          // For Android 13 (API 33) and above, we need to request photos permission
           if (await _isAndroid13OrAbove()) {
             status = await Permission.photos.status;
 
@@ -121,7 +115,6 @@ class PermissionHandlerUtil {
               return false;
             }
           } else {
-            // For older Android versions, use storage permission
             status = await Permission.storage.status;
 
             if (status.isGranted) {
@@ -144,7 +137,6 @@ class PermissionHandlerUtil {
             }
           }
         } else {
-          // Fallback for other platforms
           status = await Permission.storage.status;
 
           if (status.isGranted) {
@@ -176,7 +168,6 @@ class PermissionHandlerUtil {
         return false;
       }
 
-      // For any other status, try requesting
       if (Platform.isAndroid && await _isAndroid13OrAbove()) {
         status = await Permission.photos.request();
       } else {
@@ -189,7 +180,6 @@ class PermissionHandlerUtil {
     }
   }
 
-  // Checks and requests location permission
   static Future<bool> requestLocationPermission(BuildContext context) async {
     try {
       PermissionStatus status = await Permission.location.status;
@@ -233,7 +223,6 @@ class PermissionHandlerUtil {
         return false;
       }
 
-      // For any other status, try requesting
       status = await Permission.location.request();
       return status.isGranted;
     } catch (e) {
@@ -244,7 +233,6 @@ class PermissionHandlerUtil {
 
   static Future<bool> requestMicPermission(BuildContext context) async {
     var status = await Permission.microphone.status;
-    // If permission is undetermined (not granted, not denied, not permanently denied)
     if (!status.isGranted && !status.isDenied && !status.isPermanentlyDenied) {
       final proceed = await showDialog<bool>(
         context: context,
@@ -282,10 +270,8 @@ class PermissionHandlerUtil {
       if (proceed != true) {
         return false;
       }
-      // Now trigger the OS permission sheet
       status = await Permission.microphone.request();
     } else if (!status.isGranted) {
-      // If not granted (but not undetermined), trigger OS permission sheet
       status = await Permission.microphone.request();
     }
     if (status.isPermanentlyDenied) {
@@ -299,17 +285,15 @@ class PermissionHandlerUtil {
     return status.isGranted;
   }
 
-  // Checks if device is running Android 13 or higher
   static Future<bool> _isAndroid13OrAbove() async {
     if (Platform.isAndroid) {
       final deviceInfo = DeviceInfoPlugin();
       final androidInfo = await deviceInfo.androidInfo;
-      return androidInfo.version.sdkInt >= 33; // Android 13 is API level 33
+      return androidInfo.version.sdkInt >= 33;
     }
     return false;
   }
 
-  // Shows dialog when permission is permanently denied
   static void _showPermissionDeniedDialog(
     BuildContext context,
     String title,
@@ -341,7 +325,6 @@ class PermissionHandlerUtil {
           TextButton(
             onPressed: () async {
               Navigator.of(context).pop();
-              // Add delays to increase app lifespan when going to settings
               await _openAppSettingsWithDelay();
             },
             child: Text(
@@ -357,20 +340,12 @@ class PermissionHandlerUtil {
     );
   }
 
-  /// Opens app settings with extended delays to prevent app exit
   static Future<void> _openAppSettingsWithDelay() async {
     try {
-      // Wait longer to ensure dialog is fully closed and app is stable
       await Future.delayed(const Duration(milliseconds: 500));
-
-      // Open app settings
       await openAppSettings();
-
-      // Add additional delay after opening settings to keep app alive longer
       await Future.delayed(const Duration(milliseconds: 5000));
-    } catch (e) {
-      // Handle any errors silently
-    }
+    } catch (e) {}
   }
 
   // Shows error dialog for permission-related errors
@@ -408,10 +383,8 @@ class PermissionHandlerUtil {
     );
   }
 
-  // Checks and requests health-related permissions
   static Future<bool> requestHealthPermissions(BuildContext context) async {
     bool granted = true;
-    // Request ACTIVITY_RECOGNITION
     var activityStatus = await Permission.activityRecognition.status;
     if (!activityStatus.isGranted) {
       activityStatus = await Permission.activityRecognition.request();
@@ -424,7 +397,6 @@ class PermissionHandlerUtil {
         );
       }
     }
-    // Request BODY_SENSORS
     var sensorsStatus = await Permission.sensors.status;
     if (!sensorsStatus.isGranted) {
       sensorsStatus = await Permission.sensors.request();

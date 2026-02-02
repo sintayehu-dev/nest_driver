@@ -8,10 +8,10 @@ import 'package:nest_driver/core/presentation/widgets/app_back_button.dart';
 import 'package:nest_driver/features/auth/presentation/pages/verification/widgets/otp_welcome_message.dart';
 import 'package:nest_driver/features/auth/presentation/pages/verification/widgets/otp_input_field.dart';
 import 'package:nest_driver/features/auth/presentation/pages/verification/widgets/otp_resend_section.dart';
-import 'package:nest_driver/core/utils/custom_numeric_keyboard.dart';
+import 'package:nest_driver/core/presentation/widgets/custom_numeric_keyboard.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nest_driver/core/di/dependancy_manager.dart';
-import 'package:nest_driver/core/utils/app_helpers.dart';
+import 'package:nest_driver/core/presentation/widgets/app_helpers.dart';
 import 'package:nest_driver/core/utils/local_storage/local_storage.dart';
 import 'package:nest_driver/features/auth/application/verify_otp/bloc/verify_otp_bloc.dart';
 
@@ -65,17 +65,17 @@ class OTPVerificationView extends StatelessWidget {
               if (!state.isLoading && state.isSuccess) {
                 dev.log('✅ OTP Verification: Success!');
                 dev.log('   Session Created: ${state.sessionCreated}');
-                
+
                 if (state.sessionCreated) {
                   // Check if user has driver role
                   final user = state.account;
-                  
+
                   dev.log('👤 OTP Verification: User Info:');
                   dev.log('   User ID: ${user?.id ?? "null"}');
                   dev.log('   Username: ${user?.username ?? "null"}');
                   dev.log('   User Status: ${user?.status ?? "null"}');
                   dev.log('   Is Verified: ${user?.isVerified ?? "null"}');
-                  
+
                   if (user?.roles != null && user!.roles.isNotEmpty) {
                     dev.log('   Roles Count: ${user.roles.length}');
                     dev.log('   Roles:');
@@ -85,21 +85,23 @@ class OTPVerificationView extends StatelessWidget {
                   } else {
                     dev.log('   Roles: null or empty');
                   }
-                  
+
                   final hasDriverRole = user?.roles.any(
-                    (role) => role.name.toLowerCase() == 'driver',
-                  ) ?? false;
-                  
+                        (role) => role.name.toLowerCase() == 'driver',
+                      ) ??
+                      false;
+
                   dev.log('   Has Driver Role: $hasDriverRole');
 
                   if (hasDriverRole) {
                     // User is a driver, route to home/onboarding
-                  final isDoneOnboarding = LocalStorage.instance.getIsDoneOnboarding();
+                    final isDoneOnboarding =
+                        LocalStorage.instance.getIsDoneOnboarding();
                     dev.log('🚗 OTP Verification: User is a DRIVER');
                     dev.log('   Onboarding Done: $isDoneOnboarding');
-                  if (!isDoneOnboarding) {
+                    if (!isDoneOnboarding) {
                       dev.log('   → Routing to: Onboarding');
-                    context.goNamed(RouteName.onboarding);
+                      context.goNamed(RouteName.onboarding);
                     } else {
                       dev.log('   → Routing to: Driver Home');
                       context.goNamed(RouteName.driverHome);
@@ -131,11 +133,14 @@ class OTPVerificationView extends StatelessWidget {
                   state.errorMessage.isNotEmpty) {
                 dev.log('❌ OTP Verification: Error - ${state.errorMessage}');
                 // Check if it's a connectivity error
-                if (state.errorMessage.toLowerCase().contains('no internet connection') ||
+                if (state.errorMessage
+                        .toLowerCase()
+                        .contains('no internet connection') ||
                     state.errorMessage.toLowerCase().contains('network')) {
-                  AppHelpers.showNoConnectionSnackBar(context, message: state.errorMessage);
+                  AppHelpers.showNoConnectionSnackBar(context,
+                      message: state.errorMessage);
                 } else {
-                AppHelpers.showErrorFlash(context, state.errorMessage);
+                  AppHelpers.showErrorFlash(context, state.errorMessage);
                 }
               }
             },
