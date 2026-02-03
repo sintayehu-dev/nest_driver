@@ -118,15 +118,12 @@ class _RegistrationViewState extends State<RegistrationView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: 16.h),
-                  // Back Button - Navigate to onboarding
                   AppBackButton(
                     onPressed: () => context.goNamed(RouteName.authSelection),
                   ),
                   SizedBox(height: 24.h),
-                  // Welcome Message
                   const RegistrationWelcomeMessage(),
                   SizedBox(height: 32.h),
-                  // Phone Number Form Fields
                   RegistrationFormFields(
                     phoneController: _phoneController,
                     onPhoneChanged: (value) {
@@ -140,7 +137,6 @@ class _RegistrationViewState extends State<RegistrationView> {
                   ),
                   // Spacer to push keyboard to bottom
                   const Spacer(),
-                  // Custom Numeric Keyboard
                   CustomNumericKeyboard(
                     onDigitTap: _handleDigitTap,
                     onBackspace: _handleBackspace,

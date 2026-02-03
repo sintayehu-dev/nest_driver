@@ -14,7 +14,6 @@ enum SocketConnectionStatus {
   error,
 }
 
-/// Lightweight reusable WebSocket/Socket.IO service with auto-reconnect.
 @lazySingleton
 class WebSocketService {
   io.Socket? _socket;
@@ -34,7 +33,6 @@ class WebSocketService {
   bool get isConnected => _socket?.connected ?? false;
   String? get socketId => _socket?.id;
 
-  // Connect to the Socket.IO namespace `/ws`.
   io.Socket connect({
     String? token,
     String? baseUrl,
@@ -86,7 +84,6 @@ class WebSocketService {
     return _socket!;
   }
 
-  /// Manually trigger a reconnect attempt
   void reconnect() {
     log('🔄 WS manual reconnect triggered');
     disconnect();
@@ -95,18 +92,15 @@ class WebSocketService {
     connect();
   }
 
-  /// Enable auto-reconnect (default: true)
   void enableAutoReconnect() {
     _shouldReconnect = true;
   }
 
-  /// Disable auto-reconnect
   void disableAutoReconnect() {
     _shouldReconnect = false;
     _reconnectTimer?.cancel();
   }
 
-  /// Cleanly closes the socket connection.
   void disconnect() {
     _shouldReconnect = false;
     _reconnectTimer?.cancel();
@@ -120,17 +114,14 @@ class WebSocketService {
     _statusController.add(SocketConnectionStatus.disconnected);
   }
 
-  /// Register a listener for a specific event.
   void on(String event, Function(dynamic data) handler) {
     _socket?.on(event, handler);
   }
 
-  /// Remove a specific listener (or all) for an event.
   void off(String event, [void Function(dynamic data)? handler]) {
     _socket?.off(event, handler);
   }
 
-  /// Emit an event with optional ack callback support.
   void emit(String event, dynamic data, [void Function(dynamic resp)? ack]) {
     if (ack != null) {
       _socket?.emitWithAck(
@@ -143,7 +134,6 @@ class WebSocketService {
     _socket?.emit(event, data);
   }
 
-  ///
   String _buildSocketUrl(String base, String namespace) {
     final uri = Uri.parse(base);
     String hostWithPort;
@@ -166,7 +156,6 @@ class WebSocketService {
     return '${uri.scheme}://$hostWithPort$cleanPath$sanitizedNs';
   }
 
-  /// Setup all listeners including auto-reconnect logic
   void _setupListeners() {
     if (_socket == null) return;
 
@@ -229,7 +218,6 @@ class WebSocketService {
     });
   }
 
-  /// Schedule reconnection attempt
   void _scheduleReconnect() {
     if (!_shouldReconnect || _reconnectAttempts >= _maxReconnectAttempts) {
       return;
@@ -252,7 +240,6 @@ class WebSocketService {
     });
   }
 
-  /// Start heartbeat to maintain connection
   void _startHeartbeat() {
     _heartbeatTimer?.cancel();
     _heartbeatTimer = Timer.periodic(_heartbeatInterval, (timer) {

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// Welcome message widget for registration with title and subtitle
 class RegistrationWelcomeMessage extends StatelessWidget {
   const RegistrationWelcomeMessage({super.key});
 

@@ -5,7 +5,6 @@ import 'package:country_picker/country_picker.dart';
 import 'package:nest_driver/core/theme/app_colors.dart';
 import 'package:nest_driver/features/auth/application/otplogin/bloc/otp_login_bloc.dart';
 
-/// Next button widget for registration screen (wired to OtpLoginBloc)
 class RegistrationContinueButton extends StatelessWidget {
   final TextEditingController phoneController;
   final Country selectedCountry;
@@ -29,13 +28,11 @@ class RegistrationContinueButton extends StatelessWidget {
             onPressed: state.isLoading
                 ? null
                 : () {
-                    // Ensure latest phone is set in bloc with dial code
                     context.read<OtpLoginBloc>().add(
                           OtpLoginEvent.phoneChanged(
                             '+${selectedCountry.phoneCode}${phoneController.text.trim()}',
                           ),
                         );
-                    // Submit OTP request
                     context
                         .read<OtpLoginBloc>()
                         .add(const OtpLoginEvent.submit());

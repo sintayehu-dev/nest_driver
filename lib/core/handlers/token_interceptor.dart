@@ -28,8 +28,6 @@ class TokenInterceptor extends Interceptor {
   Future<void> onError(
       DioException err, ErrorInterceptorHandler handler) async {
     if (err.response?.statusCode == 401) {
-      // Only handle 401s for requests that were actually sent with an Authorization header
-      // to avoid treating login/register credential errors as session expiry.
       final authHeader =
           (err.requestOptions.headers['Authorization'] as String?);
       final sentWithBearer =
@@ -37,8 +35,6 @@ class TokenInterceptor extends Interceptor {
       if (!requireAuth || !sentWithBearer) {
         return handler.next(err);
       }
-      // Treat any 401 on protected requests as an auth failure: try refresh once, then logout.
-      // Prevent infinite retry loops
       final alreadyRetried = err.requestOptions.extra['retryAttempted'] == true;
       if (!alreadyRetried) {
         try {
@@ -51,12 +47,9 @@ class TokenInterceptor extends Interceptor {
             final response = await dio.fetch(options);
             return handler.resolve(response);
           }
-        } catch (_) {
-          // ignore and fall through to logout
-        }
+        } catch (_) {}
       }
 
-      // Refresh failed or second 401: clear session and navigate to login
       await LocalStorage.instance.clearUserSession();
 
       final context = NavigationService.currentContext;
@@ -71,7 +64,6 @@ class TokenInterceptor extends Interceptor {
           context.goNamed(RouteName.login);
         }
       } else {
-        // Fallback: attempt navigation via global router if registered
         try {
           final router = getIt<GoRouter>();
           router.goNamed(RouteName.login);

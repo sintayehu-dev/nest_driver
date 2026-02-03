@@ -51,7 +51,6 @@ class PermissionHandlerUtil {
       status = await Permission.camera.request();
       return status.isGranted;
     } catch (e) {
-      // Handle any errors
       return false;
     }
   }
@@ -175,7 +174,6 @@ class PermissionHandlerUtil {
       }
       return status.isGranted;
     } catch (e) {
-      // Handle any errors
       return false;
     }
   }

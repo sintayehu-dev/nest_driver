@@ -7,7 +7,6 @@ import 'package:nest_driver/core/theme/app_theme.dart';
 import 'package:nest_driver/core/presentation/widgets/input_validation_message.dart';
 import 'package:nest_driver/features/auth/application/otplogin/bloc/otp_login_bloc.dart';
 
-/// Phone number input form widget for registration
 class RegistrationFormFields extends StatefulWidget {
   final TextEditingController phoneController;
   final ValueChanged<String>? onPhoneChanged;
@@ -75,14 +74,12 @@ class _RegistrationFormFieldsState extends State<RegistrationFormFields> {
     var size = renderBox.size;
     var position = renderBox.localToGlobal(Offset.zero);
 
-    // Calculate available space from bottom of field to bottom of screen
     final screenHeight = MediaQuery.of(context).size.height;
     final availableHeight = screenHeight - position.dy - size.height;
 
     return OverlayEntry(
       builder: (context) => Stack(
         children: [
-          // Transparent barrier to close dropdown when tapping outside
           Positioned.fill(
             child: GestureDetector(
               onTap: _removeOverlay,
@@ -90,7 +87,6 @@ class _RegistrationFormFieldsState extends State<RegistrationFormFields> {
               child: Container(color: Colors.transparent),
             ),
           ),
-          // Dropdown list
           Positioned(
             left: position.dx,
             top: position.dy + size.height,
@@ -203,17 +199,13 @@ class _RegistrationFormFieldsState extends State<RegistrationFormFields> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Phone Number Label
         Text(
           'Phone number',
           style: theme.textTheme.bodyMedium?.copyWith(
             fontWeight: FontWeight.w600,
           ),
         ),
-
         SizedBox(height: 12.h),
-
-        // Combined Phone Input with Country Selector
         Container(
           key: _fieldKey,
           height: 56.h,
@@ -231,7 +223,6 @@ class _RegistrationFormFieldsState extends State<RegistrationFormFields> {
           ),
           child: Row(
             children: [
-              // Country Code Selector (Left Side)
               InkWell(
                 onTap: _toggleDropdown,
                 borderRadius: BorderRadius.only(
@@ -266,14 +257,10 @@ class _RegistrationFormFieldsState extends State<RegistrationFormFields> {
                   ),
                 ),
               ),
-
-              // Vertical Divider
               Container(
                 width: 1,
                 color: dividerColor,
               ),
-
-              // Phone Number Input (Right Side)
               Expanded(
                 child: TextFormField(
                   controller: widget.phoneController,
@@ -305,7 +292,6 @@ class _RegistrationFormFieldsState extends State<RegistrationFormFields> {
             ],
           ),
         ),
-
         if (hasError) ...[
           SizedBox(height: 8.h),
           InputValidationMessage(
@@ -314,10 +300,7 @@ class _RegistrationFormFieldsState extends State<RegistrationFormFields> {
             padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
           ),
         ],
-
         SizedBox(height: 16.h),
-
-        // Info Text
         Row(
           children: [
             Icon(

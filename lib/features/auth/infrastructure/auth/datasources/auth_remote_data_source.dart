@@ -15,8 +15,6 @@ abstract class AuthRemoteDataSource {
 
 @Injectable(as: AuthRemoteDataSource)
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
-
-
   @override
   Future<OtpLoginResponse> requestOtpLogin(String phoneNumber) async {
     try {
@@ -25,9 +23,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       };
 
       final response = await getIt<HttpService>().client().post(
-        '/auth/login/otp',
-        data: data,
-      );
+            '/auth/login/otp',
+            data: data,
+          );
 
       return OtpLoginResponse.fromJson(response.data as Map<String, dynamic>);
     } on DioException {
@@ -43,9 +41,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       };
 
       final response = await getIt<HttpService>().client().post(
-        '/auth/verify/otp',
-        data: data,
-      );
+            '/auth/verify/otp',
+            data: data,
+          );
 
       return OtpVerifyResponse.fromJson(response.data as Map<String, dynamic>);
     } on DioException {
@@ -53,21 +51,23 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     }
   }
 
-   @override
-  Future<ProfileUpdateResponse> updateProfile(ProfileUpdateRequest request) async {
+  @override
+  Future<ProfileUpdateResponse> updateProfile(
+      ProfileUpdateRequest request) async {
     try {
       final data = request.toJson();
-      // Remove null values from the request
       data.removeWhere((key, value) => value == null);
 
-      final response = await getIt<HttpService>().client(requireAuth: true).patch(
-        '/users/me',
-        data: data,
-      );
+      final response =
+          await getIt<HttpService>().client(requireAuth: true).patch(
+                '/users/me',
+                data: data,
+              );
 
-      return ProfileUpdateResponse.fromJson(response.data as Map<String, dynamic>);
+      return ProfileUpdateResponse.fromJson(
+          response.data as Map<String, dynamic>);
     } on DioException {
       rethrow;
     }
   }
-} 
+}

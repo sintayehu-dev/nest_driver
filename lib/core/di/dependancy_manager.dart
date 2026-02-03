@@ -13,12 +13,10 @@ final GetIt getIt = GetIt.instance;
 )
 void configureDependencies() {
   getIt.init();
-  
-  // Register services manually
+
   if (!getIt.isRegistered<ImagePickerService>()) {
-  getIt.registerLazySingleton<ImagePickerService>(() => ImagePickerService());
+    getIt.registerLazySingleton<ImagePickerService>(() => ImagePickerService());
   }
-  // Keep OtpLoginBloc available across navigation so other blocs can read its state
   if (!getIt.isRegistered<OtpLoginBloc>()) {
     getIt.registerLazySingleton<OtpLoginBloc>(() => getIt<OtpLoginBloc>());
   }
